@@ -1,0 +1,13 @@
+CREATE TABLE sla_breaches (
+  id SERIAL PRIMARY KEY,
+  po_id INTEGER REFERENCES purchase_orders(id) ON DELETE CASCADE,
+  milestone_id INTEGER REFERENCES po_milestones(id) ON DELETE CASCADE,
+  supplier_org_id INTEGER NOT NULL,
+  breach_type VARCHAR(50), -- LATE_COMPLETION | OVERDUE
+  due_date DATE,
+  completed_at TIMESTAMP,
+  detected_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_sla_supplier ON sla_breaches(supplier_org_id);
+CREATE INDEX idx_sla_po ON sla_breaches(po_id);

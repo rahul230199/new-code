@@ -1,0 +1,17 @@
+/* =========================================================
+   AXO NETWORKS — AUDIT EVENT TYPES
+========================================================= */
+
+const EVENT_TYPES = Object.freeze({
+  PO_CREATED: "PO_CREATED",
+  PO_ACCEPTED: "PO_ACCEPTED",
+  PO_COMPLETED: "PO_COMPLETED",
+  PO_FORCE_CANCELLED: "PO_FORCE_CANCELLED",
+  PO_FORCE_CLOSED: "PO_FORCE_CLOSED",
+  MILESTONE_UPDATED: "MILESTONE_UPDATED",
+  MILESTONE_PAID: "MILESTONE_PAID",
+  DISPUTE_RAISED: "DISPUTE_RAISED",
+  DISPUTE_RESOLVED: "DISPUTE_RESOLVED"
+});
+
+module.exports = EVENT_TYPES;

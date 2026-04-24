@@ -1,0 +1,129 @@
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+🔥 AUTH ROUTES FILE LOADED 🔥
+🔌 Connecting to MongoDB...
+🚀 Server running on http://localhost:3000
+🌐 Health check: http://localhost:3000/api/_health
+📝 Supplier API: http://localhost:3000/api/supplier
+🚗 OEM API: http://localhost:3000/api/oem
+📊 Dashboard API: http://localhost:3000/api/dashboard
+📦 Supplier model loaded: function
+🚗 OEM model loaded: function
+✅ MongoDB connected
+📊 [DASHBOARD] /stats endpoint called
+Supplier aggregates: [{"_id":"approved","count":3},{"_id":"pending","count":8}]
+OEM aggregates: [{"_id":"approved","count":1},{"_id":"pending","count":1},{"_id":"rejected","count":1}]
+📊 Dashboard Stats: 14 total, 9 pending
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/oem - Found 1 OEMs
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 1 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 1 OEMs
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/oem - Found 1 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 1 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/oem - Found 1 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/oem - Found 1 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/oem - Found 1 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/oem - Found 1 OEMs
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+📊 [DASHBOARD] /stats endpoint called
+Supplier aggregates: [{"_id":"pending","count":8},{"_id":"approved","count":3}]
+OEM aggregates: [{"_id":"pending","count":1},{"_id":"rejected","count":1},{"_id":"approved","count":1}]
+📊 Dashboard Stats: 14 total, 9 pending
+📊 [DASHBOARD] /stats endpoint called
+Supplier aggregates: [{"_id":"pending","count":8},{"_id":"approved","count":3}]
+OEM aggregates: [{"_id":"pending","count":1},{"_id":"rejected","count":1},{"_id":"approved","count":1}]
+📊 Dashboard Stats: 14 total, 9 pending
+📊 [DASHBOARD] /stats endpoint called
+Supplier aggregates: [{"_id":"approved","count":3},{"_id":"pending","count":8}]
+OEM aggregates: [{"_id":"approved","count":1},{"_id":"rejected","count":1},{"_id":"pending","count":1}]
+📊 Dashboard Stats: 14 total, 9 pending
+📊 [DASHBOARD] /stats endpoint called
+Supplier aggregates: [{"_id":"pending","count":8},{"_id":"approved","count":3}]
+OEM aggregates: [{"_id":"pending","count":1},{"_id":"rejected","count":1},{"_id":"approved","count":1}]
+📊 Dashboard Stats: 14 total, 9 pending
+📊 [DASHBOARD] /stats endpoint called
+Supplier aggregates: [{"_id":"approved","count":3},{"_id":"pending","count":8}]
+OEM aggregates: [{"_id":"pending","count":1},{"_id":"rejected","count":1},{"_id":"approved","count":1}]
+📊 Dashboard Stats: 14 total, 9 pending
+📊 [DASHBOARD] /stats endpoint called
+Supplier aggregates: [{"_id":"pending","count":8},{"_id":"approved","count":3}]
+OEM aggregates: [{"_id":"approved","count":1},{"_id":"pending","count":1},{"_id":"rejected","count":1}]
+📊 Dashboard Stats: 14 total, 9 pending
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/oem - Found 3 OEMs
+✅ GET /api/supplier - Found 3 suppliers
+✅ GET /api/oem - Found 1 OEMs
+📊 [DASHBOARD] /stats endpoint called
+Supplier aggregates: [{"_id":"approved","count":3},{"_id":"pending","count":8}]
+OEM aggregates: [{"_id":"approved","count":1},{"_id":"rejected","count":1},{"_id":"pending","count":1}]
+📊 Dashboard Stats: 14 total, 9 pending
+✅ GET /api/supplier - Found 11 suppliers
+✅ GET /api/supplier - Found 11 suppliers
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 🔄 add secrets lifecycle management: https://dotenvx.com/ops
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: ⚙️  override existing env vars with { override: true }
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 📡 add observability to secrets: https://dotenvx.com/ops
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+🔌 Connecting to MongoDB...
+[dotenv@17.2.3] injecting env (9) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+🔌 Connecting to MongoDB...

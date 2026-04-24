@@ -1,0 +1,2784 @@
+Error: Unknown column 'user_email' in 'field list'
+    at PromisePoolConnection.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/promise/connection.js:47:22)
+    at /home/ec2-user/AXO-Project/server.js:55:16
+    at withConn (/home/ec2-user/AXO-Project/server.js:32:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/ec2-user/AXO-Project/server.js:54:3 {
+  code: 'ER_BAD_FIELD_ERROR',
+  errno: 1054,
+  sql: 'INSERT INTO suppliers (\n' +
+    '        user_email,\n' +
+    '        company_name,\n' +
+    '        factory_location,\n' +
+    '        company_description,\n' +
+    '        website_url,\n' +
+    '        capabilities,\n' +
+    '        machinery_equipment,\n' +
+    '        materials,\n' +
+    '        production_capacity,\n' +
+    '        certifications,\n' +
+    '        past_clients\n' +
+    '      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  sqlState: '42S22',
+  sqlMessage: "Unknown column 'user_email' in 'field list'"
+}
+Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at PoolConnection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at PoolConnection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at PoolConnection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Error: Unknown column 'user_email' in 'field list'
+    at PromisePoolConnection.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/promise/connection.js:47:22)
+    at /home/ec2-user/AXO-Project/server.js:93:16
+    at withConn (/home/ec2-user/AXO-Project/server.js:32:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/ec2-user/AXO-Project/server.js:92:3 {
+  code: 'ER_BAD_FIELD_ERROR',
+  errno: 1054,
+  sql: 'INSERT INTO oems (\n' +
+    '        user_email,\n' +
+    '        company_name,\n' +
+    '        contact_person,\n' +
+    '        contact_email,\n' +
+    '        company_website,\n' +
+    '        program_context,\n' +
+    '        component_types_needed,\n' +
+    '        estimated_volume,\n' +
+    '        target_regions,\n' +
+    '        quality_expectations,\n' +
+    '        special_requirements\n' +
+    '      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  sqlState: '42S22',
+  sqlMessage: "Unknown column 'user_email' in 'field list'"
+}
+Error: Unknown column 'user_email' in 'field list'
+    at PromisePoolConnection.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/promise/connection.js:47:22)
+    at /home/ec2-user/AXO-Project/server.js:93:16
+    at withConn (/home/ec2-user/AXO-Project/server.js:32:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/ec2-user/AXO-Project/server.js:92:3 {
+  code: 'ER_BAD_FIELD_ERROR',
+  errno: 1054,
+  sql: 'INSERT INTO oems (\n' +
+    '        user_email,\n' +
+    '        company_name,\n' +
+    '        contact_person,\n' +
+    '        contact_email,\n' +
+    '        company_website,\n' +
+    '        program_context,\n' +
+    '        component_types_needed,\n' +
+    '        estimated_volume,\n' +
+    '        target_regions,\n' +
+    '        quality_expectations,\n' +
+    '        special_requirements\n' +
+    '      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  sqlState: '42S22',
+  sqlMessage: "Unknown column 'user_email' in 'field list'"
+}
+Error: Unknown column 'user_email' in 'field list'
+    at PromisePoolConnection.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/promise/connection.js:47:22)
+    at /home/ec2-user/AXO-Project/server.js:131:16
+    at withConn (/home/ec2-user/AXO-Project/server.js:32:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /home/ec2-user/AXO-Project/server.js:130:3 {
+  code: 'ER_BAD_FIELD_ERROR',
+  errno: 1054,
+  sql: 'INSERT INTO finance_partners (\n' +
+    '        user_email,\n' +
+    '        institution_name,\n' +
+    '        contact_person,\n' +
+    '        contact_email,\n' +
+    '        website,\n' +
+    '        current_products,\n' +
+    '        ticket_sizes,\n' +
+    '        current_signals,\n' +
+    '        desired_signals,\n' +
+    '        other_notes\n' +
+    '      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  sqlState: '42S22',
+  sqlMessage: "Unknown column 'user_email' in 'field list'"
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Database connection failed: Error: Access denied for user 'axoapp'@'localhost' (using password: YES)
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at ClientHandshake.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'axoapp'@'localhost' (using password: YES)",
+  sql: undefined
+}
+Suppliers fetch error: Error: Unknown column 'reliability_score' in 'field list'
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at Query.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_BAD_FIELD_ERROR',
+  errno: 1054,
+  sqlState: '42S22',
+  sqlMessage: "Unknown column 'reliability_score' in 'field list'",
+  sql: '\n' +
+    '        SELECT id, user_email, company_name, factory_location, \n' +
+    '               reliability_score, components_sold, certificates, created_at\n' +
+    '        FROM suppliers \n' +
+    '        ORDER BY id DESC\n' +
+    '    '
+}
+Suppliers fetch error: Error: Unknown column 'reliability_score' in 'field list'
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at Query.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_BAD_FIELD_ERROR',
+  errno: 1054,
+  sqlState: '42S22',
+  sqlMessage: "Unknown column 'reliability_score' in 'field list'",
+  sql: '\n' +
+    '        SELECT id, user_email, company_name, factory_location, \n' +
+    '               reliability_score, components_sold, certificates, created_at\n' +
+    '        FROM suppliers \n' +
+    '        ORDER BY id DESC\n' +
+    '    '
+}
+Suppliers fetch error: Error: Unknown column 'reliability_score' in 'field list'
+    at Packet.asError (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packets/packet.js:740:17)
+    at Query.execute (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/commands/command.js:29:26)
+    at Connection.handlePacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:508:34)
+    at PacketParser.onPacket (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:93:12)
+    at PacketParser.executeStart (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/ec2-user/AXO-Project/node_modules/mysql2/lib/base/connection.js:100:25)
+    at Socket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'ER_BAD_FIELD_ERROR',
+  errno: 1054,
+  sqlState: '42S22',
+  sqlMessage: "Unknown column 'reliability_score' in 'field list'",
+  sql: '\n' +
+    '        SELECT id, user_email, company_name, factory_location, \n' +
+    '               reliability_score, components_sold, certificates, created_at\n' +
+    '        FROM suppliers \n' +
+    '        ORDER BY id DESC\n' +
+    '    '
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module 'exipress'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:2:17)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
+Error: Cannot find module './routes/auth-routes'
+Require stack:
+- /home/ec2-user/AXO-Project/server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at Hook._require.Module.require (/home/ec2-user/.npm-global/lib/node_modules/pm2/node_modules/require-in-the-middle/index.js:81:25)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (/home/ec2-user/AXO-Project/server.js:3:20)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at Object.<anonymous> (/home/ec2-user/.npm-global/lib/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/home/ec2-user/AXO-Project/server.js' ]
+}
