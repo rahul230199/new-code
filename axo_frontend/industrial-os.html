@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Industrial OS | AXO Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/industrial.css">
+</head>
+<body>
+
+<div class="full-page-bg">
+    <img src="images/indus.jpg" alt="Background" class="bg-image">
+    <div class="bg-overlay"></div>
+</div>
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<header class="header" id="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">AXO Networks</a>
+            <div class="right-side">
+                <div class="nav">
+                    <a href="/industrial-os" class="nav-item">Industrial OS</a>
+                    <a href="/about" class="nav-item">About</a>
+                    <a href="/blog" class="nav-item">Insights</a>
+                    <a href="/careers" class="nav-item">Careers</a>
+                </div>
+                <a href="/login" class="connect-btn">LOGIN</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="mobile-sidebar" id="mobileSidebar">
+    <button class="close-sidebar" id="closeSidebar">
+        <i class="fas fa-times"></i>
+    </button>
+    <div class="mobile-nav">
+        <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
+        <a href="/about" class="mobile-nav-item">About</a>
+        <a href="/blog" class="mobile-nav-item">Insights</a>
+        <a href="/careers" class="mobile-nav-item">Careers</a>
+        <a href="/login" class="mobile-connect-btn">LOGIN</a>
+    </div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-left fade-up">
+                <h1 class="hero-title">Industrial OS<br />The "Core" of the System</h1>
+                <p class="hero-description">AXO Networks connects suppliers, production, and capital in one system so execution doesn't slow down.</p>
+                <div class="hero-buttons">
+                    <button class="join-network-btn" onclick="window.location.href='/network-access'">
+                        <span class="btn-text">Join the Network</span>
+                        <span class="btn-icon">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </button>
+                    <button class="btn-secondary" onclick="window.location.href='/network-access'">View Platform</button>
+                </div>
+            </div>
+            <div class="hero-right fade-up delay-1">
+                <div class="hero-image-container">
+                    <img src="images/os.png" alt="AXO Networks Platform" class="hero-dashboard-img">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CORE CAPABILITIES -->
+<section class="capabilities-section">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>Core Capabilities</h2>
+            <p>Everything you need to build, track, and scale.</p>
+        </div>
+
+        <div class="capability-row fade-up delay-1">
+            <div class="capability-image">
+                <img src="images/network.jpg" alt="Supplier Network" class="capability-img">
+            </div>
+            <div class="capability-info">
+                <h3>Supplier Network</h3>
+                <p>Find and connect with verified suppliers.</p>
+                <ul>
+                    <li><i class="fas fa-arrow-right"></i> Discover capabilities</li>
+                    <li><i class="fas fa-arrow-right"></i> Validate certifications</li>
+                    <li><i class="fas fa-arrow-right"></i> Onboard instantly</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="capability-row reverse fade-up delay-2">
+            <div class="capability-image">
+                <img src="images/ev1.jpg" alt="Production Control" class="capability-img">
+            </div>
+            <div class="capability-info">
+                <h3>Production Control</h3>
+                <p>Track every order and milestone in real time.</p>
+                <ul>
+                    <li><i class="fas fa-arrow-right"></i> Order lifecycle tracking</li>
+                    <li><i class="fas fa-arrow-right"></i> Milestone updates</li>
+                    <li><i class="fas fa-arrow-right"></i> Document management</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="capability-row fade-up delay-3">
+            <div class="capability-image">
+                <img src="images/about.jpg" alt="Integrated Communication" class="capability-img">
+            </div>
+            <div class="capability-info">
+                <h3>Integrated Communication</h3>
+                <p>Keep conversations tied to execution.</p>
+                <ul>
+                    <li><i class="fas fa-arrow-right"></i> Chat within orders</li>
+                    <li><i class="fas fa-arrow-right"></i> Shared documents</li>
+                    <li><i class="fas fa-arrow-right"></i> Full audit trail</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="capability-row reverse fade-up delay-4">
+            <div class="capability-image">
+                <img src="images/blog.jpg" alt="Capital Enablement" class="capability-img">
+            </div>
+            <div class="capability-info">
+                <h3>Capital Enablement</h3>
+                <p>Unlock funding based on real progress.</p>
+                <ul>
+                    <li><i class="fas fa-arrow-right"></i> PO-linked financing</li>
+                    <li><i class="fas fa-arrow-right"></i> Live production visibility</li>
+                    <li><i class="fas fa-arrow-right"></i> Risk transparency</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BUILT FOR EVERY ROLE -->
+<section class="roles-section">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>Built for every role</h2>
+            <p>Tailored experiences for OEMs, suppliers, and financial partners.</p>
+        </div>
+        <div class="roles-grid">
+            <div class="role-card fade-up delay-1">
+                <div class="role-icon"><i class="fas fa-building"></i></div>
+                <h3>OEM</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> Single source of truth</li>
+                    <li><i class="fas fa-chart-line"></i> Demand forecasting</li>
+                    <li><i class="fas fa-clock"></i> Real-time operational data</li>
+                </ul>
+            </div>
+            <div class="role-card fade-up delay-2">
+                <div class="role-icon"><i class="fas fa-truck"></i></div>
+                <h3>Supplier</h3>
+                <ul>
+                    <li><i class="fas fa-chart-simple"></i> Performance metrics</li>
+                    <li><i class="fas fa-box"></i> Order management</li>
+                    <li><i class="fas fa-hand-holding-usd"></i> Working capital access</li>
+                </ul>
+            </div>
+            <div class="role-card fade-up delay-3">
+                <div class="role-icon"><i class="fas fa-university"></i></div>
+                <h3>Financial Partner</h3>
+                <ul>
+                    <li><i class="fas fa-link"></i> Integrated funding</li>
+                    <li><i class="fas fa-history"></i> Audit trail</li>
+                    <li><i class="fas fa-tv"></i> Production visibility</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WORKFLOW SECTION - Horizontal scroll on mobile -->
+<section class="workflow-section">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>From design to delivery—one continuous system</h2>
+        </div>
+        <div class="workflow-wrapper">
+            <div class="workflow-track">
+                <div class="workflow-step">
+                    <div class="step-circle">1</div>
+                    <span>Design</span>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="step-circle">2</div>
+                    <span>Supplier</span>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="step-circle">3</div>
+                    <span>Order</span>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="step-circle">4</div>
+                    <span>Production</span>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="step-circle">5</div>
+                    <span>Milestones</span>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="step-circle">6</div>
+                    <span>Funding</span>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <div class="step-circle">7</div>
+                    <span>Delivery</span>
+                </div>
+            </div>
+        </div>
+        <p class="workflow-note fade-up">Every step is tracked, verified, and visible—so execution doesn't break.</p>
+    </div>
+</section>
+
+<!-- ENTERPRISE FEATURES -->
+<section class="features-section">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>Built for scale and reliability</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item fade-up delay-1"><i class="fas fa-check-circle"></i> Role-based access control</div>
+            <div class="feature-item fade-up delay-2"><i class="fas fa-check-circle"></i> Secure data infrastructure</div>
+            <div class="feature-item fade-up delay-3"><i class="fas fa-check-circle"></i> Real-time audit trails</div>
+            <div class="feature-item fade-up delay-4"><i class="fas fa-check-circle"></i> ERP integrations</div>
+            <div class="feature-item fade-up delay-5"><i class="fas fa-check-circle"></i> Scalable architecture</div>
+            <div class="feature-item fade-up delay-6"><i class="fas fa-check-circle"></i> Enterprise SLA</div>
+        </div>
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+    <div class="container">
+        <div class="cta-card fade-up">
+            <h2>Start building with AXO Networks</h2>
+            <p>Bring your suppliers, production, and capital into one system.</p>
+            <div class="cta-buttons">
+                <button class="btn-primary pulse" onclick="window.location.href='/network-access'">Request Demo <i class="fas fa-arrow-right"></i></button>
+                <button class="btn-secondary" onclick="window.location.href='/contact'">Contact Sales</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>AXO Networks</h3>
+                <p>AuroXOrigin Networks Private Limited</p>
+                <p class="copyright">© 2026</p>
+            </div>
+            <div class="footer-links-center">
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/blog">Insights</a>
+                <a href="/contact">Contact Us</a>
+		<a href="https://www.linkedin.com/company/axo-networks/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    let lastScrollTop = 0;
+    const header = document.getElementById('header');
+    const progressBar = document.getElementById('progressBar');
+
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileSidebar = document.getElementById('mobileSidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function openMobileMenu() {
+        mobileSidebar.classList.add('open');
+        sidebarOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        mobileSidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+    }
+    if (closeSidebar) {
+        closeSidebar.addEventListener('click', closeMobileMenu);
+    }
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeMobileMenu);
+    }
+
+    window.addEventListener('scroll', () => {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (scrollTop / height) * 100;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            header.style.transform = 'translateY(-100%)';
+        } else {
+            header.style.transform = 'translateY(0)';
+        }
+
+        lastScrollTop = scrollTop;
+    });
+
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    fadeElements.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

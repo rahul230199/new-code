@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>AXO Networks Blog - Insights from the Operating Layer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/blog.css">
+</head>
+<body>
+
+<div class="full-page-bg">
+    <img src="images/train.jpg" alt="Background" class="bg-image">
+    <div class="bg-overlay"></div>
+</div>
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<header class="header" id="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">AXO Networks</a>
+            <div class="right-side">
+                <div class="nav">
+                    <a href="/industrial-os" class="nav-item">Industrial OS</a>
+                    <a href="/about" class="nav-item">About</a>
+                    <a href="/blog" class="nav-item">Insights</a>
+                    <a href="/careers" class="nav-item">Careers</a>
+                </div>
+                <a href="/login" class="connect-btn">LOGIN</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="mobile-sidebar" id="mobileSidebar">
+    <button class="close-sidebar" id="closeSidebar">
+        <i class="fas fa-times"></i>
+    </button>
+    <div class="mobile-nav">
+        <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
+        <a href="/about" class="mobile-nav-item">About</a>
+        <a href="/blog" class="mobile-nav-item">Insights</a>
+        <a href="/careers" class="mobile-nav-item">Careers</a>
+        <a href="/login" class="mobile-connect-btn">LOGIN</a>
+    </div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<section class="blog-hero">
+    <div class="blog-hero-content-wrapper">
+        <div class="blog-hero-inner">
+            <div class="blog-hero-content">
+                <div class="animate-reveal">
+                    <h1 class="blog-hero-title">
+                        <span style="display: block;">Insights from the</span>
+                        <span style="display: block; color: #ffffff;">Operating Layer</span>
+                    </h1>
+                </div>
+                <div class="animate-reveal" style="transition-delay: 200ms">
+                    <p class="blog-hero-subtitle">
+                        Thoughtful perspectives on EV manufacturing, execution, policy, and scale.
+                    </p>
+                </div>
+                <div class="animate-reveal" style="transition-delay: 400ms">
+                    <div style="display: flex; justify-content: center">
+                        <a href="#blog-posts" class="cta-button-large">
+                            <span>Read Articles <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="blog-posts" class="blog-posts-section">
+    <div class="section-container">
+
+        <!-- FEATURED POST -->
+        <div class="featured-post animate-reveal">
+            <a href="blog-post.html?article=1" class="featured-post-link">
+                <div class="featured-grid">
+
+                    <div class="featured-content">
+                        <span class="featured-badge">Featured</span>
+                        <h2 class="featured-title">The Future of EV Manufacturing in India</h2>
+                        <p class="featured-excerpt">
+                            Exploring how structured workflows and transparent information are reshaping India's EV manufacturing landscape.
+                        </p>
+
+                        <div class="post-meta">
+                            <div class="meta-item"><i class="fas fa-calendar meta-icon"></i> March 14, 2026</div>
+                            <div class="meta-item"><i class="fas fa-user meta-icon"></i> AXO Networks</div>
+                        </div>
+
+                        <div class="read-more-link">
+                            Read Article <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="featured-image">
+                        <img src="images/insight3.jpg" alt="EV Manufacturing" class="blog-img">
+                    </div>
+
+                </div>
+            </a>
+        </div>
+
+        <!-- LATEST ARTICLES -->
+        <div class="latest-articles">
+
+            <div class="animate-reveal">
+                <h2 class="section-title">Latest Articles</h2>
+            </div>
+
+            <div class="articles-grid">
+
+                <!-- ARTICLE 1 -->
+                <div class="animate-reveal" style="transition-delay: 0ms">
+                    <a href="blog-post.html?article=2" class="article-card">
+
+                        <img src="images/isight2.jpg"
+                             class="blog-img"
+                             alt="Operations">
+
+                        <span class="article-category">Operations</span>
+
+                        <h3 class="article-title">Building Trust Through Transparency</h3>
+
+                        <p class="article-excerpt">
+                            How verified information and clear workflows reduce uncertainty across the EV supply chain.
+                        </p>
+
+                        <div class="article-meta">
+                            <div class="meta-item"><i class="fas fa-calendar meta-icon"></i> March 24, 2026</div>
+                            <div class="meta-item"><i class="fas fa-user meta-icon"></i> AXO Networks</div>
+                        </div>
+
+                        <div class="article-read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </div>
+
+                    </a>
+                </div>
+
+                <!-- ARTICLE 2 -->
+                <div class="animate-reveal" style="transition-delay: 100ms">
+                    <a href="blog-post.html?article=3" class="article-card">
+
+                        <img src="images/isight1.jpg"
+                             class="blog-img"
+                             alt="Scaling Manufacturing">
+
+                        <span class="article-category">Scale</span>
+
+                        <h3 class="article-title">Scaling Manufacturing with Precision</h3>
+
+                        <p class="article-excerpt">
+                            Understanding the role of infrastructure in enabling sustainable growth for EV manufacturers.
+                        </p>
+
+                        <div class="article-meta">
+                            <div class="meta-item"><i class="fas fa-calendar meta-icon"></i> March 19, 2026</div>
+                            <div class="meta-item"><i class="fas fa-user meta-icon"></i> AXO Networks</div>
+                        </div>
+
+                        <div class="article-read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </div>
+
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+    <div class="newsletter-container">
+        <div class="animate-reveal">
+            <div class="newsletter-card">
+                <h2 class="newsletter-title">Stay Updated</h2>
+                <p class="newsletter-description">
+                    Get insights on EV manufacturing, operations, and scale delivered to your inbox.
+                </p>
+
+                <form id="newsletterForm" class="newsletter-form">
+                    <input type="email" name="email" placeholder="Enter your email" class="newsletter-input" required>
+                    <button type="submit" class="newsletter-button">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>AXO Networks</h3>
+                <p>AuroXOrigin Networks Private Limited</p>
+                <p class="copyright">© 2026</p>
+            </div>
+            <div class="footer-links-center">
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/blog">Insights</a>
+                <a href="/contact">Contact Us</a>
+		<a href="https://www.linkedin.com/company/axo-networks/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+let lastScrollTop = 0;
+const header = document.getElementById('header');
+const progressBar = document.getElementById('progressBar');
+
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileSidebar = document.getElementById('mobileSidebar');
+const closeSidebar = document.getElementById('closeSidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+function openMobileMenu() {
+    mobileSidebar.classList.add('open');
+    sidebarOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+    mobileSidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', openMobileMenu);
+}
+if (closeSidebar) {
+    closeSidebar.addEventListener('click', closeMobileMenu);
+}
+if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeMobileMenu);
+}
+
+window.addEventListener('scroll', () => {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (scrollTop / height) * 100;
+    if (progressBar) progressBar.style.width = scrolled + '%';
+
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
+        header.style.transform = 'translateY(-100%)';
+    } else {
+        header.style.transform = 'translateY(0)';
+    }
+
+    if (scrollTop > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+
+    lastScrollTop = scrollTop;
+});
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.animate-reveal').forEach(el => observer.observe(el));
+
+const newsletterForm = document.getElementById('newsletterForm');
+if (newsletterForm) {
+    newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = this.querySelector('.newsletter-input').value;
+        if (email) {
+            alert('Thank you for subscribing! We\'ll keep you updated.');
+            this.reset();
+        }
+    });
+}
+</script>
+
+</body>
+</html>

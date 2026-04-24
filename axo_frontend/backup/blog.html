@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXO Networks Insights - Insights from the Operating Layer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/blog.css">
+</head>
+<body>
+
+    <!-- Full Page Background Image -->
+    <div class="full-page-bg">
+        <img src="images/train.jpg" alt="Background" class="bg-image">
+        <div class="bg-overlay"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="mainHeader">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">AXO Networks</a>
+                <div class="nav">
+                    <button class="nav-item" onclick="window.location.href='index.html#infrastructure'">Infrastructure</button>
+                    <button class="nav-item" onclick="window.location.href='about.html'">About</button>
+                    <button class="nav-item" onclick="window.location.href='blog.html'">Insights</button>
+                    <button class="nav-item" onclick="window.location.href='careers.html'">Careers</button>
+                </div>
+                <button class="connect-btn" onclick="window.location.href='login.html'">LOGIN</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="blog-hero" id="home">
+        <div class="blog-hero-content-wrapper">
+            <div class="blog-hero-inner">
+                <div class="blog-hero-content">
+                    <div class="animate-reveal">
+                        <h1 class="blog-hero-title">
+                            <span style="display: block;">Insights from the</span>
+                            <span style="display: block; color: #ffffff;">Operating Layer</span>
+                        </h1>
+                    </div>
+                    <div class="animate-reveal" style="transition-delay: 200ms">
+                        <p class="blog-hero-subtitle">
+                            Thoughtful perspectives on EV manufacturing, execution, policy, and scale.
+                        </p>
+                    </div>
+                    <div class="animate-reveal" style="transition-delay: 400ms">
+                        <div style="display: flex; justify-content: center">
+                            <a href="#blog-posts" class="cta-button-large">
+                                <span>Read Articles <i class="fas fa-arrow-right"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Insights Posts Section -->
+    <section id="blog-posts" class="blog-posts-section">
+        <div class="section-container">
+            <!-- Featured Post -->
+            <div class="featured-post animate-reveal">
+                <a href="blog-post.html?article=1" class="featured-post-link">
+                    <div class="featured-grid">
+                        <div class="featured-content">
+                            <span class="featured-badge">Featured</span>
+                            <h2 class="featured-title">The Future of EV Manufacturing in India</h2>
+                            <p class="featured-excerpt">Exploring how structured workflows and transparent information are reshaping India's EV manufacturing landscape.</p>
+                            <div class="post-meta">
+                                <div class="meta-item"><i class="fas fa-calendar meta-icon"></i> March 14, 2026</div>
+                                <div class="meta-item"><i class="fas fa-user meta-icon"></i> AXO Networks</div>
+                            </div>
+                            <div class="read-more-link">Read Article <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                        <div class="featured-image">
+                            <div class="image-placeholder">
+                                <div class="placeholder-icon">🚗</div>
+                                <p class="placeholder-text">Featured Article</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Latest Articles -->
+            <div class="latest-articles">
+                <div class="animate-reveal">
+                    <h2 class="section-title">Latest Articles</h2>
+                </div>
+                <div class="articles-grid">
+                    <div class="animate-reveal" style="transition-delay: 0ms">
+                        <a href="blog-post.html?article=2" class="article-card">
+                            <span class="article-category">Operations</span>
+                            <h3 class="article-title">Building Trust Through Transparency</h3>
+                            <p class="article-excerpt">How verified information and clear workflows reduce uncertainty across the EV supply chain.</p>
+                            <div class="article-meta">
+                                <div class="meta-item"><i class="fas fa-calendar meta-icon"></i> March 24, 2026</div>
+                                <div class="meta-item"><i class="fas fa-user meta-icon"></i> AXO Networks</div>
+                            </div>
+                            <div class="article-read-more">Read More <i class="fas fa-arrow-right"></i></div>
+                        </a>
+                    </div>
+                    <div class="animate-reveal" style="transition-delay: 100ms">
+                        <a href="blog-post.html?article=3" class="article-card">
+                            <span class="article-category">Scale</span>
+                            <h3 class="article-title">Scaling Manufacturing with Precision</h3>
+                            <p class="article-excerpt">Understanding the role of infrastructure in enabling sustainable growth for EV manufacturers.</p>
+                            <div class="article-meta">
+                                <div class="meta-item"><i class="fas fa-calendar meta-icon"></i> March 19, 2026</div>
+                                <div class="meta-item"><i class="fas fa-user meta-icon"></i> AXO Networks</div>
+                            </div>
+                            <div class="article-read-more">Read More <i class="fas fa-arrow-right"></i></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="newsletter-container">
+            <div class="animate-reveal">
+                <div class="newsletter-card">
+                    <h2 class="newsletter-title">Stay Updated</h2>
+                    <p class="newsletter-description">Get insights on EV manufacturing, operations, and scale delivered to your inbox.</p>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" name="email" placeholder="Enter your email" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-button">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>AXO Networks</h3>
+                    <p>AuroXOrigin Networks Private Limited</p>
+                    <p class="copyright">© 2026</p>
+                </div>
+                <div class="footer-links-center">
+                    <a href="/terms-of-service">Terms</a>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                    <a href="/blog">Insights</a>
+                    <a href="/contact">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.getElementById('mainHeader');
+            const progressBar = document.getElementById('progressBar');
+            let lastScrollTop = 0;
+
+            // Scroll handler with header hide/show
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (scrollTop / height) * 100;
+                if (progressBar) progressBar.style.width = scrolled + '%';
+
+                if (scrollTop > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+
+                if (scrollTop > lastScrollTop && scrollTop > 200) {
+                    header.classList.add('hidden');
+                } else {
+                    header.classList.remove('hidden');
+                }
+                lastScrollTop = scrollTop;
+            });
+
+            // Animation observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            document.querySelectorAll('.animate-reveal').forEach(el => observer.observe(el));
+
+            // Newsletter form
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = this.querySelector('.newsletter-input').value;
+                    if (email) {
+                        const subject = encodeURIComponent("Newsletter Subscription");
+                        const body = encodeURIComponent(`New subscriber: ${email}`);
+                        window.location.href = `mailto:auroxorigin@gmail.com?subject=${subject}&body=${body}`;
+                        alert('Success! Opening your email client to confirm.');
+                    }
+                });
+            }
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    e.preventDefault();
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

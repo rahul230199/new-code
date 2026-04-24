@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "chart.js": "^4.5.1",
+    "lottie-web": "^5.13.0",
+    "lucide": "^0.575.0"
+  }
+}

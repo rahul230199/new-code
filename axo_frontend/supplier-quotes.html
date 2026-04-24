@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>My Quotes | AXO Networks</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/css/supplier-dashboard.css">
+</head>
+<body>
+<div class="supplier-container">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header"><h2>AXO Networks</h2><p>Supplier Portal</p></div>
+        <nav class="sidebar-nav"><a href="/supplier-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="/supplier-rfq.html" class="nav-item"><i class="fas fa-file-alt"></i><span>RFQ Inbox</span></a>
+        <a href="/supplier-quotes.html" class="nav-item active"><i class="fas fa-comment-dollar"></i><span>My Quotes</span></a>
+        <a href="/supplier-orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i><span>My Orders</span></a>
+        <a href="/supplier-profile.html" class="nav-item"><i class="fas fa-building"></i><span>Profile</span></a></nav>
+        <div class="sidebar-footer"><button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button></div>
+    </aside>
+    <main class="main-content">
+        <div class="top-bar"><button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button><div class="top-bar-right"><div class="notification-bell"><i class="far fa-bell"></i><span class="notification-badge">0</span></div><div class="user-info"><span id="companyName">Loading...</span><div class="avatar"><i class="fas fa-truck"></i></div></div></div></div>
+        <div class="page-header"><div><h1>My Quotes</h1><p>Track your submitted quotes</p></div></div>
+        <div id="quotesList" class="quotes-list"><div class="loading">Loading quotes...</div></div>
+    </main>
+</div>
+<script src="/js/supplier-quotes.js"></script>
+</body>
+</html>

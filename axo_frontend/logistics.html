@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistics | AXO Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/logistics.css">
+</head>
+<body>
+
+<div class="full-page-bg">
+    <img src="images/logistics.jpg" alt="Background" class="bg-image">
+    <div class="bg-overlay"></div>
+</div>
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<header class="header" id="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">AXO Networks</a>
+            <div class="right-side">
+                <div class="nav">
+                    <a href="/industrial-os" class="nav-item">Industrial OS</a>
+                        <a href="#" class="dropdown-trigger nav-item">THE SYSTEM <i class="fas fa-chevron-down"></i></a>
+                    </div>
+                    <a href="/about" class="nav-item">ABOUT</a>
+                    <a href="/blog" class="nav-item">INSIGHTS</a>
+                    <a href="/careers" class="nav-item">CAREERS</a>
+                </div>
+                <a href="/login" class="connect-btn">LOGIN</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Hero Center Section -->
+<section class="hero-center-section">
+    <div class="container">
+        <div class="hero-center-content">
+            <h1 class="hero-title">Autonomous Logistics</h1>
+            <p class="hero-subtitle">The "Flow of the System"</p>
+            <button class="coming-soon-btn" disabled>
+                <i class="fas fa-clock"></i> Coming Soon
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Notify Section -->
+<section class="notify-section-new">
+    <div class="container">
+        <div class="notify-card">
+            <h3 class="notify-title">Be the first to know</h3>
+            <p class="notify-text">Get early access and updates when Logistics launches.</p>
+            <div class="notify-form">
+                <input type="email" class="notify-input" placeholder="Enter your email" id="notifyEmail">
+                <button class="notify-btn" onclick="notifyMe()">Notify Me</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>AXO Networks</h3>
+                <p>AuroXOrigin Networks Private Limited</p>
+                <p class="copyright">© 2026</p>
+            </div>
+            <div class="footer-links-center">
+                <a href="/terms-of-service">Terms</a>
+                <a href="/privacy-policy">Privacy Policy</a>
+                <a href="/blog">Insights</a>
+                <a href="/contact">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    let lastScrollTop = 0;
+    const header = document.getElementById('header');
+    const progressBar = document.getElementById('progressBar');
+
+    window.addEventListener('scroll', () => {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (scrollTop / height) * 100;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            header.style.transform = 'translateY(-100%)';
+        } else {
+            header.style.transform = 'translateY(0)';
+        }
+
+        if (scrollTop > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+
+        lastScrollTop = scrollTop;
+    });
+
+    function notifyMe() {
+        const email = document.getElementById('notifyEmail').value;
+        if (email && email.includes('@')) {
+            alert(`Thanks! We'll notify ${email} when Logistics launches.`);
+            document.getElementById('notifyEmail').value = '';
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    }
+</script>
+</body>
+</html>

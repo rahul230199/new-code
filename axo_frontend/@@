@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers at AXO Networks - Build the Future</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/careers.css">
+</head>
+<body>
+
+<div class="full-page-bg">
+    <img src="images/carreers.jpg" alt="Background" class="bg-image">
+    <div class="bg-overlay"></div>
+</div>
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<header class="header" id="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">AXO Networks</a>
+            <div class="right-side">
+                <div class="nav">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-trigger nav-item">The System <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="industrial-os.html">Industrial OS</a>
+                            <a href="materials.html">Materials</a>
+                            <a href="logistics.html">Logistics</a>
+                            <a href="execution.html">Execution</a>
+                        </div>
+                    </div>
+                    <a href="about.html" class="nav-item">About</a>
+                    <a href="blog.html" class="nav-item">Insights</a>
+                    <a href="careers.html" class="nav-item">Careers</a>
+                </div>
+                <a href="login.html" class="connect-btn">LOGIN</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="careers-hero">
+    <div class="careers-hero-content-wrapper">
+        <div class="careers-hero-inner">
+            <div class="careers-hero-content">
+                <div class="animate-reveal">
+                    <h1 class="careers-title">
+                        <span style="display: block">Building the Operating</span>
+                        <span style="display: block; color: #ffffff">Layer Takes People</span>
+                        <span style="display: block">Who Think in Systems</span>
+                    </h1>
+                </div>
+                <div class="animate-reveal" style="transition-delay: 200ms">
+                    <p class="careers-subtitle">
+                        AXO is built by operators, engineers, and thinkers who care about
+                        clarity, structure, and long-term impact.
+                    </p>
+                </div>
+                <div class="animate-reveal" style="transition-delay: 400ms">
+                    <div style="display: flex; justify-content: center">
+                        <a href="#culture" class="cta-button-large">
+                            <span>Explore Opportunities <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="culture" class="section culture-section">
+    <div class="section-container">
+        <div class="animate-reveal" style="margin-bottom: 4rem">
+            <h2 class="section-title">Culture & Philosophy</h2>
+            <p class="section-subtitle">
+                We believe in building teams that think systemically about problems
+                and care deeply about execution.
+            </p>
+        </div>
+        <div class="culture-grid">
+            <div class="animate-reveal" style="transition-delay: 0ms">
+                <div class="culture-card">
+                    <div class="culture-number">01</div>
+                    <h3 class="culture-card-title">Clarity First</h3>
+                    <p class="culture-card-description">
+                        We communicate with precision. Ambiguity is the enemy of good
+                        execution. Every decision, every workflow, every communication
+                        is designed to reduce uncertainty.
+                    </p>
+                </div>
+            </div>
+            <div class="animate-reveal" style="transition-delay: 100ms">
+                <div class="culture-card">
+                    <div class="culture-number">02</div>
+                    <h3 class="culture-card-title">Systems Thinking</h3>
+                    <p class="culture-card-description">
+                        We understand that manufacturing is interconnected. We hire
+                        people who see the whole picture how suppliers, OEMs, capital,
+                        and operations fit together.
+                    </p>
+                </div>
+            </div>
+            <div class="animate-reveal" style="transition-delay: 200ms">
+                <div class="culture-card">
+                    <div class="culture-number">03</div>
+                    <h3 class="culture-card-title">Long-Term Impact</h3>
+                    <p class="culture-card-description">
+                        We're not building for quarterly wins. We're building
+                        infrastructure that will power India's EV ecosystem for decades.
+                        We hire people who think the same way.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-container">
+        <div class="animate-reveal" style="margin-bottom: 4rem">
+            <h2 class="section-title">What We Look For</h2>
+            <p class="section-subtitle">
+                We're building a team of people who bring different expertise but
+                share a common mindset.
+            </p>
+        </div>
+        <div class="qualities-grid">
+            <div class="animate-reveal" style="transition-delay: 0ms"><div class="quality-item"><i class="fas fa-check-circle quality-icon"></i><p class="quality-text">Deep expertise in your domain whether that's manufacturing, software, finance, or operations</p></div></div>
+            <div class="animate-reveal" style="transition-delay: 100ms"><div class="quality-item"><i class="fas fa-check-circle quality-icon"></i><p class="quality-text">Ability to think systemically about complex problems and see how pieces fit together</p></div></div>
+            <div class="animate-reveal" style="transition-delay: 200ms"><div class="quality-item"><i class="fas fa-check-circle quality-icon"></i><p class="quality-text">Comfort with ambiguity and the ability to build structure where it doesn't exist</p></div></div>
+            <div class="animate-reveal" style="transition-delay: 300ms"><div class="quality-item"><i class="fas fa-check-circle quality-icon"></i><p class="quality-text">Commitment to clarity in communication and decision-making</p></div></div>
+            <div class="animate-reveal" style="transition-delay: 400ms"><div class="quality-item"><i class="fas fa-check-circle quality-icon"></i><p class="quality-text">Genuine interest in India's EV manufacturing ecosystem and its long-term potential</p></div></div>
+            <div class="animate-reveal" style="transition-delay: 500ms"><div class="quality-item"><i class="fas fa-check-circle quality-icon"></i><p class="quality-text">Willingness to roll up your sleeves and do what's needed to build something meaningful</p></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section open-roles-section">
+    <div class="section-container">
+        <div class="animate-reveal" style="margin-bottom: 4rem"><h2 class="section-title">Open Roles</h2></div>
+        <div class="animate-reveal"><div class="open-roles-card"><p class="open-roles-text">We are not hiring actively at the moment. When we open roles, they will be listed here.</p><p class="open-roles-text">In the meantime, feel free to reach out if you think you'd be a great fit for AXO Networks.</p></div></div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-container">
+        <div class="future-readiness-grid">
+            <div class="animate-reveal"><div class="future-content"><h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem">Future Readiness</h2><p class="quality-text" style="font-size: 1.25rem">As we grow, we're building a team that's ready for the challenges ahead. We're looking for people who understand that manufacturing at scale requires precision, systems thinking, and a commitment to long-term impact.</p><p class="quality-text">Whether you're an engineer, operator, designer, or strategist, if you care about building infrastructure that matters, we'd love to hear from you.</p><div style="margin-top: 1.5rem"><a href="/contact" class="primary-button">Get in Touch <i class="fas fa-arrow-right"></i></a></div></div></div>
+            <div class="animate-reveal" style="transition-delay: 200ms"><div class="future-quote"><blockquote class="quote-text">"We're building the infrastructure that will power India's EV ecosystem for decades."</blockquote><p class="quality-text">That requires people who think long-term, care about precision, and understand that great infrastructure is invisible but essential.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section final-cta-section">
+    <div class="section-container">
+        <div class="animate-reveal"><div class="final-cta-card"><h2 class="section-title">Ready to Build the Future?</h2><p class="section-subtitle" style="margin-bottom: 2rem">Join us in building the operating layer for India's EV manufacturing ecosystem.</p><div class="button-group"><a href="/contact" class="primary-button">Get in Touch <i class="fas fa-arrow-right"></i></a><a href="/" class="secondary-button">Back to Home</a></div></div></div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand"><h3>AXO Networks</h3><p>AuroXOrigin Networks Private Limited</p><p class="copyright">© 2026</p></div>
+            <div class="footer-links-center"><a href="terms-of-service.html">Terms</a><a href="privacy-policy.html">Privacy Policy</a><a href="blog.html">Insights</a><a href="contact.html">Contact Us</a></div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    let lastScrollTop = 0;
+    const header = document.getElementById('header');
+    const progressBar = document.getElementById('progressBar');
+    
+    window.addEventListener('scroll', () => {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (scrollTop / height) * 100;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+        
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            header.style.transform = 'translateY(-100%)';
+        } else {
+            header.style.transform = 'translateY(0)';
+        }
+        
+        if (scrollTop > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.animate-reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

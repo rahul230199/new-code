@@ -1,0 +1,23 @@
+# Exclude admin, buyer, supplier related files
+admin-dashboard.html
+buyer-dashboard.html
+supplier-dashboard.html
+supplier-po.html
+buyer-dashboard-fixed.html
+
+# Exclude related CSS folders
+styles/admin*/
+styles/buyer*/
+styles/supplier*/
+styles/admin-dashboard.css
+styles/buyer-dashboard.css
+styles/supplier-dashboard.css
+
+# Exclude related JS folders
+js/modules/admin/
+js/modules/buyer/
+js/modules/supplier/
+
+# Exclude any other specific files
+change-password.html
+login.html

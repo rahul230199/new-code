@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part Discovery - AXO Networks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" href="assests/Image.png" type="image/png" sizes="128x128">
+   <link href="/styles/partdiscovery.css" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header" id="mainHeader">
+        <div class="header-content">
+            <a href="/" class="logo">AXO Networks</a>
+            <div class="nav-links">
+                <a href="/network-access" class="nav-link">Network Access</a>
+                <a href="/part-discovery" class="nav-link">Part Discovery</a>
+                <a href="/financial-partners" class="nav-link">Financial Partners</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/blog" class="nav-link">Blog</a>
+                <a href="/careers" class="nav-link">Careers</a>
+                <a href="/login" class="cta-button" style="margin-left: 1rem;">Login</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="/network-access" class="dropdown-item">Network Access</a>
+                <a href="/part-discovery" class="dropdown-item">Part Discovery</a>
+                <a href="/financial-partners" class="dropdown-item">Financial Partners</a>
+                <a href="/about" class="dropdown-item">About</a>
+                <a href="/blog" class="dropdown-item">Blog</a>
+                <a href="/careers" class="dropdown-item">Careers</a>
+                <a href="/login" class="dropdown-item" style="color: var(--foreground); font-weight: 800;">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- UPDATED FIRST SECTION -->
+    <section class="discovery-hero" id="home">
+        <!-- Subtle Background Image Layer -->
+        <div class="hero-background"></div>
+
+        <!-- Blueprint Grid -->
+        <svg class="blueprint-grid" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="0.5" />
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+        </svg>
+
+        <!-- Parallax Background Layer -->
+        <div class="parallax-layer">
+            <div class="hero-circle-1"></div>
+            <div class="hero-circle-2"></div>
+            <div class="hero-circle-3"></div>
+            <div class="hero-circle-4"></div>
+
+            <!-- Abstract Schematic Lines -->
+            <svg class="hero-svg" viewBox="0 0 1600 900" preserveAspectRatio="none">
+                <path d="M0,100 Q400,150 800,100 T1600,100" fill="none" stroke="#1E3A8A" stroke-width="1" />
+                <path d="M0,800 L1600,200" fill="none" stroke="#1E3A8A" stroke-width="0.5" stroke-dasharray="10 10" />
+                <path d="M400,300 L1200,600" fill="none" stroke="#1E3A8A" stroke-width="0.3" stroke-dasharray="5 5" />
+            </svg>
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Explore EV <br />
+                <span style="color: var(--primary);">Component Architecture</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Understand how every EV is built from thousands of connected parts. Explore the three-layer structure that powers modern electric vehicles.
+            </p>
+
+            <div class="button-container">
+                <button class="primary-button" id="exploreComponentsBtn">
+                    <span>Explore Components <i class="fas fa-arrow-right"></i></span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PART DISCOVERY SECTION -->
+    <section class="part-discovery-section" id="part-discovery">
+        <div class="part-discovery-container">
+            <!-- Header -->
+            <div class="part-discovery-header animate-reveal">
+                <h2>Every EV is built from thousands of connected parts</h2>
+                <p>AXO is the operating layer that connects them. Explore how vehicle manufacturers, component OEMs, and raw-part suppliers are linked through a single structured production network.</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search any EV component or system…">
+            </div>
+
+            <!-- Layer Sections -->
+            <div class="layer-sections">
+                <!-- Layer 1 - Vehicle OEM Systems -->
+                <div class="layer-section" id="layer1">
+                    <div class="layer-header" data-layer="1">
+                        <div class="layer-title">
+                            <h3>Vehicle OEM Systems</h3>
+                            <span class="layer-count" id="layer1Count">10 components</span>
+                        </div>
+                        <button class="layer-toggle" data-layer="1">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="component-grid" id="componentsLayer1">
+                        <!-- Components will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Layer 2 - Component OEM Modules -->
+                <div class="layer-section" id="layer2">
+                    <div class="layer-header" data-layer="2">
+                        <div class="layer-title">
+                            <h3>Component OEM Modules</h3>
+                            <span class="layer-count" id="layer2Count">20 components</span>
+                        </div>
+                        <button class="layer-toggle" data-layer="2">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="component-grid" id="componentsLayer2">
+                        <!-- Components will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Layer 3 - Manufacturing Parts & Materials -->
+                <div class="layer-section" id="layer3">
+                    <div class="layer-header" data-layer="3">
+                        <div class="layer-title">
+                            <h3>Manufacturing Parts & Materials</h3>
+                            <span class="layer-count" id="layer3Count">26 components</span>
+                        </div>
+                        <button class="layer-toggle" data-layer="3">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="component-grid" id="componentsLayer3">
+                        <!-- Components will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults">
+                <p>No components found matching "<span id="searchQuery"></span>". Try searching for terms like "battery", "motor", "inverter", or "connector".</p>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="discovery-cta animate-reveal">
+                <h3>Ready to Connect?</h3>
+                <p>Whether you're a supplier, OEM, or financial partner, AXO connects you to the ecosystem.</p>
+                <div class="cta-buttons">
+                    <a href="/network-access" class="primary-button">
+                        <span>Join Us <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    <a href="/financial-partners" class="secondary-button">Financial Partners</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAIL MODAL -->
+    <div class="detail-modal" id="detailModal">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-badge" id="modalLayer">Layer 1</span>
+                    <h2 class="modal-title" id="modalTitle">Component Name</h2>
+                </div>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>Overview</h3>
+                    <p class="modal-description" id="modalDescription">Component description will appear here.</p>
+                </div>
+                <div class="modal-section" id="dependenciesSection" style="display: none;">
+                    <h3>Built From</h3>
+                    <div class="dependencies-list" id="modalDependencies">
+                        <!-- Dependencies will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="modal-section" id="usedBySection" style="display: none;">
+                    <h3>Used By</h3>
+                    <div class="usedby-list" id="modalUsedBy">
+                        <!-- Used By will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-cta">
+                <a href="/network-access" class="primary-button">
+                    <span>Connect Your AXO <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>AXO Networks</h3>
+                    <p>The operating layer for India's EV manufacturing ecosystem.</p>
+                </div>
+                <div>
+                    <h4>Quick links</h4>
+                    <a href="/network-access">Network Access</a>
+                    <a href="/part-discovery">Part Discovery</a>
+                    <a href="/financial-partners">Financial Partners</a>
+                </div>
+                <div>
+                    <h4>Company</h4>
+                    <a href="/about">About</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/careers">Careers</a>
+                    <a href="/contact">Contact Us</a>
+                </div>
+                <div>
+                    <h4>Legal</h4>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+      
+                <p>&copy; <span id="currentYear"></span> AuroXOrigin Networks Private Limited</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/axo-networks/" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    
+
+    // Progress bar
+    window.addEventListener('scroll', function() {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + '%';
+    });
+
+    // Header scroll effect
+    let lastScrollTop = 0;
+    const header = document.getElementById('mainHeader');
+
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        if (scrollTop > lastScrollTop && scrollTop > 200) {
+            header.classList.add('hidden');
+        } else {
+            header.classList.remove('hidden');
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+   
+    // Complete Component Data
+    const componentsData = {
+        1: [
+            {
+                id: 'l1-battery',
+                name: 'Battery Pack',
+                description: 'High-voltage energy storage system that powers the electric motor and vehicle systems.',
+                details: 'The battery pack is the core energy source for the EV. It stores electrical energy and delivers it to the power electronics system and motor. Modern EV batteries use lithium-ion chemistry with integrated thermal management and safety systems.',
+                dependencies: ['Battery Cells', 'Battery Modules', 'Battery Management System', 'Thermal Management System'],
+                usedBy: ['Power Electronics System', 'Electric Drive Unit']
+            },
+            {
+                id: 'l1-drive',
+                name: 'Electric Drive Unit',
+                description: 'Integrated motor, inverter, and transmission that converts electrical energy to mechanical motion.',
+                details: 'The EDU combines the electric motor, power electronics, and gear reduction into a single compact unit. It delivers torque to the wheels and enables regenerative braking to recover energy.',
+                dependencies: ['Electric Motor', 'Inverter', 'Motor Controller', 'Gear Reduction Units'],
+                usedBy: ['Regenerative Braking System', 'Vehicle Control Unit']
+            },
+            {
+                id: 'l1-power',
+                name: 'Power Electronics System',
+                description: 'Manages power distribution, voltage conversion, and energy flow throughout the vehicle.',
+                details: 'This system includes the main inverter, DC-DC converters, and power distribution units. It converts DC power from the battery to AC for the motor and manages power to all vehicle systems.',
+                dependencies: ['Inverter', 'DC-DC Converter', 'Power Distribution Unit', 'Capacitors'],
+                usedBy: ['Electric Drive Unit', 'Charging System', 'Vehicle Control Unit']
+            },
+            {
+                id: 'l1-thermal',
+                name: 'Thermal Management System',
+                description: 'Maintains optimal operating temperatures for battery, motor, and power electronics.',
+                details: 'Includes cooling pumps, thermal plates, radiators, and control logic. Manages heat dissipation from high-power components to ensure efficiency and longevity.',
+                dependencies: ['Cooling Pumps', 'Thermal Plates', 'Coolant Tubes', 'Temperature Sensors'],
+                usedBy: ['Battery Pack', 'Power Electronics System', 'Electric Drive Unit']
+            },
+            {
+                id: 'l1-charging',
+                name: 'Charging System',
+                description: 'Enables safe and efficient charging of the battery from external power sources.',
+                details: 'Includes the onboard charger, charging interface, and power management. Supports both AC and DC charging with integrated safety and communication protocols.',
+                dependencies: ['Onboard Charger', 'Charging Interface', 'Power Distribution Unit'],
+                usedBy: ['Battery Pack', 'Vehicle Control Unit']
+            },
+            {
+                id: 'l1-vcu',
+                name: 'Vehicle Control Unit',
+                description: 'Central computing platform that orchestrates all vehicle systems and functions.',
+                details: 'The VCU is the brain of the EV. It processes sensor inputs, manages power distribution, controls motor operation, and coordinates all subsystems. Includes multiple ECU modules for different functions.',
+                dependencies: ['ECU Modules', 'Sensor Modules', 'CAN Bus', 'Software'],
+                usedBy: ['Electric Drive Unit', 'Regenerative Braking System', 'Thermal Management System']
+            },
+            {
+                id: 'l1-braking',
+                name: 'Regenerative Braking System',
+                description: 'Converts kinetic energy during braking back into electrical energy to recharge the battery.',
+                details: 'Works in conjunction with traditional friction brakes. The motor acts as a generator during deceleration, capturing energy that would otherwise be lost as heat.',
+                dependencies: ['Electric Motor', 'Motor Controller', 'Braking Control Unit', 'Power Electronics'],
+                usedBy: ['Battery Pack', 'Vehicle Control Unit']
+            },
+            {
+                id: 'l1-safety',
+                name: 'High-Voltage Safety System',
+                description: 'Protects occupants and service personnel from high-voltage electrical hazards.',
+                details: 'Includes isolation monitoring, emergency disconnect switches, and safety interlocks. Ensures safe operation and maintenance of the high-voltage system.',
+                dependencies: ['Relays', 'Fuses', 'Isolation Sensors', 'Safety Controllers'],
+                usedBy: ['Battery Pack', 'Power Electronics System']
+            },
+            {
+                id: 'l1-chassis',
+                name: 'Chassis & Structural Platform',
+                description: 'Provides structural integrity and mounting points for all vehicle systems.',
+                details: 'The chassis is engineered to house the battery pack, motor, and all other components while maintaining safety and performance. Often uses aluminum for weight reduction.',
+                dependencies: ['Steel Frames', 'Aluminum Housings', 'Fasteners', 'Mounting Brackets'],
+                usedBy: ['All Systems']
+            },
+            {
+                id: 'l1-interior',
+                name: 'Interior & Cabin Electronics',
+                description: 'Provides comfort, convenience, and infotainment features for vehicle occupants.',
+                details: 'Includes HVAC systems, infotainment displays, lighting, and comfort controls. Integrated with the vehicle control system for seamless operation.',
+                dependencies: ['HVAC Electric Compressor', 'Infotainment Electronics', 'Sensor Modules', 'Wiring Harness'],
+                usedBy: ['Vehicle Control Unit']
+            }
+        ],
+        2: [
+            {
+                id: 'l2-cells',
+                name: 'Battery Cells',
+                description: 'Individual electrochemical units that generate electrical energy through chemical reactions.',
+                details: 'Cylindrical or pouch-format lithium-ion cells. Multiple cells are combined into modules and packs. Key performance metrics include energy density, cycle life, and thermal stability.',
+                usedBy: ['Battery Modules', 'Battery Pack']
+            },
+            {
+                id: 'l2-modules',
+                name: 'Battery Modules',
+                description: 'Assembled groups of battery cells with integrated cooling and monitoring.',
+                details: 'Modules combine 4-12 cells with thermal management plates and cell-level monitoring. Modules are stacked to create the complete battery pack.',
+                usedBy: ['Battery Pack']
+            },
+            {
+                id: 'l2-bms',
+                name: 'Battery Management System',
+                description: 'Electronic system that monitors and controls battery health, charging, and safety.',
+                details: 'The BMS monitors cell voltage, temperature, and current. It balances cells, manages charging rates, and protects against overcharge, over-discharge, and thermal runaway.',
+                usedBy: ['Battery Pack', 'Vehicle Control Unit']
+            },
+            {
+                id: 'l2-inverter',
+                name: 'Inverter',
+                description: 'Converts DC power from battery to AC power for the electric motor.',
+                details: 'High-power semiconductor device using IGBTs or MOSFETs. Controls motor speed and torque through PWM switching. Integrated with cooling and protection circuits.',
+                usedBy: ['Power Electronics System', 'Electric Drive Unit']
+            },
+            {
+                id: 'l2-dcdc',
+                name: 'DC-DC Converter',
+                description: 'Steps down high-voltage battery power to 12V for vehicle auxiliary systems.',
+                details: 'Provides stable 12V power for lighting, infotainment, and other low-voltage systems. Includes isolation and protection features.',
+                usedBy: ['Power Electronics System']
+            },
+            {
+                id: 'l2-motor',
+                name: 'Electric Motor',
+                description: 'Converts electrical energy to mechanical motion that drives the vehicle wheels.',
+                details: 'Typically AC induction or permanent magnet synchronous motor. Delivers high torque across wide speed range. Integrated with cooling jacket for thermal management.',
+                usedBy: ['Electric Drive Unit', 'Regenerative Braking System']
+            },
+            {
+                id: 'l2-controller',
+                name: 'Motor Controller',
+                description: 'Electronic control unit that manages motor operation and power delivery.',
+                details: 'Processes throttle input and vehicle control signals. Manages inverter switching, current limiting, and thermal protection. Enables regenerative braking.',
+                usedBy: ['Electric Drive Unit', 'Vehicle Control Unit']
+            },
+            {
+                id: 'l2-charger',
+                name: 'Onboard Charger',
+                description: 'Converts AC grid power to DC for battery charging.',
+                details: '3-11 kW power rating depending on vehicle class. Includes power factor correction, isolation, and safety features. Communicates with battery management system.',
+                usedBy: ['Charging System']
+            },
+            {
+                id: 'l2-pdu',
+                name: 'Power Distribution Unit',
+                description: 'Central hub that distributes high-voltage power to all vehicle systems.',
+                details: 'Contains contactors, fuses, and relays. Routes power from battery to motor, charger, and auxiliary systems. Includes safety interlocks.',
+                usedBy: ['Power Electronics System', 'Charging System']
+            },
+            {
+                id: 'l2-pump',
+                name: 'Cooling Pumps',
+                description: 'Circulates coolant through thermal management system.',
+                details: 'Electric pump driven by 12V or 48V. Variable speed control based on temperature. Includes pressure relief and check valves.',
+                usedBy: ['Thermal Management System']
+            },
+            {
+                id: 'l2-thermal-plate',
+                name: 'Thermal Plates',
+                description: 'Aluminum plates that conduct heat from components to coolant.',
+                details: 'Mounted directly on battery modules, motor, and power electronics. Optimized for heat transfer with integrated coolant channels.',
+                usedBy: ['Thermal Management System']
+            },
+            {
+                id: 'l2-interface',
+                name: 'Charging Interface',
+                description: 'Physical connector and communication protocol for charging the vehicle.',
+                details: 'Supports CCS, CHAdeMO, or proprietary standards. Includes safety interlocks and communication for charging negotiation.',
+                usedBy: ['Charging System']
+            },
+            {
+                id: 'l2-ecu',
+                name: 'ECU Modules',
+                description: 'Specialized electronic control units for specific vehicle functions.',
+                details: 'Includes motor ECU, battery ECU, body ECU, and others. Each handles specific control logic and communicates via CAN bus.',
+                usedBy: ['Vehicle Control Unit']
+            },
+            {
+                id: 'l2-sensors',
+                name: 'Sensor Modules',
+                description: 'Integrated sensor packages that monitor vehicle and environmental conditions.',
+                details: 'Includes temperature, pressure, current, voltage, and position sensors. Provides real-time data to control systems.',
+                usedBy: ['Vehicle Control Unit', 'Battery Management System']
+            },
+            {
+                id: 'l2-harness',
+                name: 'Wiring Harness Assemblies',
+                description: 'Bundled and organized electrical cables connecting all vehicle systems.',
+                details: 'High-voltage and low-voltage harnesses with connectors, terminals, and protective sheathing. Engineered for safety and reliability.',
+                usedBy: ['All Systems']
+            },
+            {
+                id: 'l2-gear',
+                name: 'Gear Reduction Units',
+                description: 'Mechanical transmission that reduces motor speed and increases torque.',
+                details: 'Single-speed or multi-speed gearbox. Optimizes motor operating point for efficiency. Includes bearings and seals.',
+                usedBy: ['Electric Drive Unit']
+            },
+            {
+                id: 'l2-differential',
+                name: 'Differential',
+                description: 'Allows drive wheels to rotate at different speeds during cornering.',
+                details: 'Mechanical component that distributes torque between wheels. Includes bearings and gears.',
+                usedBy: ['Electric Drive Unit']
+            },
+            {
+                id: 'l2-brake-control',
+                name: 'Braking Control Unit',
+                description: 'Coordinates regenerative and friction braking for optimal performance.',
+                details: 'Blends motor braking with hydraulic brakes. Manages brake force distribution and ABS functionality.',
+                usedBy: ['Regenerative Braking System', 'Vehicle Control Unit']
+            },
+            {
+                id: 'l2-hvac',
+                name: 'HVAC Electric Compressor',
+                description: 'Provides heating and cooling for vehicle cabin.',
+                details: 'Electric-driven compressor for air conditioning. Heat pump capable for efficient heating. Controlled by cabin climate system.',
+                usedBy: ['Interior & Cabin Electronics']
+            },
+            {
+                id: 'l2-infotainment',
+                name: 'Infotainment Electronics',
+                description: 'Display, audio, and connectivity systems for driver and passengers.',
+                details: 'Includes touchscreen display, audio amplifier, and wireless connectivity. Integrates with vehicle control system.',
+                usedBy: ['Interior & Cabin Electronics', 'Vehicle Control Unit']
+            }
+        ],
+        3: [
+            {
+                id: 'l3-semiconductor',
+                name: 'Semiconductors',
+                description: 'Fundamental electronic components that form the basis of all control and power electronics.',
+                details: 'Raw silicon wafers processed into integrated circuits, microcontrollers, and power devices. Foundation for all electronic systems.',
+                usedBy: ['Inverter', 'Motor Controller', 'ECU Modules', 'Battery Management System']
+            },
+            {
+                id: 'l3-mosfet',
+                name: 'Power MOSFETs',
+                description: 'High-power semiconductor switches used in power electronics.',
+                details: 'Control high-voltage and high-current power delivery. Used in inverters and DC-DC converters. Rated for hundreds of volts and tens of amps.',
+                usedBy: ['Inverter', 'DC-DC Converter', 'Motor Controller']
+            },
+            {
+                id: 'l3-igbt',
+                name: 'IGBTs',
+                description: 'Insulated Gate Bipolar Transistors for high-power switching applications.',
+                details: 'Superior performance for high-frequency switching in motor inverters. Lower losses than MOSFETs at high power levels.',
+                usedBy: ['Inverter', 'Motor Controller']
+            },
+            {
+                id: 'l3-capacitor',
+                name: 'Capacitors',
+                description: 'Energy storage and filtering components in power electronics.',
+                details: 'High-voltage electrolytic and film capacitors. Filter voltage ripple and provide energy buffering in power conversion circuits.',
+                usedBy: ['Inverter', 'DC-DC Converter', 'Power Distribution Unit']
+            },
+            {
+                id: 'l3-resistor',
+                name: 'Resistors',
+                description: 'Passive components that limit current and divide voltage.',
+                details: 'Used throughout electronics for current limiting, voltage division, and thermal management. Various types and power ratings.',
+                usedBy: ['All Electronic Systems']
+            },
+            {
+                id: 'l3-pcb',
+                name: 'PCBs',
+                description: 'Printed circuit boards that provide mechanical support and electrical connections.',
+                details: 'Multi-layer boards with copper traces. Substrate for mounting and interconnecting all electronic components.',
+                usedBy: ['All Electronic Modules']
+            },
+            {
+                id: 'l3-connector',
+                name: 'Connectors',
+                description: 'Electrical connectors that join wires and components.',
+                details: 'High-voltage connectors for battery and motor circuits. Low-voltage connectors for control signals. Rated for current and voltage requirements.',
+                usedBy: ['Wiring Harness Assemblies', 'All Systems']
+            },
+            {
+                id: 'l3-terminal',
+                name: 'Terminals',
+                description: 'Connection points where wires attach to components.',
+                details: 'Crimped or soldered connections. Must handle high current without excessive heating.',
+                usedBy: ['Wiring Harness Assemblies', 'Connectors']
+            },
+            {
+                id: 'l3-copper',
+                name: 'Copper Cables',
+                description: 'Electrical conductors for power distribution.',
+                details: 'Various gauges for different current ratings. Insulated for safety. Used throughout vehicle for power and signal transmission.',
+                usedBy: ['Wiring Harness Assemblies', 'Power Distribution Unit']
+            },
+            {
+                id: 'l3-hv-wire',
+                name: 'High-Voltage Wiring',
+                description: 'Specialized cables rated for high-voltage battery and motor circuits.',
+                details: 'Heavy insulation and shielding. Color-coded orange for safety. Rated for 400V+ continuous operation.',
+                usedBy: ['Wiring Harness Assemblies', 'Power Electronics System']
+            },
+            {
+                id: 'l3-aluminum',
+                name: 'Aluminum Housings',
+                description: 'Structural and thermal management enclosures for electronics.',
+                details: 'Lightweight and excellent heat conductor. Used for motor housings, inverter cases, and thermal management plates.',
+                usedBy: ['Electric Motor', 'Inverter', 'Thermal Plates']
+            },
+            {
+                id: 'l3-steel',
+                name: 'Steel Frames',
+                description: 'Structural support for vehicle chassis and components.',
+                details: 'High-strength steel for load-bearing applications. Welded or bolted assemblies.',
+                usedBy: ['Chassis & Structural Platform']
+            },
+            {
+                id: 'l3-bearing',
+                name: 'Bearings',
+                description: 'Mechanical components that reduce friction in rotating assemblies.',
+                details: 'Ball and roller bearings for motor shaft, wheels, and gearbox. Precision-engineered for durability.',
+                usedBy: ['Electric Motor', 'Gear Reduction Units', 'Cooling Pumps']
+            },
+            {
+                id: 'l3-seal',
+                name: 'Seals',
+                description: 'Prevent fluid leakage in mechanical assemblies.',
+                details: 'Oil seals, gaskets, and O-rings. Critical for maintaining coolant and lubricant containment.',
+                usedBy: ['Electric Motor', 'Cooling Pumps', 'Gear Reduction Units']
+            },
+            {
+                id: 'l3-gasket',
+                name: 'Gaskets',
+                description: 'Sealing materials between mating surfaces.',
+                details: 'Prevent fluid leakage at component interfaces. Various materials for different temperature and pressure requirements.',
+                usedBy: ['All Mechanical Assemblies']
+            },
+            {
+                id: 'l3-thermal-pad',
+                name: 'Thermal Pads',
+                description: 'Interface materials that improve heat transfer between components.',
+                details: 'High thermal conductivity materials. Used between power semiconductors and heatsinks.',
+                usedBy: ['Inverter', 'Motor Controller', 'Thermal Management System']
+            },
+            {
+                id: 'l3-coolant-tube',
+                name: 'Coolant Tubes',
+                description: 'Flexible tubing that carries coolant through thermal management system.',
+                details: 'Reinforced rubber or plastic tubing. Rated for pressure and temperature. Connects thermal plates and radiators.',
+                usedBy: ['Thermal Management System']
+            },
+            {
+                id: 'l3-fan',
+                name: 'Cooling Fans',
+                description: 'Circulate air for heat dissipation from radiators.',
+                details: 'Electric motor-driven fans. Variable speed control based on temperature. Mounted on radiators.',
+                usedBy: ['Thermal Management System']
+            },
+            {
+                id: 'l3-pump',
+                name: 'Pumps',
+                description: 'Mechanical devices that move fluids through systems.',
+                details: 'Coolant pumps for thermal management. Various displacement and pressure ratings.',
+                usedBy: ['Cooling Pumps', 'Thermal Management System']
+            },
+            {
+                id: 'l3-fastener',
+                name: 'Fasteners',
+                description: 'Bolts, screws, and nuts that hold assemblies together.',
+                details: 'Various sizes and materials. Critical for structural integrity and reliability.',
+                usedBy: ['All Mechanical Assemblies']
+            },
+            {
+                id: 'l3-sensor',
+                name: 'Sensors',
+                description: 'Devices that measure physical quantities and convert to electrical signals.',
+                details: 'Temperature, pressure, current, voltage, and position sensors. Provide feedback for control systems.',
+                usedBy: ['Sensor Modules', 'Battery Management System', 'Vehicle Control Unit']
+            },
+            {
+                id: 'l3-relay',
+                name: 'Relays',
+                description: 'Electromagnetic switches that control high-power circuits.',
+                details: 'Controlled by low-power signals. Switch high-voltage and high-current loads safely.',
+                usedBy: ['Power Distribution Unit', 'High-Voltage Safety System']
+            },
+            {
+                id: 'l3-fuse',
+                name: 'Fuses',
+                description: 'Protective devices that break circuits during overcurrent conditions.',
+                details: 'Prevent damage from electrical faults. Various amperage ratings for different circuits.',
+                usedBy: ['Power Distribution Unit', 'High-Voltage Safety System']
+            },
+            {
+                id: 'l3-insulation',
+                name: 'Insulation Materials',
+                description: 'Electrical insulation for wires and components.',
+                details: 'Plastic, rubber, and composite materials. Prevent electrical leakage and short circuits.',
+                usedBy: ['Wiring Harness Assemblies', 'All Electrical Systems']
+            },
+            {
+                id: 'l3-adhesive',
+                name: 'Adhesives',
+                description: 'Bonding materials for assembly and thermal interface.',
+                details: 'Structural adhesives for component bonding. Thermal adhesives for heat transfer.',
+                usedBy: ['All Assemblies']
+            },
+            {
+                id: 'l3-bracket',
+                name: 'Mounting Brackets',
+                description: 'Metal or plastic supports for mounting components.',
+                details: 'Engineered for load distribution. Vibration isolation features.',
+                usedBy: ['All Systems']
+            },
+            {
+                id: 'l3-plastic',
+                name: 'Plastic Molded Parts',
+                description: 'Injection-molded plastic components for various applications.',
+                details: 'Lightweight and cost-effective. Used for covers, ducts, and structural parts.',
+                usedBy: ['Interior & Cabin Electronics', 'Thermal Management System']
+            }
+        ]
+    };
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM Loaded - Initializing Part Discovery with Smooth Animations');
+        const yearElement = document.getElementById("currentYear");
+        
+    if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        }
+        
+        // Animation observer
+        const observerOptions = { 
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    
+                    // Add staggered animation for cards in visible sections
+                    if (entry.target.classList.contains('layer-section')) {
+                        const layerId = entry.target.id.replace('layer', '');
+                        const cards = entry.target.querySelectorAll('.component-card');
+                        cards.forEach((card, index) => {
+                            card.style.animationDelay = `${index * 0.05}s`;
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-reveal').forEach(el => observer.observe(el));
+
+        // Mobile menu toggle with animation
+        const menuToggle = document.getElementById('menuToggle');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const body = document.body;
+
+        if (menuToggle && dropdownMenu) {
+            menuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const isActive = dropdownMenu.classList.contains('active');
+                const icon = menuToggle.querySelector('i');
+                
+                if (isActive) {
+                    // Close menu
+                    dropdownMenu.classList.remove('active');
+                    menuToggle.style.transform = 'rotate(0deg)';
+                    icon.className = 'fas fa-bars';
+                    body.classList.remove('no-scroll');
+                } else {
+                    // Open menu
+                    dropdownMenu.classList.add('active');
+                    menuToggle.style.transform = 'rotate(90deg)';
+                    icon.className = 'fas fa-times';
+                    body.classList.add('no-scroll');
+                }
+            });
+
+            // Close menu when clicking on a link
+            dropdownMenu.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    dropdownMenu.classList.remove('active');
+                    menuToggle.style.transform = 'rotate(0deg)';
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
+                    body.classList.remove('no-scroll');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdownMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                    dropdownMenu.classList.remove('active');
+                    menuToggle.style.transform = 'rotate(0deg)';
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
+                    body.classList.remove('no-scroll');
+                }
+            });
+
+            // Close menu on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
+                    dropdownMenu.classList.remove('active');
+                    menuToggle.style.transform = 'rotate(0deg)';
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
+                    body.classList.remove('no-scroll');
+                }
+            });
+
+            // Prevent menu from closing when clicking inside it
+            dropdownMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+
+        // Scroll indicator fade effect with smooth animation
+        window.addEventListener('scroll', function() {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (scrollIndicator) {
+                const scrollPosition = window.pageYOffset;
+                const windowHeight = window.innerHeight;
+                const fadeStart = 0;
+                const fadeEnd = windowHeight * 0.15;
+                const opacity = 1 - Math.min(Math.max((scrollPosition - fadeStart) / (fadeEnd - fadeStart), 0), 1);
+                scrollIndicator.style.opacity = opacity;
+                scrollIndicator.style.transform = `translateX(-50%) translateY(${Math.min(scrollPosition * 0.1, 20)}px)`;
+            }
+        });
+
+        // Initialize component display with smooth animations
+        console.log('Initializing components with smooth animations...');
+        initializeComponents();
+        initializeSearch();
+        initializeLayerToggles();
+        initializeDetailModal();
+        
+        // Initialize animations for existing elements
+        setTimeout(() => {
+            const layerSections = document.querySelectorAll('.layer-section');
+            layerSections.forEach((section, index) => {
+                section.style.animationDelay = `${index * 0.1}s`;
+            });
+        }, 100);
+    });
+
+    function initializeComponents() {
+        console.log('initializeComponents called');
+        console.log('Layer 1 components:', componentsData[1].length);
+        console.log('Layer 2 components:', componentsData[2].length);
+        console.log('Layer 3 components:', componentsData[3].length);
+
+        // Initialize component counts
+        document.getElementById('layer1Count').textContent = `${componentsData[1].length} components`;
+        document.getElementById('layer2Count').textContent = `${componentsData[2].length} components`;
+        document.getElementById('layer3Count').textContent = `${componentsData[3].length} components`;
+
+        // Display all components initially
+        displayComponents(1, componentsData[1]);
+        displayComponents(2, componentsData[2]);
+        displayComponents(3, componentsData[3]);
+
+        // Expand Layer 1 by default
+        const layer1 = document.getElementById('layer1');
+        if (layer1) {
+            setTimeout(() => {
+                layer1.classList.add('expanded');
+                const toggle1 = layer1.querySelector('.layer-toggle');
+                if (toggle1) {
+                    toggle1.classList.add('rotated');
+                }
+                
+                // Animate cards in layer 1
+                const cards = layer1.querySelectorAll('.component-card');
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.05}s`;
+                });
+            }, 500);
+        }
+    }
+
+    function displayComponents(layer, components) {
+        console.log(`displayComponents called for layer ${layer} with ${components.length} components`);
+        
+        const grid = document.getElementById(`componentsLayer${layer}`);
+        if (!grid) {
+            console.error(`Grid not found: componentsLayer${layer}`);
+            return;
+        }
+        
+        grid.innerHTML = '';
+
+        if (components.length === 0) {
+            grid.innerHTML = '<div class="no-results"><p>No components found</p></div>';
+            return;
+        }
+
+        components.forEach((component, index) => {
+            const card = document.createElement('div');
+            card.className = 'component-card';
+            card.dataset.id = component.id;
+            card.dataset.layer = layer;
+            card.style.animationDelay = `${index * 0.05}s`;
+
+            card.innerHTML = `
+                <h4>${component.name}</h4>
+                <p>${component.description}</p>
+                <span class="component-link">
+                    View Details <i class="fas fa-arrow-right"></i>
+                </span>
+            `;
+
+            // Add hover effect with animation
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+
+            card.addEventListener('click', () => {
+                showComponentDetail(component, layer);
+            });
+
+            grid.appendChild(card);
+        });
+        
+        console.log(`Added ${components.length} components to layer ${layer}`);
+    }
+
+    function initializeSearch() {
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        let searchTimeout;
+
+        if (!searchInput || !noResults) {
+            console.error('Search elements not found');
+            return;
+        }
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const query = this.value.trim().toLowerCase();
+                console.log('Searching for:', query);
+
+                if (!query) {
+                    // Show all components with animation
+                    displayComponents(1, componentsData[1]);
+                    displayComponents(2, componentsData[2]);
+                    displayComponents(3, componentsData[3]);
+                    noResults.classList.remove('active');
+
+                    // Update counts with animation
+                    ['layer1Count', 'layer2Count', 'layer3Count'].forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.style.transform = 'scale(1.1)';
+                            setTimeout(() => {
+                                element.style.transform = 'scale(1)';
+                            }, 300);
+                        }
+                    });
+
+                    // Restore original counts
+                    document.getElementById('layer1Count').textContent = `${componentsData[1].length} components`;
+                    document.getElementById('layer2Count').textContent = `${componentsData[2].length} components`;
+                    document.getElementById('layer3Count').textContent = `${componentsData[3].length} components`;
+                    return;
+                }
+
+                // Store the query for no results message
+                const searchQueryElement = document.getElementById('searchQuery');
+                if (searchQueryElement) {
+                    searchQueryElement.textContent = query;
+                }
+
+                // Filter components for each layer
+                const filtered1 = componentsData[1].filter(component =>
+                    component.name.toLowerCase().includes(query) ||
+                    component.description.toLowerCase().includes(query)
+                );
+
+                const filtered2 = componentsData[2].filter(component =>
+                    component.name.toLowerCase().includes(query) ||
+                    component.description.toLowerCase().includes(query)
+                );
+
+                const filtered3 = componentsData[3].filter(component =>
+                    component.name.toLowerCase().includes(query) ||
+                    component.description.toLowerCase().includes(query)
+                );
+
+                console.log(`Filtered results: L1=${filtered1.length}, L2=${filtered2.length}, L3=${filtered3.length}`);
+
+                // Display filtered results with animation
+                displayComponents(1, filtered1);
+                displayComponents(2, filtered2);
+                displayComponents(3, filtered3);
+
+                // Update counts with animation
+                const updateCount = (elementId, count) => {
+                    const element = document.getElementById(elementId);
+                    if (element) {
+                        element.style.transform = 'scale(1.2)';
+                        element.style.color = 'var(--primary)';
+                        setTimeout(() => {
+                            element.textContent = `${count} components`;
+                            element.style.transform = 'scale(1)';
+                            setTimeout(() => {
+                                element.style.color = '';
+                            }, 500);
+                        }, 200);
+                    }
+                };
+
+                updateCount('layer1Count', filtered1.length);
+                updateCount('layer2Count', filtered2.length);
+                updateCount('layer3Count', filtered3.length);
+
+                // Show/hide no results message with animation
+                const totalResults = filtered1.length + filtered2.length + filtered3.length;
+                if (totalResults === 0) {
+                    noResults.style.display = 'block';
+                    setTimeout(() => {
+                        noResults.classList.add('active');
+                    }, 10);
+                } else {
+                    noResults.classList.remove('active');
+                    setTimeout(() => {
+                        noResults.style.display = 'none';
+                    }, 300);
+                }
+
+                // Auto-expand layers with results
+                const layer1 = document.getElementById('layer1');
+                const layer2 = document.getElementById('layer2');
+                const layer3 = document.getElementById('layer3');
+
+                const toggleLayer = (layerElement, shouldExpand) => {
+                    if (!layerElement) return;
+                    
+                    const toggle = layerElement.querySelector('.layer-toggle');
+                    if (shouldExpand) {
+                        layerElement.classList.add('expanded');
+                        if (toggle) toggle.classList.add('rotated');
+                    } else {
+                        layerElement.classList.remove('expanded');
+                        if (toggle) toggle.classList.remove('rotated');
+                    }
+                };
+
+                toggleLayer(layer1, filtered1.length > 0);
+                toggleLayer(layer2, filtered2.length > 0);
+                toggleLayer(layer3, filtered3.length > 0);
+            }, 300);
+        });
+    }
+
+    function initializeLayerToggles() {
+
+    const layerSections = document.querySelectorAll('.layer-section');
+
+    layerSections.forEach(section => {
+
+        const header = section.querySelector('.layer-header');
+        const toggle = section.querySelector('.layer-toggle');
+
+        function toggleLayer() {
+            section.classList.toggle('expanded');
+            toggle.classList.toggle('rotated');
+        }
+
+        // ONE event only (works mobile + desktop)
+        header.addEventListener('click', toggleLayer);
+
+        toggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleLayer();
+        });
+
+    });
+
+}
+
+
+    function showComponentDetail(component, layer) {
+        const modal = document.getElementById('detailModal');
+        const modalLayer = document.getElementById('modalLayer');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalDependencies = document.getElementById('modalDependencies');
+        const modalUsedBy = document.getElementById('modalUsedBy');
+        const dependenciesSection = document.getElementById('dependenciesSection');
+        const usedBySection = document.getElementById('usedBySection');
+
+        // Update modal content with animations
+        modalLayer.textContent = `Layer ${layer}`;
+        modalTitle.textContent = component.name;
+        modalDescription.textContent = component.details;
+
+        // Update dependencies with staggered animation
+        modalDependencies.innerHTML = '';
+        if (component.dependencies && component.dependencies.length > 0) {
+            dependenciesSection.style.display = 'block';
+            component.dependencies.forEach((dep, index) => {
+                setTimeout(() => {
+                    const badge = document.createElement('span');
+                    badge.className = 'dependency-badge';
+                    badge.textContent = dep;
+                    badge.style.opacity = '0';
+                    badge.style.transform = 'translateY(10px)';
+                    modalDependencies.appendChild(badge);
+                    
+                    // Animate badge in
+                    setTimeout(() => {
+                        badge.style.opacity = '1';
+                        badge.style.transform = 'translateY(0)';
+                        badge.style.transition = 'all 0.3s ease';
+                    }, 10);
+                }, index * 100);
+            });
+        } else {
+            dependenciesSection.style.display = 'none';
+        }
+ 
+
+        // Update used by with staggered animation
+        modalUsedBy.innerHTML = '';
+        if (component.usedBy && component.usedBy.length > 0) {
+            usedBySection.style.display = 'block';
+            component.usedBy.forEach((user, index) => {
+                setTimeout(() => {
+                    const badge = document.createElement('span');
+                    badge.className = 'usedby-badge';
+                    badge.textContent = user;
+                    badge.style.opacity = '0';
+                    badge.style.transform = 'translateY(10px)';
+                    modalUsedBy.appendChild(badge);
+                    
+                    // Animate badge in
+                    setTimeout(() => {
+                        badge.style.opacity = '1';
+                        badge.style.transform = 'translateY(0)';
+                        badge.style.transition = 'all 0.3s ease';
+                    }, 10);
+                }, index * 100);
+            });
+        } else {
+            usedBySection.style.display = 'none';
+        }
+
+        // Show modal with animation
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Reset animations for modal sections
+        const modalSections = modal.querySelectorAll('.modal-section');
+        modalSections.forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+        });
+        
+        // Trigger reflow to restart animations
+        void modal.offsetWidth;
+        
+        // Animate sections in
+        modalSections.forEach((section, index) => {
+            setTimeout(() => {
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+                section.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+            }, 200 + (index * 100));
+        });
+    }
+
+    function initializeDetailModal() {
+        const modal = document.getElementById('detailModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalContent = document.getElementById('modalContent');
+
+        if (!modal || !closeModal || !modalContent) {
+            console.error('Modal elements not found');
+            return;
+        }
+
+        // Close modal when clicking X
+        closeModal.addEventListener('click', () => {
+            modal.style.opacity = '0';
+            modalContent.style.transform = 'translateY(50px) scale(0.95)';
+            
+            setTimeout(() => {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                
+                // Reset styles
+                modal.style.opacity = '';
+                modalContent.style.transform = '';
+            }, 300);
+        });
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal.click();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal.click();
+            }
+        });
+
+        // Prevent modal content clicks from closing modal
+        modalContent.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    // Add smooth hover effects to buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.primary-button, .secondary-button, .cta-button');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.02)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFQ Management | AXO Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/oem-dashboard.css">
+</head>
+<body>
+    <div class="oem-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><h2>AXO Networks</h2><p>OEM Portal</p></div>
+            <nav class="sidebar-nav">
+                <a href="/oem-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+                <a href="/oem-rfq.html" class="nav-item active"><i class="fas fa-file-alt"></i><span>RFQ Management</span></a>
+                <a href="/oem-orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
+                <a href="/oem-suppliers.html" class="nav-item"><i class="fas fa-truck"></i><span>Suppliers</span></a>
+                <a href="/oem-documents.html" class="nav-item"><i class="fas fa-folder-open"></i><span>Documents</span></a>
+                <a href="/oem-profile.html" class="nav-item"><i class="fas fa-building"></i><span>Profile</span></a>
+            </nav>
+            <div class="sidebar-footer"><button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button></div>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <div class="top-bar-right">
+                    <div class="notification-bell"><i class="far fa-bell"></i><span class="notification-badge">0</span></div>
+                    <div class="user-info"><span id="companyName">Loading...</span><div class="avatar"><i class="fas fa-industry"></i></div></div>
+                </div>
+            </div>
+
+            <div class="page-header">
+                <div><h1>RFQ Management</h1><p>Create and manage your Request for Quotes</p></div>
+                <button class="btn-primary" id="createRfqBtn"><i class="fas fa-plus"></i> New RFQ</button>
+            </div>
+
+            <div class="filters-bar">
+                <select id="statusFilter" class="filter-select">
+                    <option value="all">All RFQs</option><option value="open">Open</option>
+                    <option value="awarded">Awarded</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Search by title or part number..." class="search-input">
+            </div>
+
+            <div id="rfqList" class="rfq-list"><div class="loading">Loading RFQs...</div></div>
+        </main>
+    </div>
+
+    <!-- Create RFQ Modal with File Upload -->
+    <div id="createRfqModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus-circle"></i> Create New RFQ</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createRfqForm" enctype="multipart/form-data">
+                    <div class="form-section">
+                        <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
+                        <div class="form-row">
+                            <div class="form-group"><label>Title *</label><input type="text" id="rfqTitle" required placeholder="e.g., Battery Pack Assembly"></div>
+                            <div class="form-group"><label>Part Number</label><input type="text" id="partNumber" placeholder="e.g., BP-2024-001"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Part Name</label><input type="text" id="partName" placeholder="e.g., Lithium Battery Pack"></div>
+                            <div class="form-group"><label>Quantity *</label><input type="number" id="quantity" required placeholder="1000"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4><i class="fas fa-dollar-sign"></i> Pricing & Currency</h4>
+                        <div class="form-row">
+                            <div class="form-group"><label>Target Price</label><input type="number" step="0.01" id="targetPrice" placeholder="0.00"></div>
+                            <div class="form-group"><label>Currency</label>
+                                <select id="currency">
+                                    <option value="USD">USD ($)</option>
+                                    <option value="INR">INR (₹)</option>
+                                    <option value="EUR">EUR (€)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Unit</label>
+                                <select id="unit"><option>units</option><option>pcs</option><option>kg</option></select>
+                            </div>
+                            <div class="form-group"><label>PPAP Level</label>
+                                <select id="ppapLevel"><option>Level 1</option><option>Level 2</option><option>Level 3</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4><i class="fas fa-calendar"></i> Timeline & Description</h4>
+                        <div class="form-row">
+                            <div class="form-group"><label>Deadline</label><input type="date" id="deadline"></div>
+                        </div>
+                        <div class="form-group"><label>Description / Specifications</label>
+                            <textarea id="description" rows="3" placeholder="Describe your requirements, technical specifications, quality standards..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4><i class="fas fa-paperclip"></i> Attachments (Design Files, Drawings, Specifications)</h4>
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop files here or click to upload</p>
+                            <small>Supported: PDF, DWG, STEP, JPG, PNG, DOC (Max 10MB per file)</small>
+                            <input type="file" id="fileInput" multiple accept=".pdf,.dwg,.step,.stp,.jpg,.png,.jpeg,.doc,.docx" style="display:none">
+                            <button type="button" class="btn-upload" id="browseBtn"><i class="fas fa-folder-open"></i> Browse Files</button>
+                        </div>
+                        <div id="fileList" class="file-list"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary close-modal">Cancel</button>
+                        <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Publish RFQ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quotes Modal -->
+    <div id="quotesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3><i class="fas fa-comment-dollar"></i> Supplier Quotes</h3><button class="close-modal">&times;</button></div>
+            <div class="modal-body" id="quotesList"></div>
+        </div>
+    </div>
+
+    <script src="/js/oem-rfq.js"></script>
+</body>
+</html>

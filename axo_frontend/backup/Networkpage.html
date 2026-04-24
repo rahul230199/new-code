@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Access - AXO Networks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" href="assests/Image.png" type="image/png" sizes="128x128">
+    <link href="/styles/networkpage.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header" id="mainHeader">
+        <div class="header-content">
+            <a href="/" class="logo">AXO Networks</a>
+            <div class="nav-links">
+                <a href="/network-access" class="nav-link">Network Access</a>
+                <a href="/part-discovery" class="nav-link">Part Discovery</a>
+                <a href="/financial-partners" class="nav-link">Financial Partners</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/blog" class="nav-link">Blog</a>
+                <a href="/careers" class="nav-link">Careers</a>
+                <a href="/login" class="cta-button" style="margin-left: 1rem;">Login</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="/network-access" class="dropdown-item">Network Access</a>
+                <a href="/part-discovery" class="dropdown-item">Part Discovery</a>
+                <a href="/financial-partners" class="dropdown-item">Financial Partners</a>
+                <a href="/about" class="dropdown-item">About</a>
+                <a href="/blog" class="dropdown-item">Blog</a>
+                <a href="/careers" class="dropdown-item">Careers</a>
+                <a href="/login" class="dropdown-item" style="color: var(--foreground); font-weight: 800;">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="network-hero" id="home">
+        <!-- Subtle Background Image Layer -->
+        <div class="hero-background"></div>
+
+        <!-- Blueprint Grid -->
+        <svg class="blueprint-grid" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="0.5" />
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+        </svg>
+
+        <!-- Parallax Background Layer -->
+        <div class="parallax-layer" id="parallaxLayer">
+            <div class="hero-circle-1"></div>
+            <div class="hero-circle-2"></div>
+            <div class="hero-circle-3"></div>
+            <div class="hero-circle-4"></div>
+            <!-- Abstract Schematic Lines -->
+            <svg class="hero-svg" viewBox="0 0 1600 900" preserveAspectRatio="none">
+                <path d="M0,100 Q400,150 800,100 T1600,100" fill="none" stroke="#1E3A8A" stroke-width="1" />
+                <path d="M0,800 L1600,200" fill="none" stroke="#1E3A8A" stroke-width="0.5" stroke-dasharray="10 10" />
+                <path d="M400,300 L1200,600" fill="none" stroke="#1E3A8A" stroke-width="0.3" stroke-dasharray="5 5" />
+            </svg>
+        </div>
+
+        <div class="hero-content">
+            <div class="animate-reveal">
+                <h1 class="hero-title">
+                    <span style="display: block;">Unified System</span>
+                    <span style="display: block; color: var(--primary);">Integration</span>
+                </h1>
+            </div>
+            <div class="animate-reveal" style="transition-delay: 200ms">
+                <p class="hero-subtitle">
+                    AXO synchronizes India's leading manufacturers, specialized suppliers, and institutional capital into a singular, high-integrity production network. AXO provides the foundational architecture that enables high-integrity industrial coordination at scale.
+                </p>
+            </div>
+            <div class="animate-reveal" style="transition-delay: 400ms">
+                <div style="display: flex; justify-content: center;">
+                    <button class="primary-button" id="heroRequestAccessBtn">
+                        <span>Request Access <i class="fas fa-arrow-right"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 2: WHO THIS IS FOR ========== -->
+    <section id="who-this-is-for" class="who-section">
+        <!-- Blueprint Grid -->
+        <svg class="blueprint-grid" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="grid-pattern-2" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="0.5" />
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-pattern-2)" />
+        </svg>
+        <div class="container">
+            <div class="section-header animate-reveal">
+                <h2>Who This Is For</h2>
+                <p>AXO is built for every organization in the EV manufacturing ecosystem.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="feature-card animate-reveal">
+                    <h3>Vehicle OEMs</h3>
+                    <p>Architect production cycles and orchestrate execution across a verified supply base.</p>
+                </div>
+                <div class="feature-card animate-reveal" style="transition-delay: 100ms">
+                    <h3>Component OEMs</h3>
+                    <p>Manage upstream supply chains while integrating into downstream vehicle programs.</p>
+                </div>
+                <div class="feature-card animate-reveal" style="transition-delay: 200ms">
+                    <h3>Suppliers & Manufacturers</h3>
+                    <p>Convert idle capacity into throughput via high-intent production mandates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NEW SECTION: WHY PARTNER WITH AXO NETWORKS ========== -->
+    <section class="partner-section">
+        <!-- Blueprint Grid -->
+        <svg class="blueprint-grid" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="grid-pattern-partner" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="0.5" />
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-pattern-partner)" />
+        </svg>
+        <div class="container">
+            <div class="section-header animate-reveal">
+                <h2>Why You Should Partner With AXO Networks</h2>
+                <p>AXO provides unique benefits for both buyers and suppliers in the EV manufacturing ecosystem</p>
+            </div>
+            
+            <div class="partner-cards-grid">
+                <!-- For Buyers (Vehicle & Component OEMs) -->
+                <div class="partner-card animate-reveal">
+                    <div class="partner-card-header">
+                        <h3>For Vehicle & Component OEMs</h3>
+                        <p class="partner-subtitle">(The Buyers)</p>
+                    </div>
+                    <div class="partner-card-content">
+                        <ul class="benefit-list">
+                            <li class="benefit-item">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="benefit-text">
+                                    <strong>Quality Assurance:</strong> By acting as the operating layer, AXO Networks provides real-time oversight of manufacturing nodes, ensuring that parts meet strict quality metrics (currently averaging 96%) before they ever leave the supplier's floor.
+                                </div>
+                            </li>
+                            <li class="benefit-item">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="benefit-text">
+                                    <strong>Predictable Lead Times:</strong> AXO synchronizes production schedules across the network, reducing the long wait times for parts that previously stalled assembly lines.
+                                </div>
+                            </li>
+                            <li class="benefit-item">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="benefit-text">
+                                    <strong>Data Integration:</strong> The AXO_OS provides a digital dashboard that gives OEMs full visibility into their Tier 1 and Tier 2 suppliers' health and capacity.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- For Manufacturing Partners -->
+                <div class="partner-card animate-reveal" style="transition-delay: 100ms">
+                    <div class="partner-card-header">
+                        <h3>For Manufacturing Partners</h3>
+                        <p class="partner-subtitle">(The Suppliers)</p>
+                    </div>
+                    <div class="partner-card-content">
+                        <ul class="benefit-list">
+                            <li class="benefit-item">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-handshake"></i>
+                                </div>
+                                <div class="benefit-text">
+                                    <strong>Financial Inclusion:</strong> Small and medium suppliers can fit into AXO by gaining access to institutional capital. AXO uses the supplier's actual production data as a high-integrity signal for financiers, making it easier for them to secure working capital.
+                                </div>
+                            </li>
+                            <li class="benefit-item">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <div class="benefit-text">
+                                    <strong>Capacity Optimization:</strong> Suppliers can use AXO's intelligence to maximize their industrial capacity, ensuring they are producing at peak efficiency to meet OEM demand.
+                                </div>
+                            </li>
+                            <li class="benefit-item">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div class="benefit-text">
+                                    <strong>Standardization:</strong> It provides a structured framework that helps smaller shops elevate their processes to meet the global standards required by major EV players.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 3: HOW AXO WORKS ========== -->
+    <section class="how-section">
+        <div class="container">
+            <div class="section-header animate-reveal">
+                <h2>How AXO Works</h2>
+                <p>Three simple steps to get you verified and activated.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="step-card animate-reveal">
+                    <h3>Capability Mapping</h3>
+                    <p>We capture what you actually manufacture - machines, processes, capacity.</p>
+                </div>
+                <div class="step-card animate-reveal" style="transition-delay: 100ms">
+                    <h3>Verification</h3>
+                    <p>Our team personally validates every company before activation.</p>
+                </div>
+                <div class="step-card animate-reveal" style="transition-delay: 200ms">
+                    <h3>Production Access</h3>
+                    <p>Once approved, you receive secure access to AXO's operating system.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 4: UNIFIED ONBOARDING FORM ========== -->
+    <section class="form-section" id="form-section">
+        <!-- Blueprint Grid -->
+        <svg class="blueprint-grid" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="grid-pattern-3" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="0.5" />
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-pattern-3)" />
+        </svg>
+        <div class="container">
+            <div class="section-header animate-reveal">
+                <h2>Request Access to AXO</h2>
+                <p>Tell us about your company and what you manufacture.</p>
+            </div>
+            <div class="animate-reveal" style="transition-delay: 200ms">
+                <div class="form-container" id="formContainer">
+                    <!-- Success Message -->
+                    <div id="successMessage" class="success-message">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Request Submitted Successfully</h3>
+                        <p>Thank you for your interest in AXO Networks. An AXO team member will contact you shortly to verify your capability.</p>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div id="errorMessage" class="error-message">
+                        <div class="error-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <h3>Submission Failed</h3>
+                        <p id="errorText">There was an error submitting your request. Please try again or contact support.</p>
+                    </div>
+
+                    <!-- Form -->
+                    <form id="accessForm" style="display: block;">
+                        <!-- Company Information -->
+                        <div style="margin-bottom: 3rem;">
+                            <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem;">Company Information</h3>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label for="companyName">Company Name *</label>
+                                    <input type="text" id="companyName" name="companyName" required placeholder="Your company name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="website">Website</label>
+                                    <input type="url" id="website" name="website" placeholder="https://example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="registeredAddress">Registered Address</label>
+                                    <input type="text" id="registeredAddress" name="registeredAddress" placeholder="Street address">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cityState">City / State *</label>
+                                    <input type="text" id="cityState" name="cityState" required placeholder="City, State">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div style="margin-bottom: 3rem;">
+                            <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem;">Contact Information</h3>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label for="contactName">Primary Contact Name *</label>
+                                    <input type="text" id="contactName" name="contactName" required placeholder="Full name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="role">Role *</label>
+                                    <input type="text" id="role" name="role" required placeholder="Your role">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone *</label>
+                                    <input type="tel" id="phone" name="phone" required placeholder="+91 XXXXX XXXXX">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- What You Do -->
+                        <div style="margin-bottom: 3rem;">
+                            <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem;">What Do You Do? *</h3>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="whatYouDo" value="Manufacture finished EVs">
+                                    <span>Manufacture finished EVs</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="whatYouDo" value="Manufacture EV components">
+                                    <span>Manufacture EV components</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="whatYouDo" value="Supply parts or materials">
+                                    <span>Supply parts or materials</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="whatYouDo" value="Provide manufacturing services">
+                                    <span>Provide manufacturing services</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Manufacturing Details -->
+                        <div style="margin-bottom: 3rem;">
+                            <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem;">Manufacturing Details</h3>
+                            <div class="grid-2">
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label for="primaryProduct">Primary Product or Process *</label>
+                                    <input type="text" id="primaryProduct" name="primaryProduct" required placeholder="e.g., Battery pack assembly, Motor manufacturing">
+                                </div>
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label for="keyComponents">Key Components or Services</label>
+                                    <input type="text" id="keyComponents" name="keyComponents" required placeholder="List your main products/services">
+                                </div>
+                                <div class="form-group">
+                                    <label for="manufacturingLocations">Manufacturing Locations</label>
+                                    <input type="text" id="manufacturingLocations" name="manufacturingLocations" required placeholder="Cities/States">
+                                </div>
+                                <div class="form-group">
+                                    <label for="monthlyCapacity">Monthly Capacity</label>
+                                    <input type="text" id="monthlyCapacity" name="monthlyCapacity" required placeholder="e.g., 5,000 units/month">
+                                </div>
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label for="certifications">Certifications (Optional)</label>
+                                    <input type="text" id="certifications" name="certifications" placeholder="e.g., ISO 9001, TS 16949, etc.">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Role in EV Manufacturing -->
+                        <div style="margin-bottom: 3rem;">
+                            <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem;">Your Role in EV Manufacturing *</h3>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="roleInEV" value="OEMs" required>
+                                    <span>OEMs</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="roleInEV" value="Supplier">
+                                    <span>Supplier</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="roleInEV" value="Both">
+                                    <span>Both</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Why Join AXO -->
+                        <div style="margin-bottom: 3rem;">
+                            <div class="form-group">
+                                <label for="whyJoinAXO">Why Do You Want to Join AXO?</label>
+                                <textarea id="whyJoinAXO" name="whyJoinAXO" rows="5" required placeholder="Tell us about your goals and how AXO can help..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div style="display: flex; justify-content: center; padding-top: 1.5rem;">
+                            <button type="submit" class="primary-button">
+                                <span>Submit Request <i class="fas fa-arrow-right"></i></span>
+                            </button>
+                        </div>
+                        <p class="form-para">* Your data is secure and only shared with verified partners under NDA</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECTION 5: WHAT HAPPENS AFTER ========== -->
+    <section class="after-section">
+        <div class="container">
+            <div class="animate-reveal">
+                <p>
+                    After submission, an AXO team member will contact you to verify your capability. Once approved, you will receive secure login credentials to the AXO platform.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>AXO Networks</h3>
+                    <p>The operating layer for India's EV manufacturing ecosystem.</p>
+                </div>
+                <div>
+                    <h4>Quick links</h4>
+                    <a href="/network-access">Network Access</a>
+                    <a href="/part-discovery">Part Discovery</a>
+                    <a href="/financial-partners">Financial Partners</a>
+                </div>
+                <div>
+                    <h4>Company</h4>
+                    <a href="/about">About</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/careers">Careers</a>
+                    <a href="/contact">Contact Us</a>
+                </div>
+                <div>
+                    <h4>Legal</h4>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> AuroXOrigin Networks Private Limited</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/axo-networks/" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+<div id="pageContainer"></div>
+    <script>
+        // ========== ANIMATION CODE FROM PART DISCOVERY ==========
+        const yearElement = document.getElementById("currentYear");
+        
+        // Progress bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Header scroll effect
+        let lastScrollTop = 0;
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            if (scrollTop > lastScrollTop && scrollTop > 200) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // Animation observer for animate-reveal
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Add staggered animation for cards in visible sections
+                    if (entry.target.classList.contains('cards-grid')) {
+                        const cards = entry.target.querySelectorAll('.feature-card, .step-card');
+                        cards.forEach((card, index) => {
+                            card.style.animationDelay = `${index * 0.1}s`;
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.animate-reveal').forEach(el => observer.observe(el));
+
+        // Mobile menu toggle with animation
+        const menuToggle = document.getElementById('menuToggle');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const body = document.body;
+        if (menuToggle && dropdownMenu) {
+            menuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const isActive = dropdownMenu.classList.contains('active');
+                const icon = menuToggle.querySelector('i');
+                
+                if (isActive) {
+                    // Close menu
+                    dropdownMenu.classList.remove('active');
+                    menuToggle.style.transform = 'rotate(0deg)';
+                    icon.className = 'fas fa-bars';
+                    body.classList.remove('no-scroll');
+                } else {
+                    // Open menu
+                    dropdownMenu.classList.add('active');
+                    menuToggle.style.transform = 'rotate(90deg)';
+                    icon.className = 'fas fa-times';
+                    body.classList.add('no-scroll');
+                }
+            });
+
+            // Close menu when clicking on a link
+            dropdownMenu.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    dropdownMenu.classList.remove('active');
+                    menuToggle.style.transform = 'rotate(0deg)';
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
+                    body.classList.remove('no-scroll');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdownMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                    dropdownMenu.classList.remove('active');
+                    menuToggle.style.transform = 'rotate(0deg)';
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
+                    body.classList.remove('no-scroll');
+                }
+            });
+
+            // Close menu on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
+                    dropdownMenu.classList.remove('active');
+                    menuToggle.style.transform = 'rotate(0deg)';
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
+                    body.classList.remove('no-scroll');
+                }
+            });
+
+            // Prevent menu from closing when clicking inside it
+            dropdownMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+
+        // Hero button scroll to form
+        const heroRequestAccessBtn = document.getElementById('heroRequestAccessBtn');
+        if (heroRequestAccessBtn) {
+            heroRequestAccessBtn.addEventListener('click', () => {
+                const formSection = document.getElementById('form-section');
+                if (formSection) {
+                    window.scrollTo({
+                        top: formSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+
+        // Add benefit item animations when they come into view
+        const benefitObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animate-in');
+                    }, index * 100);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all benefit items
+        document.querySelectorAll('.benefit-item').forEach(item => {
+            benefitObserver.observe(item);
+        });
+
+        // Add smooth hover effects to buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.primary-button, .secondary-button, .cta-button, .nav-link');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.02)';
+                });
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+            });
+
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.feature-card, .step-card, .partner-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+
+        // Initialize scroll indicator opacity
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            if (scrollIndicator) {
+                scrollIndicator.style.opacity = '1';
+            }
+
+            // Add animation to cards on page load
+            const cards = document.querySelectorAll('.feature-card, .step-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        }
+
+        // Smooth scroll for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#' && href !== '#home') {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            window.scrollTo({
+                                top: target.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="./js/modules/network/network-access.js"></script>
+</body>
+</html>

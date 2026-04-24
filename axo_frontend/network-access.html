@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Network Access | AXO Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/network.css">
+</head>
+<body>
+
+<div class="full-page-bg">
+    <img src="images/network.jpg" alt="Background" class="bg-image">
+    <div class="bg-overlay"></div>
+</div>
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<header class="header" id="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">AXO Networks</a>
+            <div class="right-side">
+                <div class="nav">
+                    <a href="/industrial-os" class="nav-item">Industrial OS</a>
+                    <a href="/about" class="nav-item">About</a>
+                    <a href="/blog" class="nav-item">Insights</a>
+                    <a href="/careers" class="nav-item">Careers</a>
+                </div>
+                <a href="/login" class="connect-btn">LOGIN</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="mobile-sidebar" id="mobileSidebar">
+    <button class="close-sidebar" id="closeSidebar">
+        <i class="fas fa-times"></i>
+    </button>
+    <div class="mobile-nav">
+        <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
+        <a href="/about" class="mobile-nav-item">About</a>
+        <a href="/blog" class="mobile-nav-item">Insights</a>
+        <a href="/careers" class="mobile-nav-item">Careers</a>
+        <a href="/login" class="mobile-connect-btn">LOGIN</a>
+    </div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<main class="network-access-main">
+
+    <!-- STEP 0 - Email Entry -->
+    <div id="step0" class="step-container active">
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Join the AXO Network</h1>
+                    <p class="hero-subtitle">Enter your work email to get started.</p>
+                    <div class="email-form">
+                        <input type="email" id="emailInput" placeholder="Enter your work email" class="email-input">
+                        <button id="startBtn" class="start-btn">Continue <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div id="emailError" class="error-message"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- STEP 1 - Company Details -->
+    <div id="step1" class="step-container">
+        <section class="form-section">
+            <div class="container">
+                <div class="form-card">
+                    <h2>Confirm your company details</h2>
+                    <p>Please verify your company information</p>
+                    <div class="company-details">
+                        <label>Company Name</label>
+                        <input type="text" id="companyNameInput" placeholder="Enter company name">
+                        <label>City</label>
+                        <input type="text" id="companyCityInput" placeholder="Enter city">
+                        <label>Website</label>
+                        <input type="text" id="companyWebsiteInput" placeholder="Enter website">
+                        <label>Email</label>
+                        <input type="text" id="companyEmailInput" readonly placeholder="Email will auto-fill">
+                    </div>
+                    <div class="form-actions">
+                        <button id="editBtn" class="btn-secondary">← Back</button>
+                        <button id="confirmBtn" class="btn-primary">Continue →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- STEP 2 - Role Selection -->
+    <div id="step2" class="step-container">
+        <section class="form-section">
+            <div class="container">
+                <div class="form-card">
+                    <h2>Select your role</h2>
+                    <p>How do you want to participate in the AXO Network?</p>
+                    <div class="role-card" data-role="oem">
+                        <div>
+                            <span>OEM - Manufacturer</span>
+                            <small>I am a manufacturer looking for suppliers</small>
+                        </div>
+                    </div>
+                    <div class="role-card" data-role="supplier">
+                        <div>
+                            <span>Supplier - Component Provider</span>
+                            <small>I am a component or material supplier</small>
+                        </div>
+                    </div>
+                    <div class="role-card" data-role="both">
+                        <div>
+                            <span>Both - OEM & Supplier</span>
+                            <small>I am both an OEM and a supplier</small>
+                        </div>
+                    </div>
+                    <button id="roleContinueBtn" class="btn-primary continue-btn">Continue →</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- STEP 3 - Capabilities Selection -->
+    <div id="step3" class="step-container">
+        <section class="form-section">
+            <div class="container">
+                <div class="form-card">
+                    <h2>Select your capabilities</h2>
+                    <p>Tell us what you specialize in (select all that apply)</p>
+                    <div class="capabilities-grid">
+                        <div class="capability-card" data-capability="battery">
+                            <span>Battery & Energy Storage</span>
+                        </div>
+                        <div class="capability-card" data-capability="powertrain">
+                            <span>Powertrain & Drivetrain</span>
+                        </div>
+                        <div class="capability-card" data-capability="chassis">
+                            <span>Chassis & Suspension</span>
+                        </div>
+                        <div class="capability-card" data-capability="electronics">
+                            <span>Electronics & PCB</span>
+                        </div>
+                        <div class="capability-card" data-capability="raw-materials">
+                            <span>Raw Materials & Metals</span>
+                        </div>
+                        <div class="capability-card" data-capability="plastics">
+                            <span>Plastics & Polymers</span>
+                        </div>
+                        <div class="capability-card" data-capability="software">
+                            <span>Software & Firmware</span>
+                        </div>
+                    </div>
+                    <div class="custom-capability">
+                        <input type="text" id="customCapability" placeholder="Add custom capability...">
+                        <button id="addCapabilityBtn" class="add-btn">+ Add</button>
+                    </div>
+                    <div id="customCapabilitiesList" class="custom-tags"></div>
+                    <button id="submitBtn" class="btn-primary submit-btn">Submit Application</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- STEP 4 - Success -->
+    <div id="step4" class="step-container">
+        <section class="success-section">
+            <div class="container">
+                <div class="success-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Application Submitted!</h2>
+                    <p>Thank you for applying to join the AXO Network.<br>Our team will review your application and get back to you within 2-3 business days.</p>
+                    <button id="resetBtn" class="btn-primary">Start New Application</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- STEP 5 - Email Already Exists Error -->
+    <div id="step5" class="step-container">
+        <section class="error-section">
+            <div class="container">
+                <div class="error-card">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h2>Email Already Registered</h2>
+                    <p id="errorMessage">This email address is already registered in our system.<br>Please use a different email address or login to your existing account.</p>
+                    <button id="tryAgainBtn" class="btn-primary">Try Again with Different Email</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>AXO Networks</h3>
+                <p>AuroXOrigin Networks Private Limited</p>
+                <p class="copyright">© 2026</p>
+            </div>
+            <div class="footer-links-center">
+                <a href="/terms-of-service">Terms</a>
+                <a href="/privacy-policy">Privacy Policy</a>
+                <a href="/blog">Insights</a>
+                <a href="/contact">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    let currentStep = 0;
+    let formData = {
+        email: '',
+        companyName: '',
+        city: '',
+        website: '',
+        role: '',
+        capabilities: [],
+        customCapabilities: []
+    };
+
+    const API_BASE_URL = "";
+
+    // Mobile Menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileSidebar = document.getElementById('mobileSidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function openMobileMenu() {
+        mobileSidebar.classList.add('open');
+        sidebarOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        mobileSidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+    if (closeSidebar) closeSidebar.addEventListener('click', closeMobileMenu);
+    if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeMobileMenu);
+
+    function updateStepDisplay() {
+        for (let i = 0; i <= 5; i++) {
+            const step = document.getElementById(`step${i}`);
+            if (step) {
+                if (i === currentStep) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            }
+        }
+
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar && currentStep <= 4) {
+            const progress = (currentStep / 4) * 100;
+            progressBar.style.width = progress + '%';
+        } else if (progressBar && currentStep === 5) {
+            progressBar.style.width = '100%';
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Step 0: Email submission
+    document.getElementById('startBtn')?.addEventListener('click', async () => {
+        const email = document.getElementById('emailInput').value.trim();
+        const emailError = document.getElementById('emailError');
+
+        if (!email || !email.includes('@')) {
+            emailError.textContent = 'Please enter a valid email address';
+            return;
+        }
+
+        emailError.textContent = '';
+
+        const startBtn = document.getElementById('startBtn');
+        const originalText = startBtn.innerHTML;
+        startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+        startBtn.disabled = true;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/network/check-email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.exists) {
+                    const errorMsg = document.getElementById('errorMessage');
+                    errorMsg.innerHTML = data.message || 'This email address is already registered.';
+                    currentStep = 5;
+                    updateStepDisplay();
+                    return;
+                }
+            }
+
+            formData.email = email;
+            document.getElementById('companyEmailInput').value = email;
+            currentStep = 1;
+            updateStepDisplay();
+        } catch (error) {
+            emailError.textContent = 'Network error. Please try again.';
+        } finally {
+            startBtn.innerHTML = originalText;
+            startBtn.disabled = false;
+        }
+    });
+
+    document.getElementById('tryAgainBtn')?.addEventListener('click', () => {
+        document.getElementById('emailInput').value = '';
+        formData.email = '';
+        currentStep = 0;
+        updateStepDisplay();
+    });
+
+    document.getElementById('emailInput')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') document.getElementById('startBtn').click();
+    });
+
+    // Step 1
+    document.getElementById('editBtn')?.addEventListener('click', () => {
+        currentStep = 0;
+        updateStepDisplay();
+    });
+
+    document.getElementById('confirmBtn')?.addEventListener('click', () => {
+        formData.companyName = document.getElementById('companyNameInput').value.trim();
+        formData.city = document.getElementById('companyCityInput').value.trim();
+        formData.website = document.getElementById('companyWebsiteInput').value.trim();
+
+        if (!formData.companyName || !formData.city) {
+            alert('Please fill in company name and city');
+            return;
+        }
+
+        currentStep = 2;
+        updateStepDisplay();
+    });
+
+    // Step 2
+    const roleCards = document.querySelectorAll('.role-card');
+    roleCards.forEach(card => {
+        card.addEventListener('click', () => {
+            roleCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            formData.role = card.dataset.role;
+        });
+    });
+
+    document.getElementById('roleContinueBtn')?.addEventListener('click', () => {
+        if (!formData.role) {
+            alert('Please select a role');
+            return;
+        }
+        currentStep = 3;
+        updateStepDisplay();
+    });
+
+    // Step 3
+    const capabilityCards = document.querySelectorAll('.capability-card');
+    capabilityCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const cap = card.dataset.capability;
+            if (formData.capabilities.includes(cap)) {
+                formData.capabilities = formData.capabilities.filter(c => c !== cap);
+                card.classList.remove('selected');
+            } else {
+                formData.capabilities.push(cap);
+                card.classList.add('selected');
+            }
+        });
+    });
+
+    document.getElementById('addCapabilityBtn')?.addEventListener('click', () => {
+        const customValue = document.getElementById('customCapability').value.trim();
+        if (customValue && !formData.customCapabilities.includes(customValue)) {
+            formData.customCapabilities.push(customValue);
+            const tag = document.createElement('span');
+            tag.className = 'custom-tag';
+            tag.textContent = customValue;
+            tag.onclick = () => {
+                formData.customCapabilities = formData.customCapabilities.filter(c => c !== customValue);
+                tag.remove();
+            };
+            document.getElementById('customCapabilitiesList').appendChild(tag);
+            document.getElementById('customCapability').value = '';
+        }
+    });
+
+    document.getElementById('customCapability')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') document.getElementById('addCapabilityBtn').click();
+    });
+
+    document.getElementById('submitBtn')?.addEventListener('click', async () => {
+        formData.companyName = document.getElementById('companyNameInput').value.trim();
+        formData.city = document.getElementById('companyCityInput').value.trim();
+        formData.website = document.getElementById('companyWebsiteInput').value.trim();
+
+        if (!formData.email || !formData.companyName || !formData.city || !formData.role) {
+            alert('Missing required fields. Please go back and complete all sections.');
+            return;
+        }
+
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = 'Submitting...';
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/network/access/submit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                currentStep = 4;
+                updateStepDisplay();
+            } else {
+                alert('Submission failed. Please try again.');
+            }
+        } catch (error) {
+            alert('Network error. Please try again.');
+        } finally {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+
+    document.getElementById('resetBtn')?.addEventListener('click', () => {
+        window.location.reload();
+    });
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    updateStepDisplay();
+</script>
+</body>
+</html>

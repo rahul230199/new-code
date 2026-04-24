@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights Post | AXO Networks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="styles/blog-post.css" rel="stylesheet"/>
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Header - Same as Index -->
+    <header class="header" id="mainHeader">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">AXO Networks</a>
+                <div class="nav">
+                    <button class="nav-item" onclick="window.location.href='index.html#infrastructure'">Infrastructure</button>
+                    <button class="nav-item" onclick="window.location.href='index.html#about'">About</button>
+                    <button class="nav-item" onclick="window.location.href='blog.html'">Insights</button>
+                    <button class="nav-item" onclick="window.location.href='index.html#careers'">Careers</button>
+                </div>
+                <button class="connect-btn" onclick="window.location.href='login.html'">LOGIN</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Back Button Section -->
+    <section class="back-section">
+        <div class="content-container">
+            <a href="/blog" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Back to Insights
+            </a>
+        </div>
+    </section>
+
+    <!-- Article Header -->
+    <section class="article-header-section">
+        <div class="content-container">
+            <div class="article-header animate-reveal">
+                <span class="category-badge" id="articleCategory">Manufacturing</span>
+                <h1 id="articleTitle">The Future of EV Manufacturing in India</h1>
+
+                <div class="meta-info animate-reveal" style="transition-delay: 100ms">
+                    <div class="meta-item">
+                        <i class="far fa-calendar"></i>
+                        <span id="articleDate">March 14, 2026</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="far fa-user"></i>
+                        <span>AXO Networks</span>
+                    </div>
+                </div>
+
+                <p class="article-excerpt animate-reveal" style="transition-delay: 200ms" id="articleExcerpt">
+                    Exploring how structured workflows and transparent information are reshaping India's EV manufacturing landscape.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="article-content-section">
+        <div class="content-container">
+            <div class="blog-content article-content animate-reveal" style="transition-delay: 300ms" id="articleContent">
+                <!-- Content will be loaded dynamically by JavaScript -->
+            </div>
+
+            <div class="closing-statement animate-reveal" style="transition-delay: 400ms">
+                AXO Networks builds the operating layer for India's EV manufacturing ecosystem.
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Posts -->
+    <section class="related-posts">
+        <div class="wide-container">
+            <h2 class="animate-reveal">More Articles</h2>
+
+            <div class="grid-1-2">
+                <!-- Post 1 -->
+                <div class="animate-reveal" style="transition-delay: 100ms">
+                    <a href="blog-post.html?article=2" class="post-card" id="relatedPost1">
+                        <span class="post-category">Operations</span>
+                        <h3>Building Trust Through Transparency</h3>
+                        <p class="post-excerpt">How verified information and clear workflows reduce uncertainty across the EV supply chain.</p>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>March 24, 2026</span>
+                        </div>
+                        <div class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Post 2 -->
+                <div class="animate-reveal" style="transition-delay: 200ms">
+                    <a href="blog-post.html?article=3" class="post-card" id="relatedPost2">
+                        <span class="post-category">Scale</span>
+                        <h3>Scaling Manufacturing with Precision</h3>
+                        <p class="post-excerpt">Understanding the role of infrastructure in enabling sustainable growth for EV manufacturers.</p>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>March 19, 2026</span>
+                        </div>
+                        <div class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center animate-reveal" style="transition-delay: 300ms">
+                <a href="/blog" class="back-button">
+                    View All Articles
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - Same as Index -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>AXO Networks</h3>
+                    <p>AuroXOrigin Networks Private Limited</p>
+                    <p class="copyright">© 2026</p>
+                </div>
+                <div class="footer-links-center">
+                    <a href="/terms-of-service">Terms</a>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                    <a href="/blog">Insights</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Insights articles data
+        const articles = {
+            '1': {
+                title: 'The Future of EV Manufacturing in India',
+                category: 'Manufacturing',
+                date: 'March 14, 2026',
+                excerpt: 'Exploring how structured workflows and transparent information are reshaping India\'s EV manufacturing landscape.',
+                content: `India's EV manufacturing sector stands at a critical inflection point. The industry has grown exponentially over the past five years, with new players entering the market and established manufacturers pivoting their strategies. Yet despite this growth, the ecosystem remains fragmented, suppliers struggle to connect with OEMs, capital flows unpredictably, and information asymmetries create friction at every stage.
+
+This fragmentation isn't a problem of scale or ambition. India has the talent, the capital, and the manufacturing expertise. The problem is structural. Without clear workflows, verified information, and coordinated systems, even the most capable organizations operate in silos.
+
+The future of EV manufacturing in India depends on building infrastructure that connects these pieces. Not infrastructure in the traditional sense not factories or supply chains, though those matter. Rather, the operating layer that allows suppliers, OEMs, and capital to work as one coordinated system.
+
+Consider what happens when a supplier wants to connect with an OEM. Today, that process is manual, uncertain, and time-consuming. There's no standardized way to verify capabilities, no clear process for qualification, no transparent mechanism for ongoing collaboration. Each relationship is negotiated from scratch, with significant friction and information loss.
+
+Now imagine a system where capabilities are verified upfront, expectations are aligned before engagement, and every interaction is recorded and traceable. Where an OEM can discover suppliers with confidence, and a supplier can demonstrate their capabilities with precision. Where financial partners can assess risk based on real data, not assumptions.
+
+This is what structured manufacturing looks like. And it's not just about efficiency though that matters. It's about enabling better decisions, reducing uncertainty, and allowing the ecosystem to grow with integrity.
+
+The companies building this infrastructure will shape how India's EV manufacturing evolves. They'll determine whether the ecosystem remains fragmented or becomes coordinated. Whether growth is sustainable or chaotic. Whether trust is built on relationships or on verified information.
+
+The future of EV manufacturing in India isn't about building more factories. It's about building the systems that allow factories to work together. That's the real opportunity.`
+            },
+            '2': {
+                title: 'Building Trust Through Transparency',
+                category: 'Operations',
+                date: 'March 24, 2026',
+                excerpt: 'How verified information and clear workflows reduce uncertainty across the EV supply chain.',
+                content: `Trust is the foundation of every successful supply chain. Yet in India's EV manufacturing ecosystem, trust is often built on relationships rather than information. A supplier gets work because someone knows someone. An OEM chooses a partner based on reputation rather than verified data. Capital flows based on personal connections rather than transparent metrics.
+
+This approach has worked at small scales. But as the ecosystem grows, relationship-based trust becomes a bottleneck. It doesn't scale. It creates barriers to entry for new players. It perpetuates information asymmetries that benefit incumbents and disadvantage innovators.
+
+The solution isn't to eliminate relationships. Relationships matter. But they should be built on top of verified information, not instead of it.
+
+Consider what happens in a transparent system. A supplier documents their capabilities equipment, certifications, production capacity, quality metrics. This information is verified and made available to potential partners. An OEM can assess the supplier's fit based on real data. The supplier can demonstrate their value without relying on personal connections.
+
+This transparency serves multiple purposes. It reduces the time and cost of supplier qualification. It enables better decision-making by both parties. It creates accountability if a supplier commits to certain metrics, those commitments are recorded and traceable. And it builds trust faster than any relationship ever could.
+
+But transparency requires structure. You can't just ask organizations to share information and expect them to do it consistently. You need clear standards for what information matters. You need processes for verification. You need systems that make it easy to document and share data.
+
+This is where infrastructure becomes critical. The right systems make transparency effortless. Organizations don't have to choose between transparency and efficiency the system enables both.
+
+In India's EV manufacturing ecosystem, this kind of transparency is still rare. Most interactions remain opaque. Information flows unpredictably. Decisions are made based on incomplete data.
+
+But the companies that build transparent systems will have a significant advantage. They'll attract better partners because the process is clear. They'll make better decisions because the information is verified. They'll grow faster because the friction is lower.
+
+Trust through transparency isn't just a nice-to-have. It's becoming a competitive necessity. The organizations that embrace it will shape the future of the ecosystem.`
+            },
+            '3': {
+                title: 'Scaling Manufacturing with Precision',
+                category: 'Scale',
+                date: 'March 19, 2026',
+                excerpt: 'Understanding the role of infrastructure in enabling sustainable growth for EV manufacturers.',
+                content: `Scaling is hard. Every manufacturing company knows this. As you grow, complexity increases exponentially. What worked at 100 units per month breaks at 1,000. What worked at 1,000 breaks at 10,000. The processes that got you here won't get you there.
+
+Most companies respond to this challenge by adding people. More managers, more coordinators, more oversight. But adding people doesn't solve the fundamental problem it just delays it. Eventually, you hit a wall where no amount of hiring can keep up with the complexity.
+
+The companies that scale successfully do something different. They invest in infrastructure. They build systems that allow them to handle more complexity without proportionally increasing headcount. They create processes that are clear, repeatable, and scalable.
+
+In manufacturing, this infrastructure takes many forms. It includes production planning systems, quality control processes, supply chain coordination, and financial management. But increasingly, it also includes the systems that connect different organizations the infrastructure that allows suppliers, OEMs, and capital to work together.
+
+Consider a typical scaling challenge: as an OEM grows, they need more suppliers. But finding, qualifying, and managing suppliers becomes increasingly complex. Each new supplier requires its own onboarding process. Each relationship requires its own communication channels. Each interaction requires manual coordination.
+
+Without infrastructure, this becomes a bottleneck. The OEM can't scale faster than their ability to manage supplier relationships. They either grow slowly or they sacrifice quality and reliability.
+
+But with the right infrastructure, the problem becomes manageable. Suppliers can self-serve through a standardized onboarding process. Capabilities are verified automatically. Communication happens through clear channels. Metrics are tracked and reported systematically.
+
+This isn't just about efficiency. It's about enabling sustainable growth. When you have infrastructure, you can grow without losing control. You can add suppliers without adding proportional complexity. You can scale while maintaining quality and reliability.
+
+The same principle applies to the broader ecosystem. India's EV manufacturing sector is growing rapidly. But without the right infrastructure, that growth will eventually hit a wall. Suppliers will struggle to connect with OEMs. Capital will struggle to assess risk. Coordination will become increasingly difficult.
+
+The companies that build this infrastructure will enable the ecosystem to scale. They'll remove the bottlenecks that constrain growth. They'll allow the sector to realize its full potential.
+
+Scaling with precision isn't about moving faster. It's about building the systems that allow you to move faster without losing control. That's the real competitive advantage.`
+            }
+        };
+
+        const yearElement = document.getElementById("currentYear");
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('mainHeader');
+            const scrollProgress = document.getElementById('scrollProgress');
+            let lastScrollTop = 0;
+
+            // Load article content
+            function loadArticle() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const articleId = urlParams.get('article') || '1';
+                const article = articles[articleId] || articles['1'];
+
+                document.title = `${article.title} | AXO Networks Insights`;
+                document.getElementById('articleCategory').textContent = article.category;
+                document.getElementById('articleTitle').textContent = article.title;
+                document.getElementById('articleDate').textContent = article.date;
+                document.getElementById('articleExcerpt').textContent = article.excerpt;
+
+                const contentContainer = document.getElementById('articleContent');
+                contentContainer.innerHTML = article.content.split('\n\n').map(paragraph =>
+                    `<p class="animate-reveal">${paragraph}</p>`
+                ).join('');
+
+                // Re-run observer for newly created paragraphs
+                document.querySelectorAll('#articleContent .animate-reveal').forEach(el => observer.observe(el));
+            }
+
+            // Scroll handler with header hide/show
+            window.addEventListener('scroll', () => {
+                const winScroll = window.pageYOffset || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+
+                if (scrollProgress) scrollProgress.style.width = scrolled + "%";
+
+                if (winScroll > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+
+                // Hide header on scroll down, show on scroll up
+                if (winScroll > lastScrollTop && winScroll > 200) {
+                    header.classList.add('hidden');
+                } else {
+                    header.classList.remove('hidden');
+                }
+                lastScrollTop = winScroll;
+            });
+
+            // Animation observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-reveal').forEach(el => observer.observe(el));
+
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+
+            // Initialize
+            loadArticle();
+        });
+    </script>
+</body>
+</html>

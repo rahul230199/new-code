@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materials | AXO Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+
+    <!-- Full Page Background Image -->
+    <div class="full-page-bg">
+        <img src="images/ev.jpg" alt="Background" class="bg-image">
+        <div class="bg-overlay"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">AXO Networks</a>
+                <div class="nav">
+                    <div class="dropdown">
+                        <button class="dropdown-btn nav-item">The System <i class="fas fa-chevron-down"></i></button>
+                        <div class="dropdown-content">
+                            <a href="/industrial-os">Industrial OS</a>
+                            <a href="/materials">Materials</a>
+                            <a href="/logistics">Logistics</a>
+                            <a href="/execution">Execution</a>
+                        </div>
+                    </div>
+                    <button class="nav-item" onclick="window.location.href='about.html'">About</button>
+                    <button class="nav-item" onclick="window.location.href='blog.html'">Insights</button>
+                    <button class="nav-item" onclick="window.location.href='careers.html'">Careers</button>
+                </div>
+                <button class="connect-btn" onclick="window.location.href='login.html'">LOGIN</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Materials</h1>
+                <p class="hero-subtitle">Coming soon. The operating layer for EV manufacturing.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="legal-content-section">
+        <div class="container">
+            <div class="legal-container-single">
+                <div class="legal-single-card">
+                    <div class="legal-section">
+                        <h2>Materials</h2>
+                        <p>This page is under construction. We're building the infrastructure for India's EV manufacturing ecosystem.</p>
+                        <p style="margin-top: 20px;">Check back soon for updates on materials capabilities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>AXO Networks</h3>
+                    <p>AuroXOrigin Networks Private Limited</p>
+                    <p class="copyright">© 2026</p>
+                </div>
+                <div class="footer-links-center">
+                    <a href="/terms-of-service">Terms</a>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                    <a href="/blog">Insights</a>
+                    <a href="/contact">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header hide/show on scroll
+        let lastScrollTop = 0;
+        const header = document.getElementById('header');
+        
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+            
+            if (scrollTop > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+</html>

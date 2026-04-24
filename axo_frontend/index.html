@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>AXO Networks - EV Ecosystem Operating Layer</title>
+    <meta name="description" content="AXO Networks brings suppliers, production, and capital into one system so nothing slows you down.">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+
+<div class="atmospheric-bg">
+    <img src="https://static.wixstatic.com/media/3d4c2a_6a3285779af54e5eb504103e8f87828e~mv2.png" alt="Atmospheric Texture" loading="eager" fetchpriority="high">
+</div>
+
+<header class="header" id="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">AXO Networks</a>
+            <div class="right-side">
+                <div class="nav">
+                    <a href="/industrial-os" class="nav-item">Industrial OS</a>
+                    <a href="/about" class="nav-item">About</a>
+                    <a href="/blog" class="nav-item">Insights</a>
+                    <a href="/careers" class="nav-item">Careers</a>
+                </div>
+                <a href="/login" class="connect-btn">LOGIN</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="mobile-sidebar" id="mobileSidebar">
+    <button class="close-sidebar" id="closeSidebar">
+        <i class="fas fa-times"></i>
+    </button>
+    <div class="mobile-nav">
+        <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
+        <a href="/about" class="mobile-nav-item">About</a>
+        <a href="/blog" class="mobile-nav-item">Insights</a>
+        <a href="/careers" class="mobile-nav-item">Careers</a>
+        <a href="/login" class="mobile-connect-btn">LOGIN</a>
+    </div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<section class="hero">
+    <div class="soul-visual">
+        <div class="glowing-core">
+            <div class="core-glow"></div>
+            <div class="abstract-hexagon">
+                <img src="https://static.wixstatic.com/media/3d4c2a_a9523b2181a442d3bfd1712b4648bfd4~mv2.png" alt="Abstract EV Core" loading="eager" fetchpriority="high">
+            </div>
+            <div class="ring-outer"></div>
+            <div class="ring-inner"></div>
+        </div>
+    </div>
+    <div class="hero-content">
+        <h1 class="hero-title">
+            Build EV Supply Chains.<br />
+            <span class="hero-gradient">Faster.</span>
+        </h1>
+        <p class="hero-description">
+            AXO Networks brings suppliers, production, and capital into one system<br />
+            so nothing slows you down.
+        </p>
+        <button class="hero-button" onclick="window.location.href='/network-access'">
+            Join the Network →
+        </button>
+    </div>
+</section>
+
+<section class="section-two">
+    <video autoplay muted loop playsinline webkit-playsinline playsinline class="video-background" poster="images/poster.jpg" preload="auto">
+        <source src="videos/home.mp4" type="video/mp4">
+    </video>
+    <div class="section-two-overlay"></div>
+    <div class="section-two-content">
+        <div class="container">
+            <div class="split-layout">
+                <div class="section-two-left">
+                    <h2>The operating system for EV manufacturing.</h2>
+                    <p>From first design to full production AXO Networks connects every part, every partner, and every decision in one place.</p>
+                </div>
+                <div class="section-two-right"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="infrastructure" class="features-section">
+    <img class="features-bg-image" src="images/ev1.jpg" alt="EV Factory" loading="lazy" decoding="async">
+    <div class="features-overlay"></div>
+    <div class="features-content">
+        <div class="container">
+            <div class="features-header">
+                <h2>Everything you need to build.</h2>
+                <p>In one system.</p>
+            </div>
+            <div class="features-grid">
+                <div class="glass-card-feature">
+                    <h3>Network Access</h3>
+                    <p>Find and connect with verified suppliers instantly.</p>
+                </div>
+                <div class="glass-card-feature">
+                    <h3>Production Control</h3>
+                    <p>Track every part and milestone in real time.</p>
+                </div>
+                <div class="glass-card-feature">
+                    <h3>Capital Deployment</h3>
+                    <p>Access funding as production progresses.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="manifesto-section">
+    <video autoplay muted loop playsinline webkit-playsinline playsinline class="manifesto-video-background" poster="images/poster2.jpg" preload="auto">
+        <source src="videos/ev.mp4" type="video/mp4">
+    </video>
+    <div class="manifesto-overlay"></div>
+    <div class="manifesto-content">
+        <div class="container">
+            <p class="manifesto-quote">
+                Manufacturing doesn't need more tools.<br />
+                It needs <span class="manifesto-highlight">one system that works.</span><br />
+                AXO Networks brings everything into one place so production actually moves.
+            </p>
+            <div class="manifesto-line"></div>
+        </div>
+    </div>
+</section>
+
+<section id="cards" class="cards-section">
+    <img class="cards-bg-image" src="images/blog.jpg" alt="EV Assembly Line" loading="lazy" decoding="async">
+    <div class="cards-overlay"></div>
+    <div class="cards-content">
+        <div class="container">
+            <div class="cards-header">
+                <h2>One system. Three perspectives.</h2>
+                <p>Built for every stakeholder in the EV ecosystem.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="glass-card">
+                    <div class="card-badge">THE OEM</div>
+                    <h3>Take control of your supply chain.</h3>
+                    <p>See every part, every supplier, and every stage - live.</p>
+                    <ul>
+                        <li>Real-time visibility across tiers</li>
+                        <li>End-to-end production tracking</li>
+                        <li>Faster production cycles</li>
+                    </ul>
+                </div>
+                <div class="glass-card">
+                    <div class="card-badge">THE SUPPLIER</div>
+                    <h3>Turn performance into opportunity.</h3>
+                    <p>Show your capacity. Prove your quality. Get discovered.</p>
+                    <ul>
+                        <li>Showcase manufacturing capabilities</li>
+                        <li>Quality certification verification</li>
+                        <li>Direct OEM connections</li>
+                    </ul>
+                </div>
+                <div class="glass-card">
+                    <div class="card-badge">THE FINANCIAL PARTNER</div>
+                    <h3>Finance with real visibility.</h3>
+                    <p>Track production as it happens. Deploy capital with confidence.</p>
+                    <ul>
+                        <li>Production-linked funding</li>
+                        <li>Real-time progress tracking</li>
+                        <li>Risk reduction through transparency</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="insights" class="insights-section">
+    <img class="insights-bg-image" src="images/blog1.jpg" alt="Insights Background" loading="lazy" decoding="async">
+    <div class="insights-overlay"></div>
+    <div class="insights-content">
+        <div class="container">
+            <div class="insights-header">
+                <h2>Insights from the Network</h2>
+                <p>Thoughtful perspectives on EV manufacturing, execution, policy, and scale.</p>
+            </div>
+            <div class="blog-slider">
+                <div class="blog-track">
+                    <div class="blog-card featured">
+                        <div class="blog-card-content">
+                            <span class="blog-category">Featured</span>
+                            <h3>The Future of EV Manufacturing in India</h3>
+                            <p class="blog-excerpt">Exploring how structured workflows and transparent information are reshaping India's EV manufacturing landscape.</p>
+                            <div class="blog-meta">
+                                <span><i class="fas fa-calendar"></i> March 14, 2026</span>
+                            </div>
+                            <a href="blog-post.html?article=1" class="blog-read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-card-content">
+                            <span class="blog-category">Operations</span>
+                            <h3>Building Trust Through Transparency</h3>
+                            <p class="blog-excerpt">How verified information and clear workflows reduce uncertainty across the EV supply chain.</p>
+                            <div class="blog-meta">
+                                <span><i class="fas fa-calendar"></i> March 24, 2026</span>
+                            </div>
+                            <a href="blog-post.html?article=2" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-card-content">
+                            <span class="blog-category">Scale</span>
+                            <h3>Scaling Manufacturing with Precision</h3>
+                            <p class="blog-excerpt">Understanding the role of infrastructure in enabling sustainable growth for EV manufacturers.</p>
+                            <div class="blog-meta">
+                                <span><i class="fas fa-calendar"></i> March 19, 2026</span>
+                            </div>
+                            <a href="blog-post.html?article=3" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="more-insights-btn">
+                <button class="more-btn" onclick="window.location.href='/blog'">More Insights <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>AXO Networks</h3>
+                <p>AuroXOrigin Networks Private Limited</p>
+                <p class="copyright">© 2026</p>
+            </div>
+            <div class="footer-links-center">
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/blog">Insights</a>
+                <a href="/contact">Contact Us</a>
+		<a href="https://www.linkedin.com/company/axo-networks/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Mobile-optimized JavaScript with video autoplay fix
+(function() {
+    // Mobile menu functionality
+    const header = document.getElementById('header');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileSidebar = document.getElementById('mobileSidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function openMobileMenu() {
+        mobileSidebar.classList.add('open');
+        sidebarOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        mobileSidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        mobileMenuBtn.addEventListener('touchstart', openMobileMenu, { passive: true });
+    }
+    if (closeSidebar) {
+        closeSidebar.addEventListener('click', closeMobileMenu);
+    }
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeMobileMenu);
+    }
+
+    document.querySelectorAll('.mobile-nav-item, .mobile-connect-btn').forEach(item => {
+        item.addEventListener('click', closeMobileMenu);
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileSidebar && mobileSidebar.classList.contains('open')) {
+            closeMobileMenu();
+        }
+    });
+
+    // Throttled scroll handler
+    let lastScrollTop = 0;
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    header.style.transform = 'translateY(-100%)';
+                } else {
+                    header.style.transform = 'translateY(0)';
+                }
+                if (scrollTop > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                lastScrollTop = scrollTop;
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+
+    // Force videos to play on mobile
+    const videos = document.querySelectorAll('video');
+    
+    // Function to play videos
+    function playVideos() {
+        videos.forEach(video => {
+            video.play().catch(e => {
+                console.log('Video play failed, retrying:', e);
+                // Retry after user interaction
+                document.addEventListener('touchstart', function playOnTouch() {
+                    video.play().catch(() => {});
+                    document.removeEventListener('touchstart', playOnTouch);
+                });
+            });
+        });
+    }
+    
+    // Try to play videos immediately
+    playVideos();
+    
+    // Also try when page loads completely
+    window.addEventListener('load', playVideos);
+    
+    // For iOS, need user interaction - play when user taps anywhere
+    document.addEventListener('touchstart', function() {
+        videos.forEach(video => {
+            if (video.paused) {
+                video.play().catch(() => {});
+            }
+        });
+    }, { once: true });
+    
+    // Lazy load images
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                    }
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+        
+        document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+            imageObserver.observe(img);
+        });
+    }
+})();
+</script>
+</body>
+</html>
