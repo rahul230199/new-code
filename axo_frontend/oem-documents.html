@@ -1,92 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documents | AXO Networks</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/oem-dashboard.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documents | AXO Networks</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="./css/oem-dashboard.css" />
+  <link rel="stylesheet" href="./css/shared.css" />
 </head>
 <body>
-    <div class="oem-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header"><h2>AXO Networks</h2><p>OEM Portal</p></div>
-            <nav class="sidebar-nav">
-                <a href="/oem-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
-                <a href="/oem-rfq.html" class="nav-item"><i class="fas fa-file-alt"></i><span>RFQ Management</span></a>
-                <a href="/oem-orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
-                <a href="/oem-suppliers.html" class="nav-item"><i class="fas fa-truck"></i><span>Suppliers</span></a>
-                <a href="/oem-documents.html" class="nav-item active"><i class="fas fa-folder-open"></i><span>Documents</span></a>
-                <a href="/oem-profile.html" class="nav-item"><i class="fas fa-building"></i><span>Profile</span></a>
-            </nav>
-            <div class="sidebar-footer"><button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button></div>
-        </aside>
 
-        <main class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-                <div class="top-bar-right">
-                    <div class="notification-bell"><i class="far fa-bell"></i><span class="notification-badge">0</span></div>
-                    <div class="user-info"><span id="companyName">Loading...</span><div class="avatar"><i class="fas fa-industry"></i></div></div>
-                </div>
-            </div>
+<div class="oem-container">
 
-            <div class="page-header">
-                <div><h1>Document Library</h1><p>Manage your design files and specifications</p></div>
-                <button class="btn-primary" id="uploadDocBtn"><i class="fas fa-upload"></i> Upload Document</button>
-            </div>
-
-            <div class="filters-bar">
-                <select id="categoryFilter" class="filter-select">
-                    <option value="all">All Documents</option>
-                    <option value="Design Files">Design Files</option>
-                    <option value="Technical Specs">Technical Specs</option>
-                    <option value="CAD Models">CAD Models</option>
-                    <option value="RFQ">RFQ Documents</option>
-                </select>
-                <input type="text" id="searchInput" placeholder="Search documents..." class="search-input">
-                <button id="refreshBtn" class="btn-outline"><i class="fas fa-sync-alt"></i> Refresh</button>
-            </div>
-
-            <div id="documentsGrid" class="documents-grid"><div class="loading">Loading documents...</div></div>
-        </main>
+  <!-- ═══════════════════════════════════════
+       SIDEBAR
+       ═══════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>AXO Networks</h2>
+      <p>OEM Portal</p>
     </div>
+    <nav class="sidebar-nav" aria-label="OEM navigation">
+      <a href="/oem-dashboard.html"  class="nav-item"><i class="fas fa-chart-line"    aria-hidden="true"></i><span>Dashboard</span></a>
+      <a href="/oem-rfq.html"        class="nav-item"><i class="fas fa-file-alt"      aria-hidden="true"></i><span>RFQ Management</span></a>
+      <a href="/oem-orders.html"     class="nav-item"><i class="fas fa-shopping-cart" aria-hidden="true"></i><span>Orders</span></a>
+      <a href="/oem-suppliers.html"  class="nav-item"><i class="fas fa-truck"          aria-hidden="true"></i><span>Suppliers</span></a>
+      <a href="/oem-documents.html"  class="nav-item active"><i class="fas fa-folder-open"   aria-hidden="true"></i><span>Documents</span></a>
+      <a href="/oem-profile.html"    class="nav-item"><i class="fas fa-building"      aria-hidden="true"></i><span>Profile</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="logout-btn" id="logoutBtn" type="button">
+        <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
+      </button>
+    </div>
+  </aside>
 
-    <!-- Upload Document Modal -->
-    <div id="uploadModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header"><h3><i class="fas fa-cloud-upload-alt"></i> Upload Document</h3><button class="close-modal">&times;</button></div>
-            <div class="modal-body">
-                <form id="uploadForm" enctype="multipart/form-data">
-                    <div class="upload-area" id="docUploadArea">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <p>Drag & drop file here or click to upload</p>
-                        <small>Supported: PDF, DWG, STEP, JPG, PNG, DOC (Max 10MB)</small>
-                        <input type="file" id="docFileInput" accept=".pdf,.dwg,.step,.stp,.jpg,.png,.jpeg,.doc,.docx" style="display:none">
-                        <button type="button" class="btn-upload" id="docBrowseBtn"><i class="fas fa-folder-open"></i> Browse Files</button>
-                    </div>
-                    <div id="selectedDocFile" class="selected-file" style="display:none;"></div>
-                    <div class="form-group"><label>Category</label>
-                        <select id="docCategory" class="form-control">
-                            <option value="Design Files">Design Files</option>
-                            <option value="Technical Specs">Technical Specs</option>
-                            <option value="CAD Models">CAD Models</option>
-                            <option value="RFQ">RFQ Documents</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>Description (Optional)</label><textarea id="docDescription" rows="3" class="form-control" placeholder="Enter document description..."></textarea></div>
-                    <div class="form-actions"><button type="button" class="btn-secondary close-modal">Cancel</button><button type="submit" class="btn-primary">Upload</button></div>
-                </form>
-            </div>
+  <!-- ═══════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle sidebar">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+      <div class="top-bar-right">
+        <div class="notification-bell" aria-label="Notifications">
+          <i class="far fa-bell" aria-hidden="true"></i>
+          <span class="notification-badge">0</span>
         </div>
+        <div class="user-info">
+          <!-- id="companyName" — setText() in init() -->
+          <span id="companyName">Loading…</span>
+          <div class="avatar" aria-hidden="true"><i class="fas fa-industry"></i></div>
+        </div>
+      </div>
     </div>
 
-    <!-- Document Details Modal -->
-    <div id="docDetailsModal" class="modal">
-        <div class="modal-content"><div class="modal-header"><h3><i class="fas fa-file-alt"></i> Document Details</h3><button class="close-modal">&times;</button></div><div class="modal-body" id="docDetails"></div></div>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div>
+        <h1>Document Library</h1>
+        <p>Manage your design files and specifications</p>
+      </div>
+      <div class="page-header__actions">
+        <!--
+          id="uploadDocBtn" — bindEvents() → openUploadModal()
+          id="refreshBtn"   — bindEvents() → loadDocuments()
+        -->
+        <button class="btn btn--outline" id="refreshBtn" type="button">
+          <i class="fas fa-sync-alt" aria-hidden="true"></i> Refresh
+        </button>
+        <button class="btn btn--primary" id="uploadDocBtn" type="button">
+          <i class="fas fa-upload" aria-hidden="true"></i> Upload Document
+        </button>
+      </div>
     </div>
 
-    <script src="/js/oem-documents.js"></script>
+    <!-- Document Count
+         id="docCount" — setText("docCount", "3 documents") in renderDocuments()
+         No filter bar: documents.js has no client-side filter logic.
+         Category / search filtering would require adding applyFilters()
+         to documents.js first, then the filter bar here. -->
+    <div class="doc-toolbar">
+      <span id="docCount" class="result-count" aria-live="polite"></span>
+    </div>
+
+    <!--
+      id="documentsGrid"
+      renderDocuments() injects .doc-card items.
+      loadDocuments() injects .skeleton-card placeholders.
+    -->
+    <div id="documentsGrid" class="documents-grid" aria-live="polite">
+      <!-- skeleton shown by loadDocuments() on first load -->
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     MODAL: UPLOAD DOCUMENT
+     All field IDs are read by handleUploadSubmit() and bindEvents():
+       uploadForm       — form submit listener
+       docUploadArea    — drag-drop + click to browse
+       docFileInput     — hidden file input
+       docBrowseBtn     — triggers docFileInput.click()
+       selectedDocFile  — _updateFilePreview() renders file name + size
+       docCategory      — FormData.append("category", ...)
+       docDescription   — FormData.append("description", ...)
+       uploadSubmitBtn  — disabled during upload, REQUIRED by JS
+
+     Close: .js-close-modal class → querySelectorAll(".js-close-modal")
+            backdrop click on #uploadModal
+            Escape key
+     ═══════════════════════════════════════════════════════ -->
+<div id="uploadModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="uploadModalTitle" style="display:none">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h3 id="uploadModalTitle">
+        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Upload Document
+      </h3>
+      <button class="js-close-modal" type="button" aria-label="Close modal">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form id="uploadForm">
+
+        <!--
+          id="docUploadArea"
+          bindDragDrop(): dragover → add .drag-over, dragleave/drop → remove
+          click → el("docFileInput").click()
+        -->
+        <div class="upload-area" id="docUploadArea" role="button" tabindex="0" aria-label="Click or drag to upload file">
+          <i class="fas fa-cloud-upload-alt upload-area__icon" aria-hidden="true"></i>
+          <p class="upload-area__text">Drag &amp; drop file here or click to upload</p>
+          <small class="upload-area__hint">PDF, DWG, STEP, JPG, PNG, DOC &mdash; Max 10 MB</small>
+
+          <!--
+            id="docFileInput" — hidden, triggered by area click and browse button
+            change event → _handleFileSelect(file)
+          -->
+          <input
+            type="file"
+            id="docFileInput"
+            accept=".pdf,.dwg,.step,.stp,.iges,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.zip"
+            style="display:none"
+            aria-hidden="true"
+          />
+
+          <!--
+            id="docBrowseBtn"
+            click → e.stopPropagation(); el("docFileInput").click()
+          -->
+          <button type="button" class="btn btn--outline btn--sm" id="docBrowseBtn">
+            <i class="fas fa-folder-open" aria-hidden="true"></i> Browse Files
+          </button>
+        </div>
+
+        <!--
+          id="selectedDocFile"
+          _updateFilePreview(): style.display flex/none, innerHTML with file info
+          js-clear-file button inside clears State.selectedFile
+        -->
+        <div id="selectedDocFile" class="selected-file-row" style="display:none"></div>
+
+        <!-- Category -->
+        <div class="form-group">
+          <label for="docCategory">Category</label>
+          <!--
+            id="docCategory"
+            handleUploadSubmit(): formData.append("category", el("docCategory").value)
+          -->
+          <select id="docCategory" class="form-control">
+            <option value="RFQ Documents">RFQ Documents</option>
+            <option value="Design Files">Design Files</option>
+            <option value="Technical Specs">Technical Specs</option>
+            <option value="CAD Models">CAD Models</option>
+          </select>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="docDescription">Description <span class="form-hint">(optional)</span></label>
+          <!--
+            id="docDescription"
+            handleUploadSubmit(): formData.append("description", el("docDescription").value)
+          -->
+          <textarea
+            id="docDescription"
+            class="form-control"
+            rows="3"
+            placeholder="Enter document description…"
+          ></textarea>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn--outline js-close-modal">Cancel</button>
+          <!--
+            id="uploadSubmitBtn" — REQUIRED by handleUploadSubmit():
+              submitBtn.disabled = true;
+              submitBtn.textContent = "Uploading…";
+            Without this id the button stays enabled during the API call.
+          -->
+          <button type="submit" class="btn btn--primary" id="uploadSubmitBtn">
+            <i class="fas fa-upload" aria-hidden="true"></i> Upload
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     MODAL: DOCUMENT DETAILS
+     id="docDetailsModal" — showEl/hideEl in openViewModal() / close handlers
+     id="docDetails"      — setHTML() injects:
+       .doc-preview__icon, dl.doc-preview__info,
+       .doc-preview__actions (js-download-active, js-delete-active buttons)
+     ═══════════════════════════════════════════════════════ -->
+<div id="docDetailsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="docDetailsModalTitle" style="display:none">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h3 id="docDetailsModalTitle">
+        <i class="fas fa-file-alt" aria-hidden="true"></i> Document Details
+      </h3>
+      <button class="js-close-modal" type="button" aria-label="Close modal">&times;</button>
+    </div>
+
+    <!--
+      id="docDetails"
+      openViewModal() calls setHTML("docDetails", ...) with:
+        doc-preview__icon, doc-preview__info dl, doc-preview__actions
+      el("docDetails") has a click listener for js-download-active / js-delete-active
+    -->
+    <div class="modal-body" id="docDetails" aria-live="polite"></div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     MODULE SCRIPT
+     ═══════════════════════════════════════════════════════ -->
+<script type="module" src="./js/pages/oem/documents.js"></script>
+
 </body>
 </html>

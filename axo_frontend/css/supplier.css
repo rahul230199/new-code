@@ -1,0 +1,219 @@
+/* =============================================================
+   AXO NETWORKS — SUPPLIER CSS
+   css/supplier.css
+
+   Supplier-specific component styles.
+   Loaded AFTER supplier-dashboard.css + shared.css on every
+   supplier page.
+
+   shared.css already provides:
+     badge, button, skeleton, table utilities, progress bar,
+     chat messages, milestone tracker, rfq-card BEM,
+     confirm dialog, toast, link utilities
+
+   This file adds only what is unique to supplier pages:
+     1.  RFQ list toolbar
+     2.  RFQ card BEM (supplier variant — no View Quotes button)
+     3.  Quote status tabs + filter bar
+     4.  Quote notes row (inside table)
+     5.  Supplier stat cards (dashboard)
+     6.  Supplier order table
+   ============================================================= */
+
+
+/* ─────────────────────────────────────────────
+   1. RFQ TOOLBAR (count + optional filters)
+   ───────────────────────────────────────────── */
+.rfq-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+  min-height: 28px;
+}
+
+
+/* ─────────────────────────────────────────────
+   2. RFQ CARD — supplier variant
+   JS renders: .rfq-card.js-rfq-card
+   Shared structure with OEM rfq-card but supplier
+   cards are clickable to open quote modal.
+   ───────────────────────────────────────────── */
+.rfq-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.rfq-card {
+  background: var(--bg-white, #fff);
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rfq-card:hover,
+.rfq-card:focus-within {
+  border-color: var(--primary, #6366f1);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
+}
+
+.rfq-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rfq-card__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #1e293b);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.rfq-card__number {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-tertiary, #94a3b8);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.rfq-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-secondary, #64748b);
+}
+
+.rfq-card__meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rfq-card__description {
+  font-size: 13px;
+  color: var(--text-secondary, #64748b);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rfq-card__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+/* OEM rfq-card also has quote-count + View Quotes btn */
+.rfq-card__quote-count {
+  font-size: 13px;
+  color: var(--text-tertiary, #94a3b8);
+  font-weight: 500;
+}
+
+
+/* ─────────────────────────────────────────────
+   3. QUOTE STATUS FILTER TABS
+   Used by supplier/quotes.html
+   Tabs: All | Pending | Accepted | Rejected
+   ───────────────────────────────────────────── */
+.quote-filter-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.quote-filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+  background: var(--bg-white, #fff);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quote-filter-tab:hover {
+  border-color: var(--primary, #6366f1);
+  color: var(--primary, #6366f1);
+}
+
+.quote-filter-tab.active {
+  background: var(--primary, #6366f1);
+  border-color: var(--primary, #6366f1);
+  color: white;
+}
+
+.quote-filter-tab__count {
+  background: rgba(255,255,255,0.25);
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.quote-filter-tab.active .quote-filter-tab__count {
+  background: rgba(255,255,255,0.3);
+}
+
+
+/* ─────────────────────────────────────────────
+   4. QUOTE NOTES ROW (table)
+   Used by supplier/quotes.js — notes rendered as
+   a second <tr> below the quote row when present
+   ───────────────────────────────────────────── */
+.quote-notes-row td {
+  padding: 4px 12px 12px;
+  background: var(--bg-light, #f8fafc);
+}
+
+.quote-notes-cell {
+  font-size: 12px;
+  color: var(--text-secondary, #64748b);
+  font-style: italic;
+}
+
+.quote-notes-label {
+  font-weight: 600;
+  font-style: normal;
+  margin-right: 4px;
+  color: var(--text-tertiary, #94a3b8);
+}
+
+
+/* ─────────────────────────────────────────────
+   5. SUPPLIER DASHBOARD STAT CARDS
+   Dashboard uses stat-card classes — these should
+   already be in supplier-dashboard.css; adding here
+   as a safety net for any missing variants.
+   ───────────────────────────────────────────── */
+.stat-card--success .stat-icon { background: var(--success-soft, #d1fae5); color: var(--success, #10b981); }
+.stat-card--info    .stat-icon { background: var(--info-soft,    #eff6ff); color: #3b82f6; }
+
+
+/* ─────────────────────────────────────────────
+   6. FORM REQUIRED INDICATOR
+   <span class="form-required">*</span>
+   ───────────────────────────────────────────── */
+.form-required {
+  color: var(--danger, #ef4444);
+  font-weight: 700;
+  margin-left: 2px;
+}

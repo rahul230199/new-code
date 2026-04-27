@@ -3,7 +3,7 @@
 ========================================================= */
 
 import { StorageManager as Storage } from "../core/storage.js";
-import { AuthManager as Auth } from "../core/authManager.js";
+import { AuthManager as Auth } from "../core/auth.js";
 
 /* =========================================================
    INTERNAL HELPERS
