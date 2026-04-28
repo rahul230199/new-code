@@ -1,165 +1,304 @@
-/* =============================================================
-   AXO NETWORKS — LOGIN PAGE
-   pages/auth/login.js
+/* ================================================================
+   AXO NETWORKS — LOGIN.JS  (Production Ready)
+   /js/pages/auth/login.js
 
    Flow:
-   1. If already authenticated → redirect to role home (guardLoginPage)
-   2. User submits form → POST /auth/login
-   3a. forcePasswordChange = true  → Auth.redirectAfterLogin() → change-password
-   3b. Normal login                → Auth.redirectAfterLogin() → role dashboard
+   1. RouteGuard redirects already-authenticated users away
+   2. Validate email + password client-side
+   3. POST /api/auth/login
+   4. On success → Auth.saveSession → Auth.redirectAfterLogin
+   5. On error  → show field-level or banner error
+================================================================ */
 
-   Dependencies (load order in HTML):
-   <script type="module" src="../../js/pages/auth/login.js">
-   ============================================================= */
+import API        from "../../core/api.js";
+import Auth       from "../../core/auth.js";
+import RouteGuard from "../../guards/routeGuard.js";
 
-import Router from "../../core/router.js";
-import API    from "../../core/api.js";
-import Auth   from "../../core/auth.js";
-import Toast  from "../../core/toast.js";
+(function () {
+    'use strict';
 
-// -----------------------------------------------------------------
-// Guard — redirect away if already logged in
-// -----------------------------------------------------------------
-if (!Router.guardLoginPage()) {
-  // guardLoginPage() already redirected — stop all execution
-  throw new Error("REDIRECT");
-}
+    /* ───────────────────────────────────────────────────────────────
+       GUARD — Redirect already-logged-in users to their dashboard
+    ─────────────────────────────────────────────────────────────── */
+    if (!RouteGuard.guardLoginPage()) return;
 
-// -----------------------------------------------------------------
-// DOM refs — resolved once on load, used across handlers
-// -----------------------------------------------------------------
-const DOM = {
-  form:        () => document.getElementById("loginForm"),
-  email:       () => document.getElementById("email"),
-  password:    () => document.getElementById("password"),
-  submitBtn:   () => document.getElementById("loginBtn"),
-  submitLabel: () => document.getElementById("loginBtnText"),
-  togglePwd:   () => document.getElementById("togglePassword"),
-};
+    /* ───────────────────────────────────────────────────────────────
+       DOM REFS
+    ─────────────────────────────────────────────────────────────── */
+    const $ = (id) => document.getElementById(id);
 
-// -----------------------------------------------------------------
-// Validation
-// -----------------------------------------------------------------
-const Validators = {
-  email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-  required: (value) => value.trim().length > 0,
-};
+    const el = {
+        form:          $('loginForm'),
+        email:         $('email'),
+        password:      $('password'),
+        submitBtn:     $('loginBtn'),
+        btnText:       $('loginBtnText'),
+        btnSpinner:    $('btnSpinner'),
+        btnArrow:      document.querySelector('.btn-arrow'),
+        togglePwd:     $('togglePassword'),
+        eyeShow:       document.querySelector('.icon-eye-show'),
+        eyeHide:       document.querySelector('.icon-eye-hide'),
+        alertBanner:   $('alertBanner'),
+        alertText:     $('alertText'),
+        alertClose:    $('alertClose'),
+        fieldEmail:    $('fieldEmail'),
+        fieldPassword: $('fieldPassword'),
+        emailError:    $('emailError'),
+        passwordError: $('passwordError'),
+    };
 
-const validate = (email, password) => {
-  if (!Validators.required(email)) {
-    return "Email address is required.";
-  }
-  if (!Validators.email(email)) {
-    return "Please enter a valid email address.";
-  }
-  if (!Validators.required(password)) {
-    return "Password is required.";
-  }
-  return null; // null = valid
-};
+    /* ───────────────────────────────────────────────────────────────
+       ALERT BANNER
+    ─────────────────────────────────────────────────────────────── */
+    /**
+     * Show the top-of-form banner.
+     * @param {string}            message
+     * @param {'error'|'success'} type
+     */
+    const showAlert = (message, type = 'error') => {
+        if (!el.alertBanner || !el.alertText) return;
+        el.alertText.textContent = message;
+        el.alertBanner.classList.toggle('is-success', type === 'success');
+        el.alertBanner.hidden = false;
+        // Scroll banner into view on small screens
+        el.alertBanner.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    };
 
-// -----------------------------------------------------------------
-// UI State — loading
-// -----------------------------------------------------------------
-const setLoading = (isLoading) => {
-  const btn   = DOM.submitBtn();
-  const label = DOM.submitLabel();
-  if (!btn || !label) return;
+    const hideAlert = () => {
+        if (el.alertBanner) el.alertBanner.hidden = true;
+    };
 
-  btn.disabled = isLoading;
+    /* ───────────────────────────────────────────────────────────────
+       FIELD ERRORS
+    ─────────────────────────────────────────────────────────────── */
+    /**
+     * Set or clear an inline field error.
+     * @param {HTMLElement} groupEl   - .field-group wrapper
+     * @param {HTMLElement} errorEl   - .field-error span
+     * @param {HTMLInputElement} inputEl - the input
+     * @param {string|null}  message  - null = clear
+     */
+    const setFieldError = (groupEl, errorEl, inputEl, message) => {
+        if (!groupEl || !errorEl) return;
+        if (message) {
+            groupEl.classList.add('has-error');
+            errorEl.textContent = message;
+            if (inputEl) inputEl.setAttribute('aria-invalid', 'true');
+        } else {
+            groupEl.classList.remove('has-error');
+            errorEl.textContent = '';
+            if (inputEl) inputEl.setAttribute('aria-invalid', 'false');
+        }
+    };
 
-  label.innerHTML = isLoading
-    ? `<span class="btn-spinner" aria-hidden="true"></span> Signing in…`
-    : "Sign In";
-};
+    const clearAllErrors = () => {
+        setFieldError(el.fieldEmail,    el.emailError,    el.email,    null);
+        setFieldError(el.fieldPassword, el.passwordError, el.password, null);
+        hideAlert();
+    };
 
-// -----------------------------------------------------------------
-// Submit Handler
-// -----------------------------------------------------------------
-const handleSubmit = async (e) => {
-  e.preventDefault();
+    /* ───────────────────────────────────────────────────────────────
+       CLIENT-SIDE VALIDATION
+    ─────────────────────────────────────────────────────────────── */
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const email    = DOM.email()?.value.trim()    ?? "";
-  const password = DOM.password()?.value.trim() ?? "";
+    const validate = (email, password) => {
+        let valid = true;
 
-  // Client-side validation before hitting the network
-  const validationError = validate(email, password);
-  if (validationError) {
-    Toast.warning(validationError);
-    return;
-  }
+        const trimmedEmail = email.trim();
 
-  setLoading(true);
+        if (!trimmedEmail) {
+            setFieldError(el.fieldEmail, el.emailError, el.email, 'Email address is required.');
+            valid = false;
+        } else if (!EMAIL_RE.test(trimmedEmail)) {
+            setFieldError(el.fieldEmail, el.emailError, el.email, 'Enter a valid email address.');
+            valid = false;
+        }
 
-  try {
-    // POST /api/auth/login
-    const response = await API.post("/auth/login", { email, password });
+        if (!password) {
+            setFieldError(el.fieldPassword, el.passwordError, el.password, 'Password is required.');
+            valid = false;
+        }
 
-    // Defensive — backend should always return token + user on success
-    if (!response?.token || !response?.user) {
-      throw new Error("Unexpected server response. Please try again.");
-    }
+        // Focus first errored field
+        if (!valid) {
+            const firstError = el.fieldEmail.classList.contains('has-error')
+                ? el.email
+                : el.password;
+            firstError?.focus();
+        }
 
-    const { token, user, forcePasswordChange = false } = response;
+        return valid;
+    };
 
-    // Persist session
-    // Store forcePasswordChange on the user object so router.js
-    // can enforce it on every subsequent page load
-    Auth.saveSession(token, { ...user, forcePasswordChange });
+    /* ───────────────────────────────────────────────────────────────
+       LOADING STATE
+    ─────────────────────────────────────────────────────────────── */
+    const setLoading = (loading) => {
+        el.submitBtn.disabled = loading;
+        el.submitBtn.classList.toggle('is-loading', loading);
 
-    // Redirect — change-password if forced, else role dashboard
-    Auth.redirectAfterLogin(forcePasswordChange, user.role);
+        if (el.btnText) {
+            el.btnText.textContent = loading ? 'Signing in…' : 'Sign In';
+        }
 
-  } catch (err) {
-    // ApiError from api.js — status is always set
-    if (err.status === 401) {
-      Toast.error("Invalid email or password.");
-    } else if (err.status === 403) {
-      Toast.error("Your account has been deactivated. Please contact support.");
+        if (el.btnSpinner) el.btnSpinner.hidden  = !loading;
+        if (el.btnArrow)   el.btnArrow.hidden = loading;
+
+        // Disable inputs during submission
+        if (el.email)    el.email.disabled    = loading;
+        if (el.password) el.password.disabled = loading;
+    };
+
+    /* ───────────────────────────────────────────────────────────────
+       SUBMIT HANDLER
+    ─────────────────────────────────────────────────────────────── */
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        clearAllErrors();
+
+        const email    = el.email?.value    ?? '';
+        const password = el.password?.value ?? '';
+
+        if (!validate(email, password)) return;
+
+        setLoading(true);
+
+        try {
+            const data = await API.post('/auth/login', {
+                email:    email.trim().toLowerCase(),
+                password,
+            });
+
+            /* ── Validate server response shape ── */
+            if (!data?.token || !data?.user) {
+                throw { message: 'Unexpected server response. Please try again.' };
+            }
+
+            const { token, user, forcePasswordChange = false } = data;
+
+            // Guard: missing role would cause the router to loop back to /login.html
+            if (!user.role) {
+                throw { message: 'Account has no role assigned. Contact your administrator.' };
+            }
+
+            /* ── Persist session ── */
+            Auth.saveSession(token, {
+                id:                  user.id,
+                email:               user.email,
+                company_name:        user.company_name ?? '',
+                role:                user.role,
+                forcePasswordChange: !!forcePasswordChange,
+            });
+
+            /* ── Redirect (handles forcePasswordChange + role routing) ── */
+            Auth.redirectAfterLogin(!!forcePasswordChange, user.role);
+
+        } catch (err) {
+            console.error('[Login] Error:', err);
+
+            setLoading(false);
+
+            const status = err?.status ?? 0;
+
+            switch (status) {
+                case 401:
+                    setFieldError(
+                        el.fieldPassword, el.passwordError, el.password,
+                        'Incorrect email or password.'
+                    );
+                    showAlert('Invalid email or password. Please try again.');
+                    el.password?.select();
+                    break;
+
+                case 403:
+                    showAlert('Your account is inactive. Please contact the administrator.');
+                    break;
+
+                case 0:
+                    showAlert('Unable to connect. Check your internet connection and try again.');
+                    break;
+
+                default:
+                    showAlert(err?.message || 'Sign in failed. Please try again later.');
+            }
+        }
+    };
+
+    /* ───────────────────────────────────────────────────────────────
+       PASSWORD VISIBILITY TOGGLE
+    ─────────────────────────────────────────────────────────────── */
+    const handleTogglePassword = () => {
+        if (!el.password || !el.togglePwd) return;
+
+        const isHidden = el.password.type === 'password';
+
+        el.password.type = isHidden ? 'text' : 'password';
+        el.togglePwd.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+
+        if (el.eyeShow) el.eyeShow.hidden = isHidden;
+        if (el.eyeHide) el.eyeHide.hidden = !isHidden;
+    };
+
+    /* ───────────────────────────────────────────────────────────────
+       CLEAR ERRORS ON INPUT
+    ─────────────────────────────────────────────────────────────── */
+    const bindClearOnInput = () => {
+        el.email?.addEventListener('input', () => {
+            setFieldError(el.fieldEmail, el.emailError, el.email, null);
+            hideAlert();
+        });
+
+        el.password?.addEventListener('input', () => {
+            setFieldError(el.fieldPassword, el.passwordError, el.password, null);
+            hideAlert();
+        });
+    };
+
+    /* ───────────────────────────────────────────────────────────────
+       ALERT CLOSE
+    ─────────────────────────────────────────────────────────────── */
+    const bindAlertClose = () => {
+        el.alertClose?.addEventListener('click', hideAlert);
+    };
+
+    /* ───────────────────────────────────────────────────────────────
+       KEYBOARD: Submit on Enter anywhere in form
+    ─────────────────────────────────────────────────────────────── */
+    const bindKeyboard = () => {
+        el.form?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+                el.form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            }
+        });
+    };
+
+    /* ───────────────────────────────────────────────────────────────
+       INIT
+    ─────────────────────────────────────────────────────────────── */
+    const init = () => {
+        if (!el.form) {
+            console.error('[Login] #loginForm not found in DOM.');
+            return;
+        }
+
+        el.form.addEventListener('submit', handleSubmit);
+        el.togglePwd?.addEventListener('click', handleTogglePassword);
+
+        bindClearOnInput();
+        bindAlertClose();
+        bindKeyboard();
+
+        // Auto-focus email on page load
+        requestAnimationFrame(() => el.email?.focus());
+    };
+
+    /* ── Bootstrap after DOM is ready ── */
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
     } else {
-      Toast.error(err.message || "Unable to sign in. Please try again.");
+        init();
     }
-  } finally {
-    setLoading(false);
-  }
-};
 
-// -----------------------------------------------------------------
-// Password Visibility Toggle
-// -----------------------------------------------------------------
-const handleTogglePassword = () => {
-  const pwdInput = DOM.password();
-  const toggleBtn = DOM.togglePwd();
-  if (!pwdInput || !toggleBtn) return;
-
-  const isHidden = pwdInput.type === "password";
-  pwdInput.type  = isHidden ? "text" : "password";
-
-  // Update aria label for screen readers
-  toggleBtn.setAttribute(
-    "aria-label",
-    isHidden ? "Hide password" : "Show password"
-  );
-
-  // Swap icon — expects two child elements: .icon-show and .icon-hide
-  toggleBtn.querySelector(".icon-show")?.classList.toggle("hidden", isHidden);
-  toggleBtn.querySelector(".icon-hide")?.classList.toggle("hidden", !isHidden);
-};
-
-// -----------------------------------------------------------------
-// Init
-// -----------------------------------------------------------------
-const init = () => {
-  const form      = DOM.form();
-  const toggleBtn = DOM.togglePwd();
-
-  if (!form) return;
-
-  form.addEventListener("submit", handleSubmit);
-
-  if (toggleBtn) {
-    toggleBtn.addEventListener("click", handleTogglePassword);
-  }
-};
-
-document.addEventListener("DOMContentLoaded", init);
+})();

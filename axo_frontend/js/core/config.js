@@ -24,7 +24,7 @@ const _isDev =
 // API
 // -----------------------------------------------------------------
 const API = Object.freeze({
-  BASE_URL: _isDev ? "http://localhost:5000/api" : "/api",
+ BASE_URL: "/api",
   TIMEOUT_MS: 15_000,
 });
 
@@ -44,29 +44,31 @@ const STORAGE_KEYS = Object.freeze({
 // -----------------------------------------------------------------
 const ROUTES = Object.freeze({
   // Auth
-  LOGIN:           "/pages/auth/login.html",
-  CHANGE_PASSWORD: "/pages/auth/change-password.html",
+  LOGIN:           "/login.html",
+  CHANGE_PASSWORD: "/change-password.html",
 
   // Admin
-  ADMIN_DASHBOARD: "/pages/admin/dashboard.html",
+  ADMIN_DASHBOARD: "/admin-dashboard.html",
 
   // OEM
-  OEM_DASHBOARD:     "/pages/oem/dashboard.html",
-  OEM_RFQ:           "/pages/oem/rfq.html",
-  OEM_ORDERS:        "/pages/oem/orders.html",
-  OEM_ORDER_DETAILS: "/pages/oem/order-details.html",
-  OEM_DOCUMENTS:     "/pages/oem/documents.html",
-  OEM_SUPPLIERS:     "/pages/oem/suppliers.html",
-  OEM_PROFILE:       "/pages/oem/profile.html",
+  OEM_DASHBOARD:     "/oem-dashboard.html",
+  OEM_RFQ:           "/oem-rfq.html",
+  OEM_ORDERS:        "/oem-orders.html",
+  OEM_ORDER_DETAILS: "/oem-order-details.html",
+  OEM_DOCUMENTS:     "/oem-documents.html",
+  OEM_SUPPLIERS:     "/oem-suppliers.html",
+  OEM_PROFILE:       "/oem-profile.html",
 
   // Supplier
-  SUPPLIER_DASHBOARD:     "/pages/supplier/dashboard.html",
-  SUPPLIER_RFQ:           "/pages/supplier/rfq.html",
-  SUPPLIER_QUOTES:        "/pages/supplier/quotes.html",
-  SUPPLIER_ORDERS:        "/pages/supplier/orders.html",
-  SUPPLIER_ORDER_DETAILS: "/pages/supplier/order-details.html",
-  SUPPLIER_PROFILE:       "/pages/supplier/profile.html",
+  SUPPLIER_DASHBOARD:     "/supplier-dashboard.html",
+  SUPPLIER_RFQ:           "/supplier-rfq.html",
+  SUPPLIER_QUOTES:        "/supplier-quotes.html",
+  SUPPLIER_ORDERS:        "/supplier-orders.html",
+  SUPPLIER_ORDER_DETAILS: "/supplier-order-details.html",
+  SUPPLIER_PROFILE:       "/supplier-profile.html",
 });
+
+const DEFAULT_ROUTE = "/login.html";
 
 // -----------------------------------------------------------------
 // Role → Home Page Mapping
@@ -148,6 +150,7 @@ const CONFIG = Object.freeze({
   ROLE_ROUTES,
   PAGINATION,
   APP,
+  DEFAULT_ROUTE,
 });
 
 export default CONFIG;

@@ -1,46 +1,64 @@
 /* =========================================================
-   AXO NETWORKS — STORAGE MANAGER (FIXED)
+   AXO NETWORKS — STORAGE MANAGER (ENTERPRISE VERSION)
+   - Fully aligned with config.js
+   - Single source of truth for session storage
+   - Safe parsing + cleanup
 ========================================================= */
 
-const TOKEN_KEY = 'token';
-const USER_KEY = 'user';
+import CONFIG from "./config.js";
 
-export const StorageManager = {
+const { TOKEN, USER } = CONFIG.STORAGE_KEYS;
+
+const StorageManager = {
+
+  // --------------------------------------------------
+  // TOKEN
+  // --------------------------------------------------
   setToken(token) {
-    if (!token) return;
-    localStorage.setItem(TOKEN_KEY, token);
+    if (!token || typeof token !== "string") return;
+    localStorage.setItem(TOKEN, token);
   },
 
   getToken() {
-    // Try both keys for compatibility
-    return localStorage.getItem(TOKEN_KEY) || localStorage.getItem('auth_token');
+    const token = localStorage.getItem(TOKEN);
+    return token || null;
   },
 
   removeToken() {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem(TOKEN);
   },
 
+  // --------------------------------------------------
+  // USER
+  // --------------------------------------------------
   setUser(user) {
-    if (!user) return;
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    if (!user || typeof user !== "object") return;
+    localStorage.setItem(USER, JSON.stringify(user));
   },
 
   getUser() {
-    const user = localStorage.getItem(USER_KEY);
-    if (user) {
-      try {
-        return JSON.parse(user);
-      } catch(e) {
-        console.error('Error parsing user:', e);
-        return null;
-      }
+    const raw = localStorage.getItem(USER);
+    if (!raw) return null;
+
+    try {
+      return JSON.parse(raw);
+    } catch (err) {
+      console.error("[Storage] Invalid user JSON. Clearing...");
+      this.removeUser();
+      return null;
     }
-    return null;
   },
 
   removeUser() {
-    localStorage.removeItem(USER_KEY);
+    localStorage.removeItem(USER);
+  },
+
+  // --------------------------------------------------
+  // SESSION
+  // --------------------------------------------------
+  setSession(token, user) {
+    this.setToken(token);
+    this.setUser(user);
   },
 
   clearSession() {
@@ -48,9 +66,19 @@ export const StorageManager = {
     this.removeUser();
   },
 
+  // --------------------------------------------------
+  // AUTH CHECK
+  // --------------------------------------------------
   isAuthenticated() {
-    return !!this.getToken();
-  }
+    const token = this.getToken();
+    const user  = this.getUser();
+
+    // both must exist
+    if (!token || !user) return false;
+
+    return true;
+  },
+
 };
 
 export default StorageManager;
