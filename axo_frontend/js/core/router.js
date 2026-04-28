@@ -1,166 +1,132 @@
 /* =============================================================
-   AXO NETWORKS — ROUTER / ROUTE GUARD
-   core/router.js
-
-   Runs on every page load — before any page JS executes.
-   Two entry points:
-
-   1. guardPage()
-      Call this at the top of every PROTECTED page script.
-      Checks: authenticated → role allowed → not forced to
-      change password → then renders.
-
-   2. guardLoginPage()
-      Call this on login.html only.
-      If the user is already authenticated, skip login and send
-      them straight to their dashboard.
-
-   How to use in a page file:
-   ─────────────────────────────
-   import Router from "../core/router.js";
-
-   // Blocks rendering if not authenticated or wrong role
-   Router.guardPage(["oem", "both"]);
-
-   // Rest of page init runs only if guard passes
-   initDashboard();
-   ─────────────────────────────
-
-   ⚠️  This file must be the FIRST import in every page file.
-       If the guard redirects, all subsequent code is skipped.
-   ============================================================= */
+   AXO NETWORKS — ROUTER (ENTERPRISE STABLE)
+============================================================= */
 
 import CONFIG from "./config.js";
-import Auth   from "./auth.js";
+import Auth from "./auth.js";
 
-// -----------------------------------------------------------------
-// Internal — silent redirect
-// Checks current path first to avoid redirect loops.
-// -----------------------------------------------------------------
+// --------------------------------------------------
+// SAFE REDIRECT (NO LOOP)
+// --------------------------------------------------
+let _redirecting = false;
+
 const _redirectTo = (path) => {
-  const currentPath = window.location.pathname;
+  if (_redirecting) return;
 
-  // Normalize trailing slash for comparison
-  const normalize = (p) => p.replace(/\/$/, "") || "/";
+  const current = window.location.pathname;
+  const normalize = (p) => p.replace(/\/$/, "");
 
-  if (normalize(currentPath) !== normalize(path)) {
-    window.location.href = path;
-  }
+  if (normalize(current) === normalize(path)) return;
+
+  _redirecting = true;
+
+  console.warn("[Router] Redirect →", path);
+
+  window.location.replace(path);
 };
 
-// -----------------------------------------------------------------
-// Internal — get current page path, normalized for comparison
-// Strips query string and hash so "/pages/oem/dashboard.html?id=1"
-// matches "/pages/oem/dashboard.html" in ROLE_ROUTES.
-// -----------------------------------------------------------------
-const _getCurrentPath = () => window.location.pathname;
+// --------------------------------------------------
+// CURRENT PATH
+// --------------------------------------------------
+const _getCurrentPath = () => {
+  return window.location.pathname.split("?")[0];
+};
 
-// -----------------------------------------------------------------
-// Internal — check if the current user's role is allowed to view
-// the current page, using CONFIG.ROLE_ROUTES as the source of truth.
-// -----------------------------------------------------------------
+// --------------------------------------------------
+// ROLE ACCESS CHECK (STRICT)
+// --------------------------------------------------
 const _isRoleAllowed = (role, allowedRoles) => {
-  // No role restriction passed — check via CONFIG.ROLE_ROUTES
-  if (!allowedRoles || allowedRoles.length === 0) {
-    const permitted = CONFIG.ROLE_ROUTES[role] ?? [];
-    const currentPath = _getCurrentPath();
-    return permitted.some((route) => currentPath.endsWith(route.split("/").pop()));
+
+  // explicit roles
+  if (allowedRoles?.length) {
+    return allowedRoles.includes(role);
   }
 
-  // Explicit allowedRoles passed by the page — use that
-  return allowedRoles.includes(role);
+  // fallback → config based
+  const routes = CONFIG.ROLE_ROUTES[role] || [];
+  const current = _getCurrentPath();
+
+  return routes.some(route => {
+    const routeName = route.split("/").pop();
+    return current.endsWith(routeName);
+  });
 };
 
-// =================================================================
-// guardPage
-// =================================================================
-/**
- * Guard a protected page. Call at the top of every app page script.
- *
- * Flow:
- *  1. Not authenticated           → redirect to login
- *  2. Force password change       → redirect to change-password
- *     (unless already on change-password)
- *  3. Role not allowed            → redirect to role's own home
- *  4. All checks pass             → return true, page renders
- *
- * @param {string[]} [allowedRoles]
- *   Optional explicit role whitelist, e.g. ["oem", "both"].
- *   If omitted, CONFIG.ROLE_ROUTES is used automatically.
- *
- * @returns {boolean}
- *   true  = guard passed, page may render
- *   false = guard redirected, page must not render
- *           (all subsequent page code is skipped)
- */
+// --------------------------------------------------
+// MAIN PAGE GUARD
+// --------------------------------------------------
 const guardPage = (allowedRoles = []) => {
 
-  // ── Step 1: Must be authenticated ──────────────────────────────
+  // 1. AUTH CHECK
   if (!Auth.isAuthenticated()) {
+    console.warn("[Router] Not authenticated");
     _redirectTo(CONFIG.ROUTES.LOGIN);
     return false;
   }
 
   const user = Auth.getCurrentUser();
 
-  // Corrupt session — token valid but no user object in storage
   if (!user || !user.role) {
+    console.warn("[Router] Invalid session");
     Auth.clearSession();
     _redirectTo(CONFIG.ROUTES.LOGIN);
     return false;
   }
 
-  const { role } = user;
+  const { role, forcePasswordChange } = user;
 
-  // ── Step 2: Force password change ──────────────────────────────
-  // If backend flagged this user as needing a password change,
-  // keep redirecting them to change-password until they comply.
-  // Exception: if they ARE on change-password, let it render.
-  const onChangePassword = _getCurrentPath().includes(
+  const current = _getCurrentPath();
+  const isChangePasswordPage = current.endsWith(
     CONFIG.ROUTES.CHANGE_PASSWORD.split("/").pop()
   );
 
-  if (user.forcePasswordChange && !onChangePassword) {
+  // 2. FORCE PASSWORD CHANGE
+  if (forcePasswordChange && !isChangePasswordPage) {
+    console.warn("[Router] Force password change");
     _redirectTo(CONFIG.ROUTES.CHANGE_PASSWORD);
     return false;
   }
 
-  // ── Step 3: Role must be allowed on this page ───────────────────
+  // 3. ROLE CHECK
   if (!_isRoleAllowed(role, allowedRoles)) {
-    // Send them to their own dashboard, not a generic 404
+    console.warn("[Router] Role not allowed:", role);
     _redirectTo(CONFIG.ROLE_HOME[role] || CONFIG.ROUTES.LOGIN);
     return false;
   }
 
-  // ── All checks passed ───────────────────────────────────────────
   return true;
 };
 
-// =================================================================
-// guardLoginPage
-// =================================================================
-/**
- * Guard the login page.
- * If the user is already logged in, skip login and go home.
- *
- * Call this at the top of pages/auth/login.js only.
- *
- * @returns {boolean}
- *   true  = user is NOT logged in, login page may render
- *   false = user is already logged in, redirected to dashboard
- */
+// --------------------------------------------------
+// LOGIN PAGE GUARD
+// --------------------------------------------------
 const guardLoginPage = () => {
-  if (Auth.isAuthenticated()) {
-    Auth.redirectToHome();
+
+  if (!Auth.isAuthenticated()) {
+    return true;
+  }
+
+  const user = Auth.getCurrentUser();
+
+  if (!user) {
+    Auth.clearSession();
+    return true;
+  }
+
+  if (user.forcePasswordChange) {
+    _redirectTo(CONFIG.ROUTES.CHANGE_PASSWORD);
     return false;
   }
 
-  return true;
+  console.warn("[Router] Already logged in → redirecting");
+
+  _redirectTo(CONFIG.ROLE_HOME[user.role] || CONFIG.ROUTES.LOGIN);
+  return false;
 };
 
-// -----------------------------------------------------------------
-// Public Export
-// -----------------------------------------------------------------
+// --------------------------------------------------
+// EXPORT
+// --------------------------------------------------
 const Router = Object.freeze({
   guardPage,
   guardLoginPage,

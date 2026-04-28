@@ -16,6 +16,7 @@
    ============================================================= */
 
 import Router          from "../../core/router.js";
+import RouteGuard from "../../guards/routeGuard.js";
 import API             from "../../core/api.js";
 import Auth            from "../../core/auth.js";
 import Toast           from "../../core/toast.js";
@@ -25,7 +26,7 @@ import { formatDate, sanitizeHTML, formatStatus, getStatusClass, buildQueryStrin
 // -----------------------------------------------------------------
 // Guard — admin only
 // -----------------------------------------------------------------
-if (!Router.guardPage(["admin"])) throw new Error("REDIRECT");
+if (!RouteGuard.protect({ role: ["admin"] })) throw new Error("REDIRECT");
 
 // =================================================================
 // STATE
