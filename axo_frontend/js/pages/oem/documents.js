@@ -49,7 +49,7 @@ const State = {
 const el      = (id)       => document.getElementById(id);
 const setText = (id, text) => { const n = el(id); if (n) n.textContent = text; };
 const setHTML = (id, html) => { const n = el(id); if (n) n.innerHTML   = html; };
-const showEl  = (id)       => { const n = el(id); if (n) n.style.display = ""; };
+const showEl  = (id, mode = 'flex') => { const n = el(id); if (n) n.style.display = mode; };
 const hideEl  = (id)       => { const n = el(id); if (n) n.style.display = "none"; };
 
 // =================================================================
