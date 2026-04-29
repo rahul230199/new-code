@@ -7,32 +7,26 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- Base layout -->
   <link rel="stylesheet" href="/css/supplier-dashboard.css" />
-  <!-- Shared: badges, buttons, skeletons, chat, milestone-step, od-* layout -->
   <link rel="stylesheet" href="/css/shared.css" />
-  <!-- Supplier-specific: rfq-card, quote tabs, etc. -->
   <link rel="stylesheet" href="/css/supplier.css" />
 </head>
 <body>
 
 <div class="supplier-container">
 
-  <!-- ═══════════════════════════════════════
-       SIDEBAR
-       ═══════════════════════════════════════ -->
+  <!-- ═══════════════ SIDEBAR ═══════════════ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h2>AXO Networks</h2>
       <p>Supplier Portal</p>
     </div>
     <nav class="sidebar-nav" aria-label="Supplier navigation">
-      <a href="/supplier-dashboard.html" class="nav-item"><i class="fas fa-chart-line"    aria-hidden="true"></i><span>Dashboard</span></a>
-      <a href="/supplier-rfq.html"       class="nav-item"><i class="fas fa-file-alt"      aria-hidden="true"></i><span>RFQ Inbox</span></a>
+      <a href="/supplier-dashboard.html" class="nav-item"><i class="fas fa-chart-line" aria-hidden="true"></i><span>Dashboard</span></a>
+      <a href="/supplier-rfq.html"       class="nav-item"><i class="fas fa-file-alt"   aria-hidden="true"></i><span>RFQ Inbox</span></a>
       <a href="/supplier-quotes.html"    class="nav-item"><i class="fas fa-comment-dollar" aria-hidden="true"></i><span>My Quotes</span></a>
       <a href="/supplier-orders.html"    class="nav-item active"><i class="fas fa-shopping-cart" aria-hidden="true"></i><span>My Orders</span></a>
-      <a href="/supplier-profile.html"   class="nav-item"><i class="fas fa-building"      aria-hidden="true"></i><span>Profile</span></a>
+      <a href="/supplier-profile.html"   class="nav-item"><i class="fas fa-building"   aria-hidden="true"></i><span>Profile</span></a>
     </nav>
     <div class="sidebar-footer">
       <button class="logout-btn" id="logoutBtn" type="button">
@@ -41,14 +35,11 @@
     </div>
   </aside>
 
-  <!-- ═══════════════════════════════════════
-       MAIN CONTENT
-       ═══════════════════════════════════════ -->
+  <!-- ═══════════════ MAIN ═══════════════ -->
   <main class="main-content">
 
     <!-- Top Bar -->
     <div class="top-bar">
-      <!-- id="menuToggle" — bindEvents() -->
       <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle sidebar">
         <i class="fas fa-bars" aria-hidden="true"></i>
       </button>
@@ -58,108 +49,84 @@
           <span class="notification-badge">0</span>
         </div>
         <div class="user-info">
-          <!-- id="companyName" — setText("companyName", ...) in init() -->
           <span id="companyName">Loading…</span>
           <div class="avatar" aria-hidden="true"><i class="fas fa-truck"></i></div>
         </div>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════
+    <!-- ════════════════════════════════════════
          ORDER DETAILS CONTAINER
-         id="orderDetailsContainer":
-           loadOrderDetails() → classList.add/remove("loading")
-           loadOrderDetails() → setHTML() for error / empty states
-
-         All named child elements below are populated by setText().
-         Skeleton state is shown by the "—" defaults.
-         ═══════════════════════════════════════════════════════════ -->
+         JS: loadOrderDetails() adds/removes .loading
+         ════════════════════════════════════════ -->
     <div id="orderDetailsContainer" class="order-detail-page">
 
-      <!-- ── Page Header ─────────────────────────────────────── -->
+      <!-- Page Header -->
       <div class="od-page-header">
-        <!-- id="backBtn" — bindEvents() → CONFIG.ROUTES.SUPPLIER_ORDERS -->
+        <!-- JS: bindEvents() → CONFIG.ROUTES.SUPPLIER_ORDERS -->
         <button class="btn btn--ghost btn--sm" id="backBtn" type="button">
           <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Orders
         </button>
         <span class="od-page-label">Purchase Order</span>
       </div>
 
-      <!-- ── PO Header Card ──────────────────────────────────── -->
+      <!-- PO Header Card -->
       <div class="od-header-card od-header-card--supplier">
         <div class="od-header-card__left">
           <div class="od-header-card__label">PO Number</div>
-          <!--
-            id="poNumber"
-            setText("poNumber", order.po_number || `PO-${order.id}`)
-          -->
+          <!-- JS: setText("poNumber", order.po_number) -->
           <div class="od-header-card__po" id="poNumber">—</div>
         </div>
         <div class="od-header-card__right">
-          <!--
-            id="orderStatus"
-            statusEl.textContent = formatStatus(order.status)
-            statusEl.className   = `badge badge--${statusClass}`
-          -->
+          <!-- JS: statusEl.textContent = formatStatus(order.status)
+                    statusEl.className   = `badge badge--${statusClass}` -->
           <span id="orderStatus" class="badge badge--neutral">Loading…</span>
         </div>
       </div>
 
-      <!-- ── PO Stats Row ────────────────────────────────────── -->
+      <!-- Stats Row -->
       <div class="od-stats-row">
-
         <div class="od-stat">
-          <span class="od-stat__label">
-            <i class="fas fa-building" aria-hidden="true"></i> OEM / Buyer
-          </span>
-          <!-- id="oemName" — setText("oemName", order.oem_name) -->
+          <span class="od-stat__label"><i class="fas fa-building" aria-hidden="true"></i> OEM / Buyer</span>
+          <!-- JS: setText("oemName", order.oem_name) -->
           <span class="od-stat__value" id="oemName">—</span>
         </div>
-
         <div class="od-stat">
-          <span class="od-stat__label">
-            <i class="fas fa-calendar" aria-hidden="true"></i> Order Date
-          </span>
-          <!-- id="orderDate" — setText("orderDate", formatDate(order.created_at)) -->
+          <span class="od-stat__label"><i class="fas fa-calendar" aria-hidden="true"></i> Order Date</span>
+          <!-- JS: setText("orderDate", formatDate(order.created_at)) -->
           <span class="od-stat__value" id="orderDate">—</span>
         </div>
-
         <div class="od-stat">
-          <span class="od-stat__label">
-            <i class="fas fa-dollar-sign" aria-hidden="true"></i> Total Value
-          </span>
-          <!-- id="orderValue" — setText("orderValue", formatCurrency(...)) -->
+          <span class="od-stat__label"><i class="fas fa-dollar-sign" aria-hidden="true"></i> Total Value</span>
+          <!-- JS: setText("orderValue", formatCurrency(...)) -->
           <span class="od-stat__value" id="orderValue">—</span>
         </div>
-
         <div class="od-stat">
-          <span class="od-stat__label">
-            <i class="fas fa-box" aria-hidden="true"></i> Quantity
-          </span>
-          <!-- id="orderQuantity" — setText("orderQuantity", `${qty} ${unit}`) -->
+          <span class="od-stat__label"><i class="fas fa-box" aria-hidden="true"></i> Quantity</span>
+          <!-- JS: setText("orderQuantity", `${qty} ${unit}`) -->
           <span class="od-stat__value" id="orderQuantity">—</span>
         </div>
+      </div>
 
-      </div><!-- /.od-stats-row -->
-
-      <!-- ── Info Cards ──────────────────────────────────────── -->
+      <!-- Info Cards -->
       <div class="od-info-grid">
-
         <div class="od-info-card">
           <div class="od-info-card__label">Part Name</div>
-          <!-- id="partName" — setText("partName", order.part_name) -->
+          <!-- JS: setText("partName", order.part_name) -->
           <div class="od-info-card__value" id="partName">—</div>
         </div>
-
         <div class="od-info-card">
           <div class="od-info-card__label">Payment Terms</div>
-          <!-- id="paymentTerms" — setText("paymentTerms", order.payment_terms) -->
+          <!-- JS: setText("paymentTerms", order.payment_terms) -->
           <div class="od-info-card__value" id="paymentTerms">—</div>
         </div>
+      </div>
 
-      </div><!-- /.od-info-grid -->
-
-      <!-- ── Production Timeline ─────────────────────────────── -->
+      <!-- ════════════════════════════════════════
+           PRODUCTION TIMELINE
+           JS: renderMilestones() injects .milestone-step children into #timelineSteps
+               Each step has .js-milestone-action buttons delegated via #timelineSteps listener
+           ════════════════════════════════════════ -->
       <div class="od-card">
         <div class="od-card__header">
           <h2 class="od-card__title">
@@ -168,36 +135,36 @@
         </div>
         <div class="od-card__body">
 
-          <!--
-            id="timelineSteps"
-            renderMilestones() injects .milestone-step children.
-            Supplier gets two buttons per step:
-              .js-mark-complete  → updateMilestone(..., "completed")
-              .js-mark-progress  → updateMilestone(..., "in_progress")
-            Both wired via event delegation in bindEvents().
-          -->
+          <!-- JS: renderMilestones() injects here -->
           <div id="timelineSteps" aria-live="polite"></div>
 
           <!-- Progress bar -->
           <div class="od-progress-row">
             <div class="progress-bar od-progress-bar">
-              <!--
+              <!-- JS: bar.style.width = `${progress}%` -->
+              <div
+                class="progress-bar__fill progress-bar__fill--supplier"
                 id="progressBarFill"
-                renderMilestones(): bar.style.width = `${progress}%`
-              -->
-              <div class="progress-bar__fill progress-bar__fill--supplier" id="progressBarFill" style="width:0%"></div>
+                style="width:0%"
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              ></div>
             </div>
-            <!--
-              id="progressText"
-              setText("progressText", `${progress}% Complete`)
-            -->
+            <!-- JS: setText("progressText", `${progress}% Complete`) -->
             <span class="progress-label" id="progressText">0% Complete</span>
           </div>
 
         </div>
-      </div><!-- /.od-card (timeline) -->
+      </div>
 
-      <!-- ── Communication Thread ────────────────────────────── -->
+      <!-- ════════════════════════════════════════
+           COMMUNICATION THREAD
+           JS: renderMessages() / appendMessage() inject .chat-msg children
+               Supplier messages → .chat-msg--sent
+               Buyer messages   → .chat-msg--received
+           ════════════════════════════════════════ -->
       <div class="od-card od-chat-card">
         <div class="od-card__header">
           <h2 class="od-card__title">
@@ -205,13 +172,15 @@
           </h2>
         </div>
 
-        <!--
+        <!-- JS: renderMessages() populates this -->
+        <div
+          class="od-chat-messages"
           id="chatMessages"
-          renderMessages() / appendMessage() inject .chat-msg children.
-          Sent messages use .chat-msg--sent (Supplier type = green bubble via supplier CSS).
-        -->
-        <div class="od-chat-messages" id="chatMessages" aria-live="polite" aria-label="Message thread">
+          aria-live="polite"
+          aria-label="Message thread"
+        >
           <div class="chat-empty">
+            <i class="fas fa-comments" aria-hidden="true"></i>
             <p>Loading messages…</p>
           </div>
         </div>
@@ -219,9 +188,8 @@
         <!-- Chat Input -->
         <div class="od-chat-input">
           <!--
-            id="messageInput"
-            sendMessage() reads .value.trim()
-            keydown: Enter (no Shift) → sendMessage()
+            JS: sendMessage() reads .value.trim()
+                keydown: Enter (no Shift) → sendMessage()
           -->
           <textarea
             id="messageInput"
@@ -230,27 +198,158 @@
             placeholder="Type your message… Shift+Enter for new line, Enter to send"
             aria-label="Message input"
           ></textarea>
-
           <!--
-            id="sendBtn"
-            sendMessage(): btn.disabled = true; btn.textContent = "Sending…"
+            JS: sendBtn.disabled = true while sending
           -->
           <button class="btn btn--success" id="sendBtn" type="button">
             <i class="fas fa-paper-plane" aria-hidden="true"></i> Send
           </button>
         </div>
 
-      </div><!-- /.od-card (chat) -->
+      </div><!-- /.od-chat-card -->
 
     </div><!-- /#orderDetailsContainer -->
 
   </main>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════
-     MODULE SCRIPT
-     ═══════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════
+     MILESTONE UPDATE MODAL
+     Opened by: openMilestoneModal(id, name, status) in order-details.js
+     Closed by: .js-close-milestone-modal | backdrop click | Escape
+     ════════════════════════════════════════════════════════════ -->
+<div
+  id="milestoneModal"
+  class="modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="milestoneModalTitle"
+  style="display:none"
+>
+  <div class="modal-content modal-content--milestone">
+
+    <div class="modal-header">
+      <!--
+        JS: setText("milestoneModalTitle", `Mark Complete: Raw Materials`)
+      -->
+      <h3 id="milestoneModalTitle">
+        <i class="fas fa-tasks" aria-hidden="true"></i> Update Milestone
+      </h3>
+      <button
+        class="js-close-milestone-modal modal-close-btn"
+        type="button"
+        aria-label="Close modal"
+      >&times;</button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Status badge — shows what we're setting this milestone to -->
+      <div class="milestone-modal__status-row">
+        <span class="milestone-modal__status-label">Setting status to:</span>
+        <!--
+          JS: badgeEl.className = `badge ${cls}`
+              badgeEl.textContent = label
+        -->
+        <span id="milestoneStatusBadge" class="badge badge--neutral">—</span>
+      </div>
+
+      <!-- Notes -->
+      <div class="form-group">
+        <label for="milestoneNotes" class="form-label">
+          Notes
+          <span class="form-hint">
+            (optional — describe what was done, any observations)
+          </span>
+        </label>
+        <!--
+          JS: el("milestoneNotes").value.trim() → sent as notes in PUT body
+        -->
+        <textarea
+          id="milestoneNotes"
+          class="form-control"
+          rows="3"
+          placeholder="e.g. Raw materials received from vendor, inspected OK…"
+          maxlength="500"
+        ></textarea>
+        <div class="form-hint form-hint--right">
+          <span id="notesCharCount">0</span>/500
+        </div>
+      </div>
+
+      <!-- Photo upload -->
+      <div class="form-group">
+        <label class="form-label">
+          Photo
+          <span class="form-hint">(optional — max 5 MB, JPG/PNG/WEBP)</span>
+        </label>
+
+        <label for="milestonePhoto" class="photo-upload-zone" role="button" tabindex="0">
+          <i class="fas fa-camera photo-upload-zone__icon" aria-hidden="true"></i>
+          <span class="photo-upload-zone__text">Click to upload photo</span>
+          <span class="photo-upload-zone__hint">Evidence, inspection results, delivery proof…</span>
+          <!--
+            JS: change → FileReader → preview
+            id="milestonePhoto" — files[0] used in FormData for POST /photo
+          -->
+          <input
+            type="file"
+            id="milestonePhoto"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            class="photo-upload-zone__input"
+            aria-label="Upload milestone photo"
+          />
+        </label>
+
+        <!-- Preview — shown after file selected -->
+        <!-- JS: preview.classList.remove("hidden") after FileReader loads -->
+        <div id="milestonePhotoPreview" class="photo-preview hidden">
+          <img
+            id="milestonePhotoPreviewImg"
+            class="photo-preview__img"
+            src=""
+            alt="Photo preview"
+          />
+          <button
+            type="button"
+            id="milestonePhotoRemove"
+            class="btn btn--xs btn--danger-outline photo-preview__remove"
+            aria-label="Remove selected photo"
+          >
+            <i class="fas fa-times" aria-hidden="true"></i> Remove
+          </button>
+        </div>
+
+      </div>
+
+    </div><!-- /.modal-body -->
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn--outline js-close-milestone-modal">Cancel</button>
+      <!--
+        JS: submitBtn.disabled = true; submitBtn.textContent = "Saving…"
+            id="milestoneSubmitBtn" — REQUIRED to prevent double-submit
+      -->
+      <button type="button" class="btn btn--primary" id="milestoneSubmitBtn">
+        <i class="fas fa-save" aria-hidden="true"></i> Save Update
+      </button>
+    </div>
+
+  </div>
+</div>
+
 <script type="module" src="/js/pages/supplier/order-details.js"></script>
+
+<!-- Notes char counter (inline — no extra file needed) -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const ta    = document.getElementById('milestoneNotes');
+    const count = document.getElementById('notesCharCount');
+    if (ta && count) {
+      ta.addEventListener('input', () => { count.textContent = ta.value.length; });
+    }
+  });
+</script>
 
 </body>
 </html>

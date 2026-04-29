@@ -170,9 +170,15 @@
             JS injects <tr> elements so this MUST be a <tbody>.
             Also wired for click/keydown row navigation in bindEvents().
           -->
-          <tbody id="ordersTableBody" aria-live="polite">
-            <!-- skeleton injected by _tableLoading() on first load -->
-          </tbody>
+          <tbody id="ordersTableBody">
+  <tr class="table-skeleton">
+    <td colspan="8"> <!-- ✅ FIXED (was 7) -->
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+    </td>
+  </tr>
+</tbody>
         </table>
       </div>
     </div>
