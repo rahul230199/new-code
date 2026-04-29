@@ -204,9 +204,15 @@
             Old HTML used <div id="quotesList"> — wrong element type.
             JS injects <tr> rows so this MUST be a <tbody>.
           -->
-          <tbody id="quotesTableBody" aria-live="polite">
-            <!-- skeleton injected by _tableLoading() on first load -->
-          </tbody>
+          <tbody id="quotesTableBody">
+  <tr class="table-skeleton">
+    <td colspan="7">
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+    </td>
+  </tr>
+</tbody>
         </table>
       </div>
     </div>
