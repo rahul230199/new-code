@@ -10,6 +10,7 @@ const networkRoutes = require('./src/routes/networkRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 const oemRoutes = require('./src/routes/oemRoutes');
 const supplierRoutes = require('./src/routes/supplierRoutes');
+const documentRoutes = require('./src/routes/documentRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -47,6 +48,7 @@ app.use('/api/network',  networkRoutes);
 app.use('/api/admin',    adminRoutes);
 app.use('/api/oem',      oemRoutes);
 app.use('/api/supplier', supplierRoutes);
+app.use('/api/documents', documentRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

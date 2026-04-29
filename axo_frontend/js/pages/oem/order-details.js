@@ -123,7 +123,7 @@ const renderMilestones = (milestones) => {
       : "";
 
     // OEM can mark pending/active milestones as completed
-    const canUpdate = !isCompleted;
+   const canUpdate = false;
     const updateBtn = canUpdate
       ? `<button
            class="btn btn--xs btn--outline js-update-milestone"
@@ -275,12 +275,13 @@ const sendMessage = async () => {
 const updateMilestone = async (milestoneId, btn) => {
   btn.disabled    = true;
   btn.textContent = "Updating…";
+  Toast.info("Updating milestone...");
 
   try {
     const { progress } = await API.put(
-      `/oem/orders/${ORDER_ID}/milestones/${milestoneId}`,
-      { status: "completed" }
-    );
+  `/supplier/orders/${ORDER_ID}/milestones/${milestoneId}`,
+  { status: "completed" }
+);
 
     Toast.success("Milestone marked as complete.");
 
@@ -288,7 +289,7 @@ const updateMilestone = async (milestoneId, btn) => {
     await loadOrderDetails({ silently: true });
 
   } catch (err) {
-    Toast.error(err.message || "Failed to update milestone.");
+    Toast.error(err.message || err.error || "Failed to update milestone.");
     btn.disabled    = false;
     btn.textContent = "Mark Complete";
   }
