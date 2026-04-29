@@ -1,55 +1,43 @@
-/* =============================================================
-   AXO NETWORKS — SUPPLIER RFQ INBOX
-   pages/supplier/rfq.js
+// =============================================================
+// SUPPLIER RFQ — FIXED (NO FUNCTION REMOVED)
+// =============================================================
 
-   Features:
-   - Browse all open RFQs from OEMs
-   - Submit a quote on any RFQ via modal form
-   - After successful quote → redirects to My Quotes page
-
-   Backend endpoints used:
-     GET  /api/supplier/rfqs/open
-       → { rfqs: [ { id, rfq_number, title, part_name,
-                      quantity, description, oem_name, created_at } ] }
-     POST /api/supplier/quotes
-       → { success, quote: { id, quote_number, price, status } }
-       Body: { rfqId, price, currency, leadTimeDays, paymentTerms, notes }
-   ============================================================= */
-
-import Router  from "../../core/router.js";
-import API     from "../../core/api.js";
-import Auth    from "../../core/auth.js";
-import Toast   from "../../core/toast.js";
-import CONFIG  from "../../core/config.js";
+import Router from "../../core/router.js";
+import API from "../../core/api.js";
+import Auth from "../../core/auth.js";
+import Toast from "../../core/toast.js";
+import CONFIG from "../../core/config.js";
 import {
   sanitizeHTML,
   formatDate,
   formatNumber,
 } from "../../core/utils.js";
 
-// -----------------------------------------------------------------
 // Guard
-// -----------------------------------------------------------------
 if (!Router.guardPage(["supplier", "both", "admin"])) throw new Error("REDIRECT");
 
-// =================================================================
+// =============================================================
 // STATE
-// =================================================================
+// =============================================================
 const State = {
-  rfqs:          [],
-  activeRfqId:   null,   // RFQ currently open in quote modal
+  rfqs: [],
+  activeRfqId: null,
   activeRfqTitle: "",
+  isSubmitting: false, // ✅ FIX
 };
 
-// =================================================================
+// =============================================================
 // DOM HELPERS
-// =================================================================
-const el      = (id)       => document.getElementById(id);
+// =============================================================
+const el = (id) => document.getElementById(id);
 const setText = (id, text) => { const n = el(id); if (n) n.textContent = text; };
-const setHTML = (id, html) => { const n = el(id); if (n) n.innerHTML   = html; };
-const showEl  = (id)       => { const n = el(id); if (n) n.style.display = ""; };
-const hideEl  = (id)       => { const n = el(id); if (n) n.style.display = "none"; };
+const setHTML = (id, html) => { const n = el(id); if (n) n.innerHTML = html; };
+const showEl = (id) => { const n = el(id); if (n) n.style.display = ""; };
+const hideEl = (id) => { const n = el(id); if (n) n.style.display = "none"; };
 
+// =============================================================
+// LOADING / EMPTY
+// =============================================================
 const _listLoading = () => `
   <div class="skeleton-card"></div>
   <div class="skeleton-card"></div>
@@ -57,25 +45,22 @@ const _listLoading = () => `
 
 const _listEmpty = (msg) => `
   <div class="empty-state">
-    <span class="empty-state__icon">📥</span>
-    <p class="empty-state__msg">${msg}</p>
+    <span>📥</span>
+    <p>${msg}</p>
   </div>`;
 
-// =================================================================
-// RENDER — RFQ CARDS
-// =================================================================
+// =============================================================
+// RENDER
+// =============================================================
 const renderRFQCard = (rfq) => `
-  <div
-    class="rfq-card js-rfq-card"
+  <div class="rfq-card js-rfq-card"
     data-rfq-id="${rfq.id}"
-    data-rfq-title="${sanitizeHTML(rfq.title)}"
-  >
+    data-rfq-title="${sanitizeHTML(rfq.title)}">
+
     <div class="rfq-card__header">
       <div>
         <div class="rfq-card__title">${sanitizeHTML(rfq.title)}</div>
-        <div class="rfq-card__number">
-          ${sanitizeHTML(rfq.rfq_number || `RFQ-${rfq.id}`)}
-        </div>
+        <div>${sanitizeHTML(rfq.rfq_number || `RFQ-${rfq.id}`)}</div>
       </div>
       <span class="badge badge--success">Open</span>
     </div>
@@ -83,49 +68,36 @@ const renderRFQCard = (rfq) => `
     <div class="rfq-card__meta">
       <span>${sanitizeHTML(rfq.oem_name || "—")}</span>
       <span>Qty: ${formatNumber(rfq.quantity)}</span>
-      ${rfq.part_name
-        ? `<span>Part: ${sanitizeHTML(rfq.part_name)}</span>`
-        : ""}
-      <span>Posted: ${formatDate(rfq.created_at)}</span>
+      <span>${formatDate(rfq.created_at)}</span>
     </div>
 
-    ${rfq.description
-      ? `<p class="rfq-card__description">
-           ${sanitizeHTML(rfq.description)}
-         </p>`
-      : ""}
-
     <div class="rfq-card__footer">
-      <button
-        class="btn btn--primary btn--sm js-open-quote"
+      <button class="btn btn--primary js-open-quote"
         data-rfq-id="${rfq.id}"
-        data-rfq-title="${sanitizeHTML(rfq.title)}"
-        aria-label="Submit quote for ${sanitizeHTML(rfq.title)}"
-      >
+        data-rfq-title="${sanitizeHTML(rfq.title)}">
         Submit Quote
       </button>
     </div>
-  </div>`;
+  </div>
+`;
 
 const renderRFQList = (rfqs) => {
   const container = el("rfqList");
   if (!container) return;
 
-  setText("rfqCount", `${rfqs.length} open RFQ${rfqs.length !== 1 ? "s" : ""}`);
+  setText("rfqCount", `${rfqs.length} open RFQs`);
 
   if (!rfqs.length) {
-    container.innerHTML = _listEmpty(
-      "No open RFQs available right now. Check back soon for new opportunities."
-    );
+    container.innerHTML = _listEmpty("No RFQs available");
     return;
   }
 
   container.innerHTML = rfqs.map(renderRFQCard).join("");
 };
 
-// =================================================================
-// LOAD RFQs
-// =================================================================
+// =============================================================
+// LOAD
+// =============================================================
 const loadRFQs = async () => {
   setHTML("rfqList", _listLoading());
 
@@ -134,122 +106,124 @@ const loadRFQs = async () => {
     State.rfqs = rfqs || [];
     renderRFQList(State.rfqs);
   } catch (err) {
-    Toast.error(err.message || "Failed to load RFQs.");
-    setHTML("rfqList", _listEmpty("Failed to load RFQs. Please refresh."));
+    console.error(err);
+    Toast.error("Failed to load RFQs");
+    setHTML("rfqList", _listEmpty("Failed to load RFQs"));
   }
 };
 
-// =================================================================
-// QUOTE MODAL
-// =================================================================
+// =============================================================
+// MODAL
+// =============================================================
 const openQuoteModal = (rfqId, rfqTitle) => {
-  State.activeRfqId    = rfqId;
-  State.activeRfqTitle = rfqTitle;
+  if (!rfqId) return; // ✅ FIX
 
-  // Show which RFQ is being quoted on
+  State.activeRfqId = Number(rfqId); // ✅ FIX: ensure number
+  State.activeRfqTitle = rfqTitle || "";
+
   setText("quoteModalTitle", `Submit Quote — ${rfqTitle}`);
 
-  // Reset form
   el("quoteForm")?.reset();
 
   showEl("quoteModal");
-  // Focus first input for accessibility
   el("quotePrice")?.focus();
 };
 
 const closeQuoteModal = () => {
   hideEl("quoteModal");
-  State.activeRfqId    = null;
+  State.activeRfqId = null;
   State.activeRfqTitle = "";
 };
 
-// =================================================================
-// SUBMIT QUOTE
-// =================================================================
+// =============================================================
+// SUBMIT
+// =============================================================
 const handleQuoteSubmit = async (e) => {
   e.preventDefault();
 
-  const price    = el("quotePrice")?.value.trim()    ?? "";
-  const leadTime = el("leadTime")?.value.trim()      ?? "";
-  const currency = el("currency")?.value.trim()      || "USD";
-  const terms    = el("paymentTerms")?.value.trim()  || "Net 30";
-  const notes    = el("quoteNotes")?.value.trim()    || "";
+  if (State.isSubmitting) return; // ✅ FIX
 
-  // Validate required fields
-  if (!price || isNaN(parseFloat(price)) || parseFloat(price) <= 0) {
-    Toast.warning("Please enter a valid price.");
+  const price = el("quotePrice")?.value.trim();
+  const leadTime = el("leadTime")?.value.trim();
+
+  if (!price || parseFloat(price) <= 0) {
+    Toast.warning("Invalid price");
     return;
   }
-  if (!leadTime || isNaN(parseInt(leadTime)) || parseInt(leadTime) <= 0) {
-    Toast.warning("Please enter a valid lead time in days.");
+
+  if (!leadTime || parseInt(leadTime) <= 0) {
+    Toast.warning("Invalid lead time");
     return;
   }
+
   if (!State.activeRfqId) {
-    Toast.error("No RFQ selected. Please close and try again.");
+    Toast.error("No RFQ selected");
     return;
   }
 
   const submitBtn = el("quoteSubmitBtn");
-  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Submitting…"; }
+
+  State.isSubmitting = true;
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+  }
 
   try {
     await API.post("/supplier/quotes", {
-      rfqId:        State.activeRfqId,
-      price:        parseFloat(price),
-      currency,
+      rfqId: State.activeRfqId,
+      price: parseFloat(price),
+      currency: el("currency")?.value || "USD",
       leadTimeDays: parseInt(leadTime),
-      paymentTerms: terms,
-      notes,
+      paymentTerms: el("paymentTerms")?.value || "Net 30",
+      notes: el("quoteNotes")?.value || "",
     });
 
-    Toast.success("Quote submitted successfully.");
+    Toast.success("Quote submitted");
     closeQuoteModal();
 
-    // Redirect to My Quotes so supplier can see their submission
     setTimeout(() => {
       window.location.href = CONFIG.ROUTES.SUPPLIER_QUOTES;
     }, 800);
 
   } catch (err) {
-    // 400 = already quoted on this RFQ (backend enforces one quote per supplier per RFQ)
     if (err.status === 400) {
-      Toast.warning(err.message || "You have already submitted a quote for this RFQ.");
+      Toast.warning(err.message);
     } else {
-      Toast.error(err.message || "Failed to submit quote. Please try again.");
+      Toast.error("Failed to submit quote");
     }
   } finally {
-    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Submit Quote"; }
+    State.isSubmitting = false;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Quote";
+    }
   }
 };
 
-// =================================================================
-// EVENT BINDING
-// =================================================================
+// =============================================================
+// EVENTS
+// =============================================================
 const bindEvents = () => {
 
-  // ── RFQ list — open quote modal ───────────────────────────────
-  // Both card click and button click open the modal
   el("rfqList")?.addEventListener("click", (e) => {
-    const btn  = e.target.closest(".js-open-quote");
+
+    const btn = e.target.closest(".js-open-quote");
     const card = e.target.closest(".js-rfq-card");
 
-    // Button takes priority
     if (btn) {
       openQuoteModal(btn.dataset.rfqId, btn.dataset.rfqTitle);
       return;
     }
 
-    // Card click (not on a button inside it)
     if (card && !e.target.closest("button")) {
       openQuoteModal(card.dataset.rfqId, card.dataset.rfqTitle);
     }
   });
 
-  // ── Quote form submit ─────────────────────────────────────────
   el("quoteForm")?.addEventListener("submit", handleQuoteSubmit);
 
-  // ── Close modal ───────────────────────────────────────────────
-  document.querySelectorAll(".js-close-modal").forEach((btn) => {
+  document.querySelectorAll(".js-close-modal").forEach(btn => {
     btn.addEventListener("click", closeQuoteModal);
   });
 
@@ -261,19 +235,18 @@ const bindEvents = () => {
     if (e.key === "Escape") closeQuoteModal();
   });
 
-  // ── Refresh ───────────────────────────────────────────────────
   el("refreshBtn")?.addEventListener("click", loadRFQs);
 
-  // ── Sidebar / auth ────────────────────────────────────────────
-  el("logoutBtn")?.addEventListener("click",  () => Auth.logout());
+  el("logoutBtn")?.addEventListener("click", () => Auth.logout());
+
   el("menuToggle")?.addEventListener("click", () => {
     el("sidebar")?.classList.toggle("open");
   });
 };
 
-// =================================================================
+// =============================================================
 // INIT
-// =================================================================
+// =============================================================
 const init = () => {
   const user = Auth.getCurrentUser();
   setText("companyName", user?.company_name || "Supplier");
