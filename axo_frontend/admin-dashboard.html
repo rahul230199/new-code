@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | AXO Networks</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <style>
+    body { margin:0; font-family:Inter,sans-serif; background:#f4f6fb; }
+    .layout { display:flex; min-height:100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width:240px; background:#111827; color:#fff;
+      padding:20px; display:flex; flex-direction:column;
+    }
+    .sidebar h2 { margin-bottom:20px; }
+    .sidebar a {
+      padding:10px; margin-bottom:5px;
+      color:#9ca3af; text-decoration:none;
+      border-radius:6px;
+    }
+    .sidebar a.active, .sidebar a:hover {
+      background:#1f2937; color:#fff;
+    }
+
+    /* Main */
+    .main { flex:1; padding:20px; }
+
+    .topbar {
+      display:flex; justify-content:space-between;
+      align-items:center; margin-bottom:20px;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(4,1fr);
+      gap:15px;
+    }
+
+    .card {
+      background:#fff;
+      padding:20px;
+      border-radius:10px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    /* Table */
+    table { width:100%; border-collapse: collapse; }
+    th, td {
+      padding:10px;
+      border-bottom:1px solid #eee;
+      text-align:left;
+    }
+
+    /* Buttons */
+    .btn { padding:6px 10px; border:none; border-radius:6px; cursor:pointer; }
+    .btn--success { background:#10b981; color:#fff; }
+    .btn--danger { background:#ef4444; color:#fff; }
+
+    /* Badge */
+    .badge {
+      padding:4px 8px;
+      border-radius:6px;
+      font-size:12px;
+    }
+
+    /* Modal */
+    .modal {
+      position:fixed;
+      top:0; left:0; right:0; bottom:0;
+      background:rgba(0,0,0,0.5);
+      display:none;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .modal-content {
+      background:#fff;
+      padding:20px;
+      border-radius:8px;
+      width:400px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <h2>AXO Admin</h2>
+
+    <a href="#" class="js-nav-item active" data-section="overview">Overview</a>
+    <a href="#" class="js-nav-item" data-section="requests">Requests</a>
+    <a href="#" class="js-nav-item" data-section="analytics">Analytics</a>
+
+    <hr/>
+
+    <button id="logoutBtn">Logout</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h1>Dashboard</h1>
+      <div>Welcome, <strong id="adminName">Admin</strong></div>
+    </div>
+
+    <!-- ================= OVERVIEW ================= -->
+    <section id="section-overview">
+      <div class="grid">
+        <div class="card">Pending <h2 id="statPending">0</h2></div>
+        <div class="card">Approved <h2 id="statApproved">0</h2></div>
+        <div class="card">Rejected <h2 id="statRejected">0</h2></div>
+        <div class="card">Users <h2 id="statTotalUsers">0</h2></div>
+      </div>
+    </section>
+
+    <!-- ================= REQUESTS ================= -->
+    <section id="section-requests" style="display:none;">
+      <div class="card">
+
+        <!-- Filters -->
+        <div>
+          <button class="js-filter-btn" data-filter-type="status" data-filter-value="all">All</button>
+          <button class="js-filter-btn" data-filter-type="status" data-filter-value="pending">Pending</button>
+          <button class="js-filter-btn" data-filter-type="status" data-filter-value="approved">Approved</button>
+          <button class="js-filter-btn" data-filter-type="status" data-filter-value="rejected">Rejected</button>
+        </div>
+
+        <br/>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Company</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="requestsTableBody"></tbody>
+        </table>
+
+      </div>
+    </section>
+
+    <!-- ================= ANALYTICS ================= -->
+    <section id="section-analytics" style="display:none;">
+      <div class="card">
+        <h3>Analytics</h3>
+
+        <p>Total Registrations: <strong id="statTotalReg">0</strong></p>
+        <p>Approval Rate: <strong id="statApprovalRate">0%</strong></p>
+
+        <canvas id="roleChart"></canvas>
+        <canvas id="monthlyTrendChart"></canvas>
+
+        <div id="topCapabilities"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= MODALS ================= -->
+
+<!-- APPROVE -->
+<div id="approveModal" class="modal">
+  <div class="modal-content">
+    <h3>Approve</h3>
+    <p id="approveCompanyName"></p>
+    <button id="confirmApproveBtn">Approve</button>
+    <button id="cancelApproveBtn">Cancel</button>
+  </div>
+</div>
+
+<!-- REJECT -->
+<div id="rejectModal" class="modal">
+  <div class="modal-content">
+    <h3>Reject</h3>
+    <p id="rejectCompanyName"></p>
+    <textarea id="rejectReason" placeholder="Reason"></textarea>
+    <button id="confirmRejectBtn">Reject</button>
+    <button id="cancelRejectBtn">Cancel</button>
+  </div>
+</div>
+
+<!-- TEMP PASSWORD -->
+<div id="tempPasswordModal" class="modal">
+  <div class="modal-content">
+    <h3>Temporary Password</h3>
+    <p id="tempCompanyName"></p>
+    <p>Email: <span id="tempUserEmail"></span></p>
+    <p>Password: <strong id="tempPasswordValue"></strong></p>
+    <button id="copyPasswordBtn">Copy</button>
+    <button id="closeTempModalBtn">Close</button>
+  </div>
+</div>
+
+<!-- CHART -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- JS -->
+<script type="module" src="/js/pages/admin/dashboard.js"></script>
+
+</body>
+</html>
