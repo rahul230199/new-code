@@ -3,28 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXO Networks - Store - Product 1</title>
+    <title>Product List</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- MAIN CSS (same as index) -->
     <link rel="stylesheet" href="styles/index.css">
-
-    <!-- ONLY additional -->
+    <link rel="stylesheet" href="styles/axisStore.css">
     <link rel="stylesheet" href="styles/productList.css">
-</head>
-<body>
+   
 
-<!-- SAME ATMOSPHERIC BG -->
-<div class="atmospheric-bg">
-    <img src="https://static.wixstatic.com/media/3d4c2a_6a3285779af54e5eb504103e8f87828e~mv2.png">
-</div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
 
 <!-- SAME HEADER -->
 <header class="header" id="header">
@@ -34,7 +24,7 @@
             <div class="right-side">
                 <div class="nav">
                     <a href="/industrial-os" class="nav-item">Industrial OS</a>
-                    <a href="/store" class="nav-item">Store</a>
+                    <a href="/axisStore" class="nav-item">Axis</a>
                     <a href="/about" class="nav-item">About</a>
                     <a href="/blog" class="nav-item">Insights</a>
                     <a href="/careers" class="nav-item">Careers</a>
@@ -47,6 +37,13 @@
         </div>
     </div>
 </header>
+<!--
+LETS START coding from here. 
+
+-->
+
+
+
 
 <!-- SAME MOBILE MENU -->
 <div class="mobile-sidebar" id="mobileSidebar">
@@ -55,7 +52,7 @@
     </button>
     <div class="mobile-nav">
         <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
-        <a href="/store" class="mobile-nav-item">Store</a>
+        <a href="/axisStore" class="mobile-nav-item">AXIS</a>
         <a href="/about" class="mobile-nav-item">About</a>
         <a href="/blog" class="mobile-nav-item">Insights</a>
         <a href="/careers" class="mobile-nav-item">Careers</a>
@@ -65,42 +62,49 @@
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<!-- Product list  -->
-<section class="store-section">
-    <div class="container">
+<main class="supplier-page">
 
-        <div class="store-header">
-            <h1>AutoTech Components</h1>
-            <p>Available Products</p>
+    <!-- HEADER -->
+    <section class="supplier-header container">
+        <div class="supplier-info">
+
+            <div class="logo-box"><img id="supplier-logo" alt="Logo"></div>
+
+            <div>
+                <h1 id="supplier-name"></h1>
+                <p class="tagline" id="supplier-tagline"></p>
+            </div>
         </div>
 
-        <div class="product-list">
+   
+        <a href="https://www.gms-india.com/" target="_blank" class="visit-btn">
+            Visit Website ↗
+        </a>
 
-            <div class="glass-card product-card">
-                <h3>Battery Module</h3>
-                <p>High-performance lithium battery module for EV systems.</p>
-                <button class="connect-btn">Enquire</button>
-            </div>
+    </section>
 
-            <div class="glass-card product-card">
-                <h3>Motor Controller</h3>
-                <p>Advanced motor control system for electric vehicles.</p>
-                <button class="connect-btn">Enquire</button>
-            </div>
+    <!-- STORY -->
+    <section class="supplier-section container">
+        <h2>Our Story</h2>
 
-            <div class="glass-card product-card">
-                <h3>Cooling System</h3>
-                <p>Efficient cooling solutions for EV batteries.</p>
-                <button class="connect-btn">Enquire</button>
-            </div>
+        <p id="supplier-story"></p>
+    </section>
+
+    <!-- SHOWCASE -->
+    <section class="supplier-section container">
+        <h2>The Showcase</h2>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- products will be injected here -->
+
 
         </div>
+    </section>
 
-    </div>
-</section>
+</main>
 
 <!-- SAME FOOTER -->
-<!-- <footer class="footer">
+<footer class="footer">
     <div class="container">
         <div class="footer-content">
             <div class="footer-brand">
@@ -108,18 +112,170 @@
                 <p>AuroXOrigin Networks Private Limited</p>
                 <p class="copyright">© 2026</p>
             </div>
-            <div class="footer-links-center">
-                <a href="/terms">Terms</a>
-                <a href="/privacy">Privacy Policy</a>
-                <a href="/blog">Insights</a>
-                <a href="/contact">Contact Us</a>
-		<a href="https://www.linkedin.com/company/axo-networks/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
-            </div>
         </div>
     </div>
-</footer> -->
+</footer>
 
-<!-- SAME JS (copied from index.html) -->
+<!-- 
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+console.log("Product list for:", id);
+</script> -->
+
+<script>
+const supplierData = {
+    1: {
+        name: "Global Marketing Services (GMS)",
+        tagline: "INNOVATING THE FUTURE OF AUTOMATION",
+        logo: "assets/gmsLogo.png",
+        website: "https://www.gms-india.com/",
+        story: `Global Marketing Services (GMS) is a Bangalore-based engineering partner specializing in microelectronics and precision manufacturing solutions. 
+
+Founded in 2001, GMS supports research institutions and industrial manufacturers with end-to-end capabilities—from concept development to production—serving organizations like ISRO, DRDO, and IITs through a strong global technology network.`,
+        products: [
+            {
+                name: "Carrera Series Power Supplies",
+                desc: "High-efficiency switched-mode power supplies with rapid arc detection for stable deposition processes.",
+                img: "assets/products/1.jpg"
+            },
+            {
+                name: "FerroVac Vacuum Controller",
+                desc: "Advanced vacuum controller for seamless integration with deposition systems.",
+                img: "assets/products/2.jpg"
+            },
+            {
+                name: "Center Mount Single Hearth E-Beam Guns",
+                desc: "Precision electron beam guns available in multiple sizes and power configurations.",
+                img: "assets/products/3.jpg"
+            },
+            {
+                name: "Genius E-Beam Controllers",
+                desc: "Programmable controllers for precise regulation of electron beam deposition.",
+                img: "assets/products/4.jpg"
+            },
+            {
+                name: "Temescal CV-12SLX Power Supply",
+                desc: "12kW constant-voltage power supply for high-performance electron beam control.",
+                img: "assets/products/5.jpg"
+            },
+            {
+                name: "Temescal CV-6SLX Power Supply",
+                desc: "Reliable 6kW power supply designed for stable single-beam operations.",
+                img: "assets/products/6.jpg"
+            },
+            {
+                name: "Temescal PopTop Multi-Pocket E-Guns",
+                desc: "Multi-pocket e-guns with minimized contamination and enhanced reliability.",
+                img: "assets/products/7.jpg"
+            },
+            {
+                name: "Temescal SuperSource E-Guns",
+                desc: "Industry-standard e-beam sources offering versatility and consistent deposition performance.",
+                img: "assets/products/8.jpg"
+            }
+        ]
+    },
+
+    2: {
+        name: "VoltEdge Energy Systems",
+        tagline: "ADVANCED ENERGY STORAGE FOR ELECTRIC MOBILITY",
+        logo: "assets/voltEdgeLogo.png",
+        website: "#",
+        story: `VoltEdge focuses on next-generation EV battery systems, delivering scalable lithium-ion packs and intelligent BMS solutions designed for safety, performance, and longevity.`,
+        products: [
+            {
+                name: "Lithium-ion EV Battery Pack",
+                desc: "High energy-density battery pack engineered for electric mobility applications.",
+                img: "assets/products/volt1.jpg"
+            },
+            {
+                name: "Battery Management System (BMS)",
+                desc: "Smart control system ensuring battery safety, performance, and lifecycle optimization.",
+                img: "assets/products/volt2.jpg"
+            },
+            {
+                name: "Fast Charging Module",
+                desc: "High-speed DC charging solution enabling rapid EV battery recharge.",
+                img: "assets/products/volt3.jpg"
+            }
+        ]
+    },
+
+    3: {
+        name: "MotionDrive Technologies",
+        tagline: "HIGH-EFFICIENCY EV POWERTRAIN SOLUTIONS",
+        logo: "assets/motionDriveLogo.png",
+        website: "#",
+        story: `MotionDrive engineers high-performance electric motors and drivetrain systems that power the next generation of electric mobility across automotive and industrial sectors.`,
+        products: [
+            {
+                name: "High Efficiency Electric Motor",
+                desc: "Compact and powerful motor designed for EV propulsion systems.",
+                img: "assets/products/motion1.jpg"
+            },
+            {
+                name: "EV Powertrain Controller",
+                desc: "Advanced controller for precise torque and speed management in electric vehicles.",
+                img: "assets/products/motion2.jpg"
+            }
+        ]
+    }
+};
+
+// 🔥 GET ID
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+if (!id) {
+    window.location.href = "/store";
+}
+const supplier = supplierData[id];
+
+// 🔥 SAFE CHECK
+if (!supplier) {
+    document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:50px;'>Supplier not found</h2>";
+} else {
+
+    // 🔥 HEADER
+    document.getElementById("supplier-name").innerText = supplier.name;
+    document.getElementById("supplier-tagline").innerText = supplier.tagline;
+    document.querySelector(".logo-box img").src = supplier.logo;
+    document.getElementById("supplier-logo").src = supplier.logo;
+    document.querySelector(".visit-btn").href = supplier.website;
+
+    // 🔥 STORY
+    document.getElementById("supplier-story").innerText = supplier.story;
+
+    // 🔥 PRODUCTS
+    const grid = document.getElementById("productsGrid");
+
+    let html = "";
+
+    supplier.products.forEach(p => {
+        html += `
+            <div class="product-card">
+
+                <div class="product-img">
+                    <img src="${p.img}">
+                </div>
+
+                <div class="product-content">
+                    <h4>${p.name}</h4>
+                    <p>${p.desc}</p>
+                </div>
+
+                <button class="enquiry-btn">Enquire →</button>
+
+            </div>
+        `;
+    });
+
+    grid.innerHTML = html;
+}
+</script>
+
 <script>
 (function() {
     const header = document.getElementById('header');
@@ -187,7 +343,7 @@
 })();
 </script>
 
-
-
 </body>
+
+
 </html>

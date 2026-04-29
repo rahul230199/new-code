@@ -1,15 +1,253 @@
-.product-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+/* ========================= 
+   PAGE BASE
+========================= */
+.supplier-page {
+    padding-top: 120px;
+    color: white;
+}
+/* bg image */
+.supplier-page {
+    position: relative;
+    padding-top: 120px;
+    color: white;
+    min-height: 100vh;
+
+    background: url('/assets/productList-bg.jpg') center/cover no-repeat;
+}
+.supplier-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.7); /* adjust darkness */
+
+    z-index: -1;
+    backdrop-filter: blur(2px);
+}
+.supplier-page > * {
+    position: relative;
+    z-index: 1;
 }
 
-@media (max-width: 968px) {
-    .product-list {
-        grid-template-columns: 1fr;
+/* =========================
+   HEADER
+========================= */
+.supplier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+    gap: 20px;
+}
+
+.supplier-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.supplier-info h1 {
+    font-size: 36px;
+}
+
+/* BUTTON */
+.visit-btn {
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 10px 18px;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.visit-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+/* =========================
+   CONTENT SECTIONS
+========================= */
+.supplier-section {
+    margin-bottom: 60px;
+}
+
+.supplier-section h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.supplier-section p {
+    max-width: 700px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+}
+
+/* =========================
+   PRODUCTS GRID
+========================= */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* DESKTOP */
+    gap: 20px;
+}
+
+/* =========================
+   PRODUCT CARD
+========================= */
+.product-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(59,130,246,0.4);
+}
+
+/* IMAGE */
+.product-img img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* CONTENT */
+.product-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.product-content h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.product-content p {
+    font-size: 13px;
+    opacity: 0.7;
+    flex-grow: 1;
+}
+
+/* BUTTON */
+.enquiry-btn {
+    margin-top: auto;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: white;
+    transition: 0.3s;
+}
+
+.enquiry-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+/* EMPTY STATE */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255,255,255,0.5);
+}
+
+/* =========================
+   TABLET (≤1024px)
+========================= */
+@media (max-width: 1024px) {
+
+    .supplier-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .supplier-info h1 {
+        font-size: 28px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr); /* 🔥 3 cards */
     }
 }
-.store-section {
-    padding-top: 160px;  
-    padding-bottom: 80px;
+
+/* =========================
+   MOBILE (≤640px)
+========================= */
+@media (max-width: 640px) {
+
+    .supplier-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .supplier-info {
+        gap: 12px;
+    }
+
+    .supplier-info h1 {
+        font-size: 22px;
+    }
+
+    .visit-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .supplier-section p {
+        font-size: 14px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr); /* 🔥 2 cards */
+    }
+
+    .product-img img {
+        height: 150px;
+    }
+
+    .product-content h4 {
+        font-size: 14px;
+    }
+
+    .product-content p {
+        display: none; /* 🔥 prevents ugly stacking */
+    }
+
+    .enquiry-btn {
+        font-size: 13px;
+        padding: 10px;
+    }
+}
+
+/* =========================
+   PRODUCTS GRID (FORCED)
+========================= */
+.products-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px;
+}
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }
