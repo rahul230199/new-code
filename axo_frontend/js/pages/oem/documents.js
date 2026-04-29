@@ -322,7 +322,10 @@ const _handleFileSelect = (file) => {
   State.selectedFile = file;
   _updateFilePreview(file);
 };
-
+const getCurrentRFQId = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("rfqId"); // e.g. ?rfqId=123
+};
 // -----------------------------------------------------------------
 // Form submit — upload
 // -----------------------------------------------------------------
@@ -336,6 +339,7 @@ const handleUploadSubmit = async (e) => {
 
   const formData = new FormData();
   formData.append("document",    State.selectedFile);
+  formData.append("rfqId", getCurrentRFQId());
   formData.append("category",    el("docCategory")?.value    || "RFQ Documents");
   formData.append("description", el("docDescription")?.value || "");
 

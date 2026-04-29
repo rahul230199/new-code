@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RFQ Management | AXO Networks</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="./css/oem-dashboard.css" />
@@ -14,21 +13,18 @@
 
 <div class="oem-container">
 
-  <!-- ═══════════════════════════════════════
-       SIDEBAR — nav hrefs kept as-is
-       ═══════════════════════════════════════ -->
+  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <h2>AXO Networks</h2>
-      <p>OEM Portal</p>
+      <h2>AXO Networks</h2><p>OEM Portal</p>
     </div>
     <nav class="sidebar-nav" aria-label="OEM navigation">
-      <a href="/oem-dashboard.html"  class="nav-item"><i class="fas fa-chart-line"   aria-hidden="true"></i><span>Dashboard</span></a>
-      <a href="/oem-rfq.html"        class="nav-item active"><i class="fas fa-file-alt"    aria-hidden="true"></i><span>RFQ Management</span></a>
-      <a href="/oem-orders.html"     class="nav-item"><i class="fas fa-shopping-cart" aria-hidden="true"></i><span>Orders</span></a>
-      <a href="/oem-suppliers.html"  class="nav-item"><i class="fas fa-truck"         aria-hidden="true"></i><span>Suppliers</span></a>
-      <a href="/oem-documents.html"  class="nav-item"><i class="fas fa-folder-open"   aria-hidden="true"></i><span>Documents</span></a>
-      <a href="/oem-profile.html"    class="nav-item"><i class="fas fa-building"      aria-hidden="true"></i><span>Profile</span></a>
+      <a href="/oem-dashboard.html"  class="nav-item"><i class="fas fa-chart-line"    aria-hidden="true"></i><span>Dashboard</span></a>
+      <a href="/oem-rfq.html"        class="nav-item active"><i class="fas fa-file-alt" aria-hidden="true"></i><span>RFQ Management</span></a>
+      <a href="/oem-orders.html"     class="nav-item"><i class="fas fa-shopping-cart"  aria-hidden="true"></i><span>Orders</span></a>
+      <a href="/oem-suppliers.html"  class="nav-item"><i class="fas fa-truck"          aria-hidden="true"></i><span>Suppliers</span></a>
+      <a href="/oem-documents.html"  class="nav-item"><i class="fas fa-folder-open"    aria-hidden="true"></i><span>Documents</span></a>
+      <a href="/oem-profile.html"    class="nav-item"><i class="fas fa-building"       aria-hidden="true"></i><span>Profile</span></a>
     </nav>
     <div class="sidebar-footer">
       <button class="logout-btn" id="logoutBtn" type="button">
@@ -37,9 +33,7 @@
     </div>
   </aside>
 
-  <!-- ═══════════════════════════════════════
-       MAIN CONTENT
-       ═══════════════════════════════════════ -->
+  <!-- MAIN CONTENT -->
   <main class="main-content">
 
     <!-- Top Bar -->
@@ -53,7 +47,6 @@
           <span class="notification-badge">0</span>
         </div>
         <div class="user-info">
-          <!-- id="companyName" set by init() -->
           <span id="companyName">Loading…</span>
           <div class="avatar" aria-hidden="true"><i class="fas fa-industry"></i></div>
         </div>
@@ -64,66 +57,49 @@
     <div class="page-header">
       <div>
         <h1>RFQ Management</h1>
-        <p>Create and manage your Request for Quotes</p>
+        <p>Create and manage your Requests for Quotation</p>
       </div>
-      <!-- id="createRfqBtn" wired in bindEvents() -->
       <button class="btn btn--primary" id="createRfqBtn" type="button">
         <i class="fas fa-plus" aria-hidden="true"></i> New RFQ
       </button>
     </div>
 
-    <!-- RFQ List
-         id="rfqList" — renderRFQList() populates with .rfq-card items.
-         No filter bar: rfq.js loads the full list without client-side filtering.
-         If filtering is needed in future, add applyFilters() to rfq.js first,
-         then add the filter bar back here. -->
+    <!-- RFQ List -->
     <div id="rfqList" class="rfq-list" aria-live="polite">
-      <!-- skeleton shown by _cardLoading() on load -->
+      <!-- cards injected by rfq.js -->
     </div>
 
   </main>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════
-     MODAL: CREATE RFQ
-     Form fields read by handleCreateSubmit():
-       rfqTitle | partNumber | partName | quantity |
-       unit | targetPrice | currency | description
-
-     Fields NOT in rfq.js (ppapLevel, deadline, file upload)
-     have been removed — they were dead UI with no backend support.
-     Add them back only when the backend endpoint accepts them.
-
-     Submit button id="createRfqSubmitBtn" — required by JS to
-     disable/restore the button during the API call.
+     MODAL: CREATE RFQ (with optional document attachment)
      ═══════════════════════════════════════════════════════ -->
-<div id="createRfqModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="createRfqModalTitle" style="display:none">
+<div id="createRfqModal" class="modal" role="dialog" aria-modal="true"
+     aria-labelledby="createRfqModalTitle" style="display:none">
   <div class="modal-content modal-large">
 
     <div class="modal-header">
       <h3 id="createRfqModalTitle">
         <i class="fas fa-plus-circle" aria-hidden="true"></i> Create New RFQ
       </h3>
-      <!-- .js-close-modal — wired by querySelectorAll(".js-close-modal") in bindEvents() -->
-      <button class="js-close-modal" type="button" aria-label="Close modal">&times;</button>
+      <button class="js-close-modal" type="button" aria-label="Close">&times;</button>
     </div>
 
     <div class="modal-body">
       <form id="createRfqForm">
 
-        <!-- Basic Information -->
+        <!-- ── Basic Information ── -->
         <div class="form-section">
           <h4><i class="fas fa-info-circle" aria-hidden="true"></i> Basic Information</h4>
           <div class="form-row">
             <div class="form-group">
-              <label for="rfqTitle">Title <span aria-hidden="true">*</span></label>
-              <!-- id="rfqTitle" required by handleCreateSubmit() -->
+              <label for="rfqTitle">Title <span class="required">*</span></label>
               <input type="text" id="rfqTitle" class="form-control" required
                      placeholder="e.g., Battery Pack Assembly" />
             </div>
             <div class="form-group">
               <label for="partNumber">Part Number</label>
-              <!-- id="partNumber" read by handleCreateSubmit() -->
               <input type="text" id="partNumber" class="form-control"
                      placeholder="e.g., BP-2024-001" />
             </div>
@@ -131,32 +107,28 @@
           <div class="form-row">
             <div class="form-group">
               <label for="partName">Part Name</label>
-              <!-- id="partName" read by handleCreateSubmit() -->
               <input type="text" id="partName" class="form-control"
                      placeholder="e.g., Lithium Battery Pack" />
             </div>
             <div class="form-group">
-              <label for="quantity">Quantity <span aria-hidden="true">*</span></label>
-              <!-- id="quantity" required by handleCreateSubmit() -->
+              <label for="quantity">Quantity <span class="required">*</span></label>
               <input type="number" id="quantity" class="form-control" required
                      min="1" placeholder="1000" />
             </div>
           </div>
         </div>
 
-        <!-- Pricing -->
+        <!-- ── Pricing & Unit ── -->
         <div class="form-section">
           <h4><i class="fas fa-dollar-sign" aria-hidden="true"></i> Pricing &amp; Unit</h4>
           <div class="form-row">
             <div class="form-group">
               <label for="targetPrice">Target Price (per unit)</label>
-              <!-- id="targetPrice" read by handleCreateSubmit() -->
               <input type="number" step="0.01" id="targetPrice" class="form-control"
                      min="0" placeholder="0.00" />
             </div>
             <div class="form-group">
               <label for="currency">Currency</label>
-              <!-- id="currency" read by handleCreateSubmit() -->
               <select id="currency" class="form-control">
                 <option value="USD">USD ($)</option>
                 <option value="INR">INR (₹)</option>
@@ -167,7 +139,6 @@
           <div class="form-row">
             <div class="form-group">
               <label for="unit">Unit of Measure</label>
-              <!-- id="unit" read by handleCreateSubmit() -->
               <select id="unit" class="form-control">
                 <option value="units">Units</option>
                 <option value="pcs">Pcs</option>
@@ -177,25 +148,52 @@
           </div>
         </div>
 
-        <!-- Description -->
+        <!-- ── Description ── -->
         <div class="form-section">
           <h4><i class="fas fa-align-left" aria-hidden="true"></i> Description</h4>
           <div class="form-group">
             <label for="description">Specifications &amp; Requirements</label>
-            <!-- id="description" read by handleCreateSubmit() -->
-            <textarea id="description" class="form-control" rows="4"
-                      placeholder="Describe your requirements, technical specifications, quality standards…"></textarea>
+            <textarea id="description" class="form-control" rows="3"
+                      placeholder="Describe your requirements, specs, quality standards…"></textarea>
           </div>
         </div>
 
-        <!-- Form Actions -->
+        <!-- ── Document Attachment (new) ── -->
+        <div class="form-section">
+          <h4>
+            <i class="fas fa-paperclip" aria-hidden="true"></i>
+            Attach Document
+            <span class="form-hint">(optional — visible to suppliers who quote)</span>
+          </h4>
+
+          <!--
+            id="rfqBrowseBtn"   → triggers rfqFileInput.click()
+            id="rfqFileInput"   → hidden file input, change → State.rfqFile
+            id="rfqFilePreview" → file name / size preview row
+          -->
+          <div class="upload-area upload-area--compact" id="rfqUploadArea"
+               role="button" tabindex="0"
+               aria-label="Click or drag to attach a document to this RFQ">
+            <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+            <span>Drag &amp; drop or</span>
+            <button type="button" class="btn btn--outline btn--sm" id="rfqBrowseBtn">
+              Browse file
+            </button>
+            <input type="file" id="rfqFileInput"
+                   accept=".pdf,.dwg,.step,.stp,.iges,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.zip"
+                   style="display:none" aria-hidden="true" />
+          </div>
+
+          <!-- Preview row (shown after file picked) -->
+          <div id="rfqFilePreview" class="selected-file-row" style="display:none"></div>
+
+        </div>
+
+        <!-- ── Form Actions ── -->
         <div class="form-actions">
           <button type="button" class="btn btn--outline js-close-modal">Cancel</button>
           <!--
-            id="createRfqSubmitBtn" — REQUIRED by handleCreateSubmit():
-              submitBtn.disabled = true;
-              submitBtn.textContent = "Publishing…";
-            Without this id the button stays enabled during the API call.
+            id="createRfqSubmitBtn" — disabled/restored by handleCreateSubmit()
           -->
           <button type="submit" class="btn btn--primary" id="createRfqSubmitBtn">
             <i class="fas fa-paper-plane" aria-hidden="true"></i> Publish RFQ
@@ -204,38 +202,45 @@
 
       </form>
     </div>
-
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════
      MODAL: QUOTES
-     id="quotesModal"    — showEl/hideEl in openQuotesModal() / closeQuotesModal()
-     id="quotesModalTitle" — setText() called with "Quotes — {rfqTitle}"
-     id="quotesList"     — renderQuoteCard() output injected here
      ═══════════════════════════════════════════════════════ -->
-<div id="quotesModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="quotesModalTitle" style="display:none">
+<div id="quotesModal" class="modal" role="dialog" aria-modal="true"
+     aria-labelledby="quotesModalTitle" style="display:none">
   <div class="modal-content">
-
     <div class="modal-header">
-      <!-- id="quotesModalTitle" — setText() sets this to "Quotes — {rfq title}" -->
       <h3 id="quotesModalTitle">
         <i class="fas fa-comment-dollar" aria-hidden="true"></i> Supplier Quotes
       </h3>
-      <button class="js-close-modal" type="button" aria-label="Close modal">&times;</button>
+      <button class="js-close-modal" type="button" aria-label="Close">&times;</button>
     </div>
-
-    <!-- id="quotesList" — populated by renderQuoteCard() / _quotesLoading() -->
+    <!-- id="quotesList" → populated by renderQuoteCard() -->
     <div class="modal-body" id="quotesList" aria-live="polite"></div>
-
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════
-     MODULE SCRIPT
-     type="module" required for ES import statements in rfq.js
+     MODAL: RFQ DOCUMENTS
+     id="docsModal"     → showEl/hideEl
+     id="docsModalTitle"→ setText() → "Documents — {rfq title}"
+     id="docsModalBody" → setHTML() with doc cards
      ═══════════════════════════════════════════════════════ -->
-<script type="module" src="./js/pages/oem/rfq.js"></script>
+<div id="docsModal" class="modal" role="dialog" aria-modal="true"
+     aria-labelledby="docsModalTitle" style="display:none">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="docsModalTitle">
+        <i class="fas fa-folder-open" aria-hidden="true"></i> RFQ Documents
+      </h3>
+      <button class="js-close-modal" type="button" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body" id="docsModalBody" aria-live="polite"></div>
+  </div>
+</div>
 
+<script type="module" src="./js/pages/oem/rfq.js"></script>
 </body>
 </html>
