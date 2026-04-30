@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFQ Documents | AXO Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; padding: 24px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .back-btn {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .back-btn:hover { background: #4f46e5; }
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .header h1 { font-size: 24px; margin-bottom: 8px; color: #0f172a; }
+        .header p { color: #64748b; }
+        .doc-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .doc-info { flex: 1; }
+        .doc-name { font-weight: 600; margin-bottom: 6px; color: #0f172a; }
+        .doc-meta { font-size: 13px; color: #64748b; display: flex; gap: 16px; }
+        .download-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .download-btn:hover { background: #059669; }
+        .loading, .empty { text-align: center; padding: 60px; color: #64748b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-btn" onclick="window.location.href='/oem-documents.html'">
+            <i class="fas fa-arrow-left"></i> Back to Documents
+        </button>
+        
+        <div class="header">
+            <h1 id="folderTitle">Loading...</h1>
+            <p>Documents in this RFQ folder</p>
+        </div>
+        
+        <div id="documentsList" class="loading">
+            <i class="fas fa-spinner fa-spin"></i> Loading documents...
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
+        
+        if (!token) {
+            window.location.href = '/login.html';
+        }
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const rfqName = decodeURIComponent(urlParams.get('rfq') || '');
+        
+        document.getElementById('folderTitle').innerHTML = `<i class="fas fa-folder-open"></i> ${rfqName}`;
+        
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 B';
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(1024));
+            return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+        }
+        
+        async function loadDocuments() {
+            const container = document.getElementById('documentsList');
+            
+            try {
+                const response = await fetch('/api/oem/documents', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.status === 401) {
+                    localStorage.clear();
+                    window.location.href = '/login.html';
+                    return;
+                }
+                
+                const data = await response.json();
+                const allDocs = data.documents || [];
+                const filteredDocs = allDocs.filter(doc => doc.rfq_number === rfqName);
+                
+                if (filteredDocs.length === 0) {
+                    container.innerHTML = '<div class="empty">No documents found in this folder</div>';
+                    return;
+                }
+                
+                let html = '';
+                filteredDocs.forEach(doc => {
+                    html += `
+                        <div class="doc-card">
+                            <div class="doc-info">
+                                <div class="doc-name">${escapeHtml(doc.file_name)}</div>
+                                <div class="doc-meta">
+                                    <span><i class="fas fa-tag"></i> ${escapeHtml(doc.category || 'General')}</span>
+                                    <span><i class="fas fa-database"></i> ${formatFileSize(doc.file_size)}</span>
+                                    <span><i class="fas fa-calendar"></i> ${new Date(doc.created_at).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            <button class="download-btn" onclick="downloadDocument(${doc.id}, '${escapeHtml(doc.file_name)}')">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = '<div class="empty">Error loading documents</div>';
+            }
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        window.downloadDocument = function(docId, fileName) {
+            window.open(`/api/oem/documents/${docId}/download?token=${token}`, '_blank');
+        };
+        
+        loadDocuments();
+    </script>
+</body>
+</html>

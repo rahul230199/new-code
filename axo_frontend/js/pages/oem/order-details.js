@@ -72,7 +72,7 @@ const renderOrderHeader = (order) => {
   setText("poNumber",       order.po_number    || `PO-${order.id}`);
   setText("supplierName",   order.supplier_name || "—");
   setText("orderDate",      formatDate(order.created_at));
-  setText("orderValue",     formatCurrency(order.total_value || 0, "USD"));
+  setText("orderValue",     formatCurrency(order.total_value || 0, order.currency || "USD"));
   setText("orderQuantity",  `${order.quantity ?? "—"} ${order.unit || "units"}`);
   setText("partName",       order.part_name     || "—");
   setText("paymentTerms",   order.payment_terms || "Net 30");

@@ -48,7 +48,7 @@
         <i class="fas fa-bars" aria-hidden="true"></i>
       </button>
       <div class="top-bar-right">
-        <div class="notification-bell" aria-label="Notifications">
+        <div class="notification-bell" id="notificationBell" aria-label="Notifications">
           <i class="far fa-bell" aria-hidden="true"></i>
           <span class="notification-badge">0</span>
         </div>
@@ -132,5 +132,17 @@
      ═══════════════════════════════════════════════════════ -->
 <script type="module" src="./js/pages/oem/suppliers.js"></script>
 
+    <!-- Notification Panel -->
+    <div class="notification-overlay" id="notificationOverlay"></div>
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+            <button id="markAllRead">Mark all as read</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <div class="notification-empty"><i class="fas fa-bell-slash"></i><p>No notifications</p></div>
+        </div>
+    </div>
+<script src="/js/notification.js"></script>
 </body>
 </html>

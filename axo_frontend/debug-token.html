@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head><title>Debug Token</title></head>
+<body>
+    <h1>Token Debug</h1>
+    <div id="debug"></div>
+    <button onclick="checkToken()">Check Token</button>
+    
+    <script>
+        function checkToken() {
+            const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
+            const user = localStorage.getItem('adminUser') || localStorage.getItem('user');
+            
+            const debug = document.getElementById('debug');
+            debug.innerHTML = `
+                <p>Token exists: ${!!token}</p>
+                <p>Token value: ${token ? token.substring(0, 50) + '...' : 'null'}</p>
+                <p>User exists: ${!!user}</p>
+                <p>User value: ${user || 'null'}</p>
+                <p>All localStorage keys: ${JSON.stringify(Object.keys(localStorage))}</p>
+            `;
+        }
+        
+        checkToken();
+    </script>
+</body>
+</html>

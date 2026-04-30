@@ -1,4 +1,75 @@
 const pool = require('../config/database');
+const fs = require('fs');
+const path = require('path');
+
+const UPLOADS_BASE = '/home/ec2-user/axo/axo_backend/uploads';
+
+// Ensure directory exists
+const ensureDir = (dirPath) => {
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+    }
+};
+
+// Ensure base upload directories exist
+ensureDir(path.join(UPLOADS_BASE, 'rfq_files'));
+ensureDir(path.join(UPLOADS_BASE, 'po_files'));
+
+// Save files to RFQ folder
+const saveFilesToRFQFolder = async (files, rfqNumber, rfqId, userId) => {
+    const rfqFolderName = `RFQ_${rfqNumber}`;
+    const rfqFolderPath = path.join(UPLOADS_BASE, 'rfq_files', rfqFolderName);
+    ensureDir(rfqFolderPath);
+    
+    const savedDocs = [];
+    for (const file of files) {
+        const uniqueFilename = `${Date.now()}-${file.originalname}`;
+        const filePath = path.join(rfqFolderPath, uniqueFilename);
+        
+        fs.renameSync(file.path, filePath);
+        
+        const result = await pool.query(`
+            INSERT INTO documents (user_id, rfq_id, file_name, file_path, folder_path, file_size, file_type, category, description, created_at, updated_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), NOW())
+            RETURNING id, file_name, file_path
+        `, [userId, rfqId, file.originalname, filePath, rfqFolderPath, file.size, file.mimetype, 'RFQ Documents', `Uploaded for RFQ: ${rfqNumber}`]);
+        
+        savedDocs.push(result.rows[0]);
+    }
+    return savedDocs;
+};
+
+// Copy files from RFQ folder to PO folder
+const copyFilesToPOFolder = async (rfqId, poNumber, poId, userId) => {
+    const rfqDocs = await pool.query(`
+        SELECT * FROM documents WHERE rfq_id = $1 AND user_id = $2
+    `, [rfqId, userId]);
+    
+    const poFolderName = `PO_${poNumber}`;
+    const poFolderPath = path.join(UPLOADS_BASE, 'po_files', poFolderName);
+    ensureDir(poFolderPath);
+    
+    const copiedDocs = [];
+    for (const doc of rfqDocs.rows) {
+        const uniqueFilename = `${Date.now()}-${doc.file_name}`;
+        const newFilePath = path.join(poFolderPath, uniqueFilename);
+        
+        fs.copyFileSync(doc.file_path, newFilePath);
+        
+        const result = await pool.query(`
+            INSERT INTO documents (user_id, rfq_id, po_id, source_rfq_id, file_name, file_path, folder_path, file_size, file_type, category, description, created_at, updated_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW())
+            RETURNING id, file_name, file_path
+        `, [userId, rfqId, poId, doc.id, doc.file_name, newFilePath, poFolderPath, doc.file_size, doc.file_type, 'PO Documents', `Copied from RFQ to PO ${poNumber}`]);
+        
+        copiedDocs.push(result.rows[0]);
+    }
+    
+    if (copiedDocs.length > 0) {
+        console.log(`Copied ${copiedDocs.length} files from RFQ ${rfqId} to PO ${poNumber}`);
+    }
+    return copiedDocs;
+};
 
 // ==================== DASHBOARD STATS ====================
 const getDashboardStats = async (req, res) => {
@@ -92,29 +163,50 @@ const getRFQs = async (req, res) => {
 const createRFQ = async (req, res) => {
     try {
         const userId = req.user.userId;
-        const { title, partNumber, partName, quantity, unit, targetPrice, currency, description } = req.body;
+        const { title, partNumber, partName, quantity, unit, targetPrice, currency, description, ppapLevel } = req.body;
 
-        if (!title)                       return res.status(400).json({ error: 'Title is required' });
-        if (!quantity || quantity <= 0)   return res.status(400).json({ error: 'Valid quantity is required' });
+        if (!title) return res.status(400).json({ error: 'Title is required' });
+        if (!quantity || quantity <= 0) return res.status(400).json({ error: 'Valid quantity is required' });
 
         const rfqNumber = `RFQ-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
-        const result = await pool.query(`
-            INSERT INTO rfqs (rfq_number, oem_id, title, part_number, part_name,
-                              quantity, unit, target_price, currency, description, status, created_at)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'open',NOW())
-            RETURNING *
-        `, [
-            rfqNumber, userId, title,
-            partNumber || null, partName || null,
-            parseInt(quantity),
-            unit || 'units',
-            targetPrice || null,
-            currency || 'USD',
-            description || null,
-        ]);
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
 
-        res.json({ success: true, rfq: result.rows[0] });
+            const result = await client.query(`
+                INSERT INTO rfqs (rfq_number, oem_id, title, part_number, part_name,
+                                  quantity, unit, target_price, currency, description, ppap_level, status, created_at)
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'open',NOW())
+                RETURNING *
+            `, [
+                rfqNumber, userId, title,
+                partNumber || null, partName || null,
+                parseInt(quantity),
+                unit || 'units',
+                targetPrice || null,
+                currency || 'USD',
+                description || null,
+                ppapLevel || null
+            ]);
+
+            const rfq = result.rows[0];
+
+            // Save files to RFQ folder
+            if (req.files && req.files.length > 0) {
+                await saveFilesToRFQFolder(req.files, rfqNumber, rfq.id, userId);
+                console.log(`Saved ${req.files.length} files to RFQ folder for ${rfqNumber}`);
+            }
+
+            await client.query('COMMIT');
+            res.json({ success: true, rfq: rfq });
+
+        } catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        } finally {
+            client.release();
+        }
     } catch (error) {
         console.error('Create RFQ error:', error);
         res.status(500).json({ error: error.message });
@@ -123,7 +215,7 @@ const createRFQ = async (req, res) => {
 
 const getRFQQuotes = async (req, res) => {
     try {
-        const rfqId  = req.params.id;
+        const rfqId = req.params.id;
         const quotes = await pool.query(`
             SELECT q.*, u.company_name AS supplier_name
             FROM quotes q
@@ -138,38 +230,15 @@ const getRFQQuotes = async (req, res) => {
     }
 };
 
-// Get documents linked to a specific RFQ (so suppliers can see them)
 const getRFQDocuments = async (req, res) => {
     try {
-        const rfqId  = req.params.id;
-        const userId = req.user.userId;
-
-        // OEM sees all docs for this RFQ; suppliers see only public docs if they've quoted
-        const isSupplier = req.user.role === 'supplier';
-
-        let query;
-        let params;
-
-        if (isSupplier) {
-            query = `
-                SELECT d.id, d.file_name, d.file_size, d.file_type, d.category, d.description, d.created_at
-                FROM documents d
-                WHERE d.rfq_id = $1
-                  AND d.is_public = TRUE
-                  AND EXISTS (
-                      SELECT 1 FROM quotes q WHERE q.rfq_id = $1 AND q.supplier_id = $2
-                  )
-                ORDER BY d.created_at DESC
-            `;
-            params = [rfqId, userId];
-        } else {
-            query  = `
-                SELECT d.* FROM documents d WHERE d.rfq_id = $1 ORDER BY d.created_at DESC
-            `;
-            params = [rfqId];
-        }
-
-        const result = await pool.query(query, params);
+        const rfqId = req.params.id;
+        const result = await pool.query(`
+            SELECT d.id, d.file_name, d.file_size, d.file_type, d.category, d.description, d.created_at
+            FROM documents d
+            WHERE d.rfq_id = $1
+            ORDER BY d.created_at DESC
+        `, [rfqId]);
         res.json({ documents: result.rows });
     } catch (error) {
         console.error('Get RFQ documents error:', error);
@@ -183,7 +252,7 @@ const acceptQuote = async (req, res) => {
         await client.query('BEGIN');
 
         const quoteId = req.params.id;
-        const userId  = req.user.userId;
+        const userId = req.user.userId;
 
         const quoteResult = await client.query(`
             SELECT q.*, r.oem_id, r.title, r.part_name, r.quantity
@@ -200,20 +269,21 @@ const acceptQuote = async (req, res) => {
         const quote = quoteResult.rows[0];
 
         await client.query('UPDATE quotes SET status=$1, accepted_at=NOW() WHERE id=$2', ['accepted', quoteId]);
-        await client.query('UPDATE rfqs   SET status=$1, awarded_at=NOW()  WHERE id=$2', ['awarded',  quote.rfq_id]);
+        await client.query('UPDATE rfqs SET status=$1, awarded_at=NOW() WHERE id=$2', ['awarded', quote.rfq_id]);
 
         const poNumber = `PO-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
         const poResult = await client.query(`
             INSERT INTO purchase_orders
                 (po_number, rfq_id, quote_id, oem_id, supplier_id,
-                 part_name, quantity, unit_price, total_value, status, created_at)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'accepted',NOW())
+                 part_name, quantity, unit_price, total_value, currency, status, created_at)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'pending',NOW())
             RETURNING *
         `, [
             poNumber, quote.rfq_id, quoteId, quote.oem_id, quote.supplier_id,
             quote.part_name, quote.quantity,
             quote.price, quote.quantity * quote.price,
+            quote.currency || 'USD'
         ]);
 
         const milestones = [
@@ -229,7 +299,9 @@ const acceptQuote = async (req, res) => {
             `, [poResult.rows[0].id, milestones[i], i + 1, status]);
         }
 
-        // Notify supplier
+        // Copy files from RFQ to PO folder
+        await copyFilesToPOFolder(quote.rfq_id, poNumber, poResult.rows[0].id, userId);
+
         await client.query(`
             INSERT INTO notifications (user_id, title, message, type, reference_id)
             VALUES ($1,'Quote Accepted','Your quote has been accepted. A Purchase Order has been created.','order',$2)
@@ -261,13 +333,40 @@ const getOrders = async (req, res) => {
     try {
         const userId = req.user.userId;
         const result = await pool.query(`
-            SELECT po.*, u.company_name AS supplier_name
+            SELECT po.*, u.company_name AS supplier_name,
+                   COALESCE((SELECT COUNT(*) FROM order_milestones WHERE po_id = po.id AND status = 'completed'), 0) as completed_milestones,
+                   COALESCE((SELECT COUNT(*) FROM order_milestones WHERE po_id = po.id), 0) as total_milestones
             FROM purchase_orders po
             JOIN users u ON po.supplier_id = u.id
             WHERE po.oem_id = $1
             ORDER BY po.created_at DESC
         `, [userId]);
-        res.json({ orders: result.rows });
+
+        const orders = result.rows.map(order => {
+            const completed = parseInt(order.completed_milestones) || 0;
+            const total = parseInt(order.total_milestones) || 7;
+            const progress = Math.round((completed / total) * 100);
+            
+            let calculatedStatus = order.status;
+            
+            if (progress === 100) {
+                calculatedStatus = 'completed';
+            } else if (progress >= 80) {
+                calculatedStatus = 'shipped';
+            } else if (progress >= 60) {
+                calculatedStatus = 'quality_check';
+            } else if (progress >= 40) {
+                calculatedStatus = 'in_progress';
+            } else if (progress >= 20) {
+                calculatedStatus = 'confirmed';
+            } else if (progress > 0) {
+                calculatedStatus = 'processing';
+            }
+            
+            return { ...order, status: calculatedStatus, progress };
+        });
+        
+        res.json({ orders: orders });
     } catch (error) {
         console.error('Get orders error:', error);
         res.json({ orders: [] });
@@ -276,7 +375,7 @@ const getOrders = async (req, res) => {
 
 const getOrderDetails = async (req, res) => {
     try {
-        const userId  = req.user.userId;
+        const userId = req.user.userId;
         const orderId = req.params.id;
 
         const orderResult = await pool.query(`
@@ -302,9 +401,9 @@ const getOrderDetails = async (req, res) => {
         `, [orderId]);
 
         res.json({
-            order:          orderResult.rows[0] || {},
+            order: orderResult.rows[0] || {},
             communications: messages.rows,
-            milestones:     milestones.rows,
+            milestones: milestones.rows,
         });
     } catch (error) {
         console.error('Get order details error:', error);
@@ -314,7 +413,7 @@ const getOrderDetails = async (req, res) => {
 
 const sendOrderMessage = async (req, res) => {
     try {
-        const userId  = req.user.userId;
+        const userId = req.user.userId;
         const orderId = req.params.id;
         const { message } = req.body;
 
@@ -322,7 +421,6 @@ const sendOrderMessage = async (req, res) => {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        // Verify OEM owns this order
         const orderCheck = await pool.query(
             'SELECT id, supplier_id FROM purchase_orders WHERE id=$1 AND oem_id=$2',
             [orderId, userId]
@@ -332,7 +430,7 @@ const sendOrderMessage = async (req, res) => {
         }
 
         const senderResult = await pool.query('SELECT company_name FROM users WHERE id=$1', [userId]);
-        const senderName   = senderResult.rows[0]?.company_name || 'OEM User';
+        const senderName = senderResult.rows[0]?.company_name || 'OEM User';
 
         const result = await pool.query(`
             INSERT INTO order_messages (po_id, sender_id, sender_name, sender_type, message, created_at)
@@ -340,7 +438,6 @@ const sendOrderMessage = async (req, res) => {
             RETURNING id, sender_name, sender_type, message, created_at
         `, [orderId, userId, senderName, message.trim()]);
 
-        // Notify supplier
         await pool.query(`
             INSERT INTO notifications (user_id, title, message, type, reference_id)
             VALUES ($1,'New Message',$2,'message',$3)
@@ -353,7 +450,7 @@ const sendOrderMessage = async (req, res) => {
     }
 };
 
-// ==================== SUPPLIERS (Enhanced) ====================
+// ==================== SUPPLIERS ====================
 const getSuppliers = async (req, res) => {
     try {
         const suppliers = await pool.query(`
@@ -421,10 +518,16 @@ const updateProfile = async (req, res) => {
 
 module.exports = {
     getDashboardStats,
-    createRFQ, getRFQs, getRFQQuotes, getRFQDocuments,
-    acceptQuote, rejectQuote,
-    getOrders, getOrderDetails, sendOrderMessage,
-    // updateMilestone intentionally removed — SUPPLIER ONLY
+    createRFQ,
+    getRFQs,
+    getRFQQuotes,
+    getRFQDocuments,
+    acceptQuote,
+    rejectQuote,
+    getOrders,
+    getOrderDetails,
+    sendOrderMessage,
     getSuppliers,
-    getProfile, updateProfile,
+    getProfile,
+    updateProfile
 };
