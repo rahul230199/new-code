@@ -152,5 +152,17 @@
 <!-- ✅ FIXED JS PATH -->
 <script type="module" src="/js/pages/supplier/rfq.js"></script>
 
+    <!-- Notification Panel -->
+    <div class="notification-overlay" id="notificationOverlay"></div>
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+            <button id="markAllRead">Mark all as read</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <div class="notification-empty"><i class="fas fa-bell-slash"></i><p>No notifications</p></div>
+        </div>
+    </div>
+<script src="/js/notification.js"></script>
 </body>
 </html>

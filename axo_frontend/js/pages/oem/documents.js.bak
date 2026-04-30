@@ -1,10 +1,13 @@
 /* =============================================================
-   AXO NETWORKS — OEM DOCUMENTS (NO ROUTER VERSION)
+   AXO NETWORKS — OEM DOCUMENTS (Fixed Navigation)
    ============================================================= */
 
+import Router from "../../core/router.js";
 import Auth from "../../core/auth.js";
 import Toast from "../../core/toast.js";
 import { sanitizeHTML, formatDate, formatFileSize } from "../../core/utils.js";
+
+if (!Router.guardPage(["oem", "both", "admin"])) throw new Error("REDIRECT");
 
 let documents = [];
 let selectedFile = null;
@@ -41,7 +44,6 @@ async function loadDocuments() {
         
         const data = await response.json();
         documents = data.documents || [];
-        console.log('Documents loaded:', documents.length);
         renderDocuments();
         
     } catch (error) {
@@ -73,6 +75,7 @@ function renderDocuments() {
     
     // Group documents by RFQ number
     const rfqMap = new Map();
+    const otherDocs = [];
     
     documents.forEach(doc => {
         if (doc.rfq_number) {
@@ -80,25 +83,28 @@ function renderDocuments() {
                 rfqMap.set(doc.rfq_number, { name: doc.rfq_number, docs: [] });
             }
             rfqMap.get(doc.rfq_number).docs.push(doc);
+        } else {
+            otherDocs.push(doc);
         }
     });
     
     let html = '';
     
+    // RFQ Folders
     if (rfqMap.size > 0) {
         html += `<div style="margin-bottom: 24px;">
             <h3 style="margin-bottom: 16px; color: #6366f1;"><i class="fas fa-file-alt"></i> RFQ Documents</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;">`;
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">`;
         
         for (const [key, group] of rfqMap) {
-            const encodedName = encodeURIComponent(key);
             html += `
-                <div class="rfq-folder" data-rfq="${key}" style="background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s;">
+                <div onclick="window.location.href='/oem-folder-documents.html?type=rfq&name=${encodeURIComponent(key)}'" 
+                     style="background: white; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s;">
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <i class="fas fa-folder-open" style="font-size: 40px; color: #6366f1;"></i>
+                        <i class="fas fa-folder-open" style="font-size: 32px; color: #6366f1;"></i>
                         <div style="flex: 1;">
-                            <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;">📋 ${key}</div>
-                            <div style="font-size: 13px; color: #64748b;">${group.docs.length} document(s)</div>
+                            <div style="font-weight: 600;">📋 ${key}</div>
+                            <div style="font-size: 12px; color: #64748b;">${group.docs.length} file${group.docs.length !== 1 ? 's' : ''}</div>
                         </div>
                         <i class="fas fa-chevron-right" style="color: #94a3b8;"></i>
                     </div>
@@ -108,19 +114,87 @@ function renderDocuments() {
         html += `</div></div>`;
     }
     
-    grid.innerHTML = html;
-    
-    // Add click event listeners
-    document.querySelectorAll('.rfq-folder').forEach(folder => {
-        folder.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const rfqName = folder.getAttribute('data-rfq');
-            console.log('Opening folder:', rfqName);
-            // Direct navigation to folder view
-            window.location.href = `/view-rfq-folder.html?rfq=${encodeURIComponent(rfqName)}`;
+    // Uncategorized
+    if (otherDocs.length > 0) {
+        html += `<div><h3 style="margin-bottom: 16px; color: #64748b;">Uncategorized</h3>`;
+        otherDocs.forEach(doc => {
+            html += `
+                <div onclick="viewDocument(${doc.id})" style="background: white; border-radius: 8px; padding: 12px; margin-bottom: 8px; border: 1px solid #e2e8f0; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <i class="fas ${getFileIcon(doc.file_name)}"></i>
+                        <span style="flex: 1;">${sanitizeHTML(doc.file_name)}</span>
+                        <span style="font-size: 12px; color: #64748b;">${formatDate(doc.created_at)}</span>
+                    </div>
+                </div>
+            `;
         });
-    });
+        html += `</div>`;
+    }
+    
+    grid.innerHTML = html;
 }
+
+window.viewDocument = async (docId) => {
+    try {
+        const token = Auth.getToken();
+        const response = await fetch(`/api/oem/documents/${docId}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const doc = await response.json();
+        
+        setHTML("docDetails", `
+            <div style="text-align:center; margin-bottom:20px;">
+                <i class="fas ${getFileIcon(doc.file_name)} fa-4x" style="color: #6366f1;"></i>
+            </div>
+            <div style="margin-bottom:20px;">
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                    <b>File Name:</b> <span>${sanitizeHTML(doc.file_name)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                    <b>Size:</b> <span>${formatFileSize(doc.file_size)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                    <b>Category:</b> <span>${sanitizeHTML(doc.category || 'General')}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                    <b>Uploaded:</b> <span>${formatDate(doc.created_at)}</span>
+                </div>
+                ${doc.rfq_number ? `<div style="display: flex; justify-content: space-between; padding: 10px 0;"><b>Linked RFQ:</b> <span>${doc.rfq_number}</span></div>` : ''}
+                ${doc.po_number ? `<div style="display: flex; justify-content: space-between; padding: 10px 0;"><b>Linked PO:</b> <span>${doc.po_number}</span></div>` : ''}
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button class="btn-primary" onclick="downloadDocument(${doc.id}, '${doc.file_name}')">Download</button>
+                <button onclick="deleteDocument(${doc.id})" style="background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 8px;">Delete</button>
+            </div>
+        `);
+        showEl("docDetailsModal");
+    } catch (error) {
+        Toast.error("Failed to load document details");
+    }
+};
+
+window.downloadDocument = (docId, fileName) => {
+    const token = Auth.getToken();
+    window.open(`/api/oem/documents/${docId}/download?token=${token}`, '_blank');
+};
+
+window.deleteDocument = async (docId) => {
+    if (!confirm("Delete this document?")) return;
+    try {
+        const token = Auth.getToken();
+        const response = await fetch(`/api/oem/documents/${docId}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (response.ok) {
+            Toast.success("Document deleted");
+            hideEl("docDetailsModal");
+            loadDocuments();
+        }
+    } catch (error) {
+        Toast.error("Failed to delete document");
+    }
+};
 
 function openUploadModal() {
     selectedFile = null;
@@ -172,6 +246,19 @@ async function handleUploadSubmit(e) {
     finally { if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-upload"></i> Upload'; } }
 }
 
+function bindDragDrop() {
+    const area = el("docUploadArea");
+    if (!area) return;
+    area.addEventListener("dragover", (e) => { e.preventDefault(); area.classList.add("drag-over"); });
+    area.addEventListener("dragleave", () => { area.classList.remove("drag-over"); });
+    area.addEventListener("drop", (e) => {
+        e.preventDefault();
+        area.classList.remove("drag-over");
+        const file = e.dataTransfer.files?.[0];
+        if (file) { selectedFile = file; updateFilePreview(file); }
+    });
+}
+
 function bindEvents() {
     el("uploadDocBtn")?.addEventListener("click", openUploadModal);
     el("refreshBtn")?.addEventListener("click", loadDocuments);
@@ -207,6 +294,7 @@ function bindEvents() {
     el("uploadForm")?.addEventListener("submit", handleUploadSubmit);
     el("logoutBtn")?.addEventListener("click", () => Auth.logout());
     el("menuToggle")?.addEventListener("click", () => { el("sidebar")?.classList.toggle("open"); });
+    bindDragDrop();
 }
 
 function init() {
