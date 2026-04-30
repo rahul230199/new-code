@@ -11,7 +11,9 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
     <!-- MAIN CSS (same as index) -->
     <link rel="stylesheet" href="styles/index.css">
 
@@ -33,7 +35,7 @@
             <div class="right-side">
                 <div class="nav">
                     <a href="/industrial-os" class="nav-item">Industrial OS</a>
-                    <a href="/axisStore" class="nav-item">Axis</a>
+                    <a href="/axisStore" class="nav-item">The Axis</a>
                     <a href="/about" class="nav-item">About</a>
                     <a href="/blog" class="nav-item">Insights</a>
                     <a href="/careers" class="nav-item">Careers</a>
@@ -61,7 +63,7 @@ LETS START coding from here.
     </button>
     <div class="mobile-nav">
         <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
-        <a href="/axisStore" class="mobile-nav-item">AXIS</a>
+        <a href="/axisStore" class="mobile-nav-item">THE AXIS</a>
         <a href="/about" class="mobile-nav-item">About</a>
         <a href="/blog" class="mobile-nav-item">Insights</a>
         <a href="/careers" class="mobile-nav-item">Careers</a>
@@ -88,11 +90,13 @@ LETS START coding from here.
                 world's most reliable suppliers.
             </p>
 
-            <button class="hero-btn" id="exploreBtn">
+            <!-- <button class="hero-btn" id="exploreBtn">
                 EXPLORE THE AXIS →
-            </button>
-            <div class="hero-line">
-                <span></span>
+            </button> -->
+            <div class="hero-cta">
+                <a href="#supplierss" class="cta-button-large">
+                    <span>Explore the Axis <i class="fas fa-arrow-right"></i></span>
+                </a>
             </div>
         </div>
     </section>
@@ -273,18 +277,14 @@ LETS START coding from here.
                 something monumental.
             </p>
 
-            <div class="progress-line">
-                <span></span>
-            </div>
 
         </div>
     </section>
 
 
-    <section class="axis-section">
+    <!-- <section class="axis-section">
         <div class="container axis-grid">
 
-            <!-- LEFT -->
             <div class="axis-col">
                 <h3>THE AXIS</h3>
                 <p>
@@ -292,14 +292,14 @@ LETS START coding from here.
                 </p>
             </div>
 
-            <!-- CENTER -->
+          
             <div class="axis-col">
                 <h4>Navigate</h4>
                 <a href="#top">Home</a>
                 <a href="#supplierss">Suppliers</a>
             </div>
 
-            <!-- RIGHT -->
+            
             <div class="axis-col">
                 <h4>About</h4>
                 <p>
@@ -309,7 +309,7 @@ LETS START coding from here.
             </div>
 
         </div>
-    </section>
+    </section> -->
 
     
 </main>
@@ -442,16 +442,7 @@ document.querySelectorAll(
 
 </script>
 
-<!-- 
-<script>
-    const productsData = {
-    "gms": [
-        { name: "Industrial Drill Machine", desc: "High precision drilling system" },
-        { name: "Hydraulic Press", desc: "Heavy-duty metal forming" },
-        { name: "CNC Machine", desc: "Automated precision cutting" }
-    ]
-};
-</script> -->
+
 </body>
 <script>
 function openProductList(id) {

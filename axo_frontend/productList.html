@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="styles/productList.css">
    
 
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -24,7 +24,7 @@
             <div class="right-side">
                 <div class="nav">
                     <a href="/industrial-os" class="nav-item">Industrial OS</a>
-                    <a href="/axisStore" class="nav-item">Axis</a>
+                    <a href="/axisStore" class="nav-item">The Axis</a>
                     <a href="/about" class="nav-item">About</a>
                     <a href="/blog" class="nav-item">Insights</a>
                     <a href="/careers" class="nav-item">Careers</a>
@@ -52,7 +52,7 @@ LETS START coding from here.
     </button>
     <div class="mobile-nav">
         <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
-        <a href="/axisStore" class="mobile-nav-item">AXIS</a>
+        <a href="/axisStore" class="mobile-nav-item">The AXIS</a>
         <a href="/about" class="mobile-nav-item">About</a>
         <a href="/blog" class="mobile-nav-item">Insights</a>
         <a href="/careers" class="mobile-nav-item">Careers</a>
@@ -77,9 +77,9 @@ LETS START coding from here.
         </div>
 
    
-        <a href="https://www.gms-india.com/" target="_blank" class="visit-btn">
+        <!-- <a href="https://www.gms-india.com/" target="_blank" class="visit-btn">
             Visit Website ↗
-        </a>
+        </a> -->
 
     </section>
 
@@ -243,7 +243,9 @@ if (!supplier) {
     document.getElementById("supplier-tagline").innerText = supplier.tagline;
     document.querySelector(".logo-box img").src = supplier.logo;
     document.getElementById("supplier-logo").src = supplier.logo;
-    document.querySelector(".visit-btn").href = supplier.website;
+    // document.querySelector(".visit-btn").href = supplier.website;
+        const visitBtn = document.querySelector(".visit-btn");
+    if (visitBtn) visitBtn.href = supplier.website;
 
     // 🔥 STORY
     document.getElementById("supplier-story").innerText = supplier.story;
