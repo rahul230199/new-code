@@ -1,158 +1,166 @@
 /* =============================================================
-   AXO NETWORKS — OEM ORDERS
+   AXO NETWORKS — OEM ORDERS (Milestone-based Status)
    ============================================================= */
 
 import Router from "../../core/router.js";
-import API from "../../core/api.js";
 import Auth from "../../core/auth.js";
 import Toast from "../../core/toast.js";
-import CONFIG from "../../core/config.js";
-import { sanitizeHTML, formatDate, formatCurrency, debounce } from "../../core/utils.js";
+import { formatDate, formatCurrency, debounce } from "../../core/utils.js";
 
 if (!Router.guardPage(["oem", "both", "admin"])) throw new Error("REDIRECT");
 
-// Status display mapping
-const getStatusDisplay = (status) => {
-    const statusMap = {
-        'processing': { label: 'Processing', class: 'status-processing', icon: 'fa-spinner' },
-        'confirmed': { label: 'Confirmed', class: 'status-confirmed', icon: 'fa-check-circle' },
-        'in_progress': { label: 'In Progress', class: 'status-progress', icon: 'fa-cogs' },
-        'quality_check': { label: 'Quality Check', class: 'status-quality', icon: 'fa-clipboard-check' },
-        'shipped': { label: 'Shipped', class: 'status-shipped', icon: 'fa-shipping-fast' },
-        'completed': { label: 'Completed', class: 'status-completed', icon: 'fa-check-double' },
-        'pending': { label: 'Pending', class: 'status-pending', icon: 'fa-clock' },
-        'accepted': { label: 'Accepted', class: 'status-accepted', icon: 'fa-check' },
-        'delayed': { label: 'Delayed', class: 'status-delayed', icon: 'fa-exclamation-triangle' },
-        'cancelled': { label: 'Cancelled', class: 'status-cancelled', icon: 'fa-ban' }
-    };
-    return statusMap[status] || { label: status || 'Unknown', class: 'status-default', icon: 'fa-question' };
-};
-
-const State = {
-    allOrders: [],
-    searchQuery: "",
-    statusFilter: "all",
-};
+let allOrders = [];
+let statusFilter = "all";
+let searchQuery = "";
 
 const el = (id) => document.getElementById(id);
 const setText = (id, text) => { const n = el(id); if (n) n.textContent = text; };
-const setHTML = (id, html) => { const n = el(id); if (n) n.innerHTML = html; };
 
-const _tableLoading = () => `
-    <tr class="table-skeleton">
-        <td colspan="8"><div class="skeleton-row"></div><div class="skeleton-row"></div><div class="skeleton-row"></div></td>
-    </tr>`;
+function getStatusClass(status) {
+    const statusMap = {
+        'Order Confirmed': 'primary',
+        'Raw Materials': 'info',
+        'Production Started': 'info',
+        'Quality Check': 'warning',
+        'Ready to Ship': 'success',
+        'Delivered': 'success',
+        'Invoice Paid': 'success'
+    };
+    return statusMap[status] || 'neutral';
+}
 
-const _tableEmpty = (msg) => `
-    <tr><td colspan="8" class="table-empty"><span class="table-empty__icon">📦</span><span>${msg}</span></td></tr>`;
-
-const applyFilters = (orders, { statusFilter, searchQuery }) => {
-    let result = orders;
-    if (statusFilter && statusFilter !== "all") {
-        result = result.filter((o) => o.status === statusFilter);
-    }
-    const q = searchQuery.trim().toLowerCase();
-    if (q) {
-        result = result.filter((o) =>
-            (o.po_number || "").toLowerCase().includes(q) ||
-            (o.part_name || "").toLowerCase().includes(q) ||
-            (o.supplier_name || "").toLowerCase().includes(q)
-        );
-    }
-    return result;
-};
-
-const renderOrderRow = (order) => {
-    const statusDisplay = getStatusDisplay(order.status);
-    const progress = Math.min(100, Math.max(0, order.progress ?? 0));
-    const detailUrl = `${CONFIG.ROUTES.OEM_ORDER_DETAILS}?id=${order.id}`;
-
+function renderOrderRow(order) {
+    const progress = order.progress || 0;
+    const statusClass = getStatusClass(order.status);
+    
     return `
-        <tr class="tr-clickable js-order-row" data-href="${detailUrl}" role="button" tabindex="0">
-            <td><strong class="po-number">${sanitizeHTML(order.po_number || "—")}</strong></td>
-            <td>${sanitizeHTML(order.part_name || "—")}</td>
-            <td>${sanitizeHTML(order.supplier_name || "—")}</td>
-            <td class="td-number">${order.quantity ?? "—"}</td>
-            <td class="td-number">${order.total_value ? formatCurrency(order.total_value, order.currency || "USD") : "—"}</td>
-            <td><span class="badge ${statusDisplay.class}"><i class="fas ${statusDisplay.icon}"></i> ${statusDisplay.label}</span></td>
-            <td><div class="progress-wrap"><div class="progress-bar"><div class="progress-bar__fill" style="width:${progress}%"></div></div><span class="progress-label">${progress}%</span></div></td>
+        <tr class="tr-clickable" data-order-id="${order.id}">
+            <td class="po-number">${escapeHtml(order.po_number || "N/A")}</td>
+            <td>${escapeHtml(order.part_name || "N/A")}</td>
+            <td>${escapeHtml(order.supplier_name || "N/A")}</td>
+            <td class="td-number">${order.quantity || 0}</td>
+            <td class="td-number">${formatCurrency(order.total_value, order.currency || "USD")}</td>
+            <td><span class="badge badge--${statusClass}">${escapeHtml(order.status)}</span></td>
+            <td>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-bar__fill" style="width: ${progress}%"></div>
+                    </div>
+                    <span class="progress-label">${progress}%</span>
+                </div>
+            </td>
             <td>${formatDate(order.created_at)}</td>
         </tr>
     `;
-};
+}
 
-const renderOrders = () => {
-    const tbody = el("ordersTableBody");
-    if (!tbody) return;
-
-    const filtered = applyFilters(State.allOrders, {
-        statusFilter: State.statusFilter,
-        searchQuery: State.searchQuery,
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
     });
+}
 
-    setText("resultCount", `${filtered.length} of ${State.allOrders.length} order${State.allOrders.length !== 1 ? "s" : ""}`);
-
-    if (!filtered.length) {
-        const msg = State.allOrders.length ? "No orders match your current filters." : "No orders yet. Accept a quote to create your first Purchase Order.";
-        tbody.innerHTML = _tableEmpty(msg);
+function renderOrders() {
+    const tbody = el("ordersTableBody");
+    const resultCountSpan = el("resultCount");
+    
+    if (!tbody) return;
+    
+    let filtered = [...allOrders];
+    
+    if (statusFilter !== "all") {
+        filtered = filtered.filter(o => o.status === statusFilter);
+    }
+    
+    if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        filtered = filtered.filter(o => 
+            (o.po_number && o.po_number.toLowerCase().includes(query)) ||
+            (o.part_name && o.part_name.toLowerCase().includes(query)) ||
+            (o.supplier_name && o.supplier_name.toLowerCase().includes(query))
+        );
+    }
+    
+    if (resultCountSpan) {
+        resultCountSpan.textContent = `${filtered.length} of ${allOrders.length} orders`;
+    }
+    
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="table-empty"><i class="fas fa-inbox"></i><p>No orders found</p></td></tr>`;
         return;
     }
+    
+    tbody.innerHTML = filtered.map(order => renderOrderRow(order)).join("");
+}
 
-    tbody.innerHTML = filtered.map(renderOrderRow).join("");
-};
-
-const loadOrders = async () => {
+async function loadOrders() {
     const tbody = el("ordersTableBody");
-    if (tbody) tbody.innerHTML = _tableLoading();
-
-    try {
-        const { orders } = await API.get("/oem/orders");
-        State.allOrders = orders || [];
-        renderOrders();
-    } catch (err) {
-        Toast.error(err.message || "Failed to load orders.");
-        setHTML("ordersTableBody", _tableEmpty("Failed to load orders. Please refresh."));
+    if (tbody) {
+        tbody.innerHTML = `<tr><td colspan="8"><div class="skeleton-row"></div><div class="skeleton-row"></div><div class="skeleton-row"></div></td></tr>`;
     }
-};
-
-const bindEvents = () => {
-    el("statusFilter")?.addEventListener("change", (e) => {
-        State.statusFilter = e.target.value;
+    
+    try {
+        const token = Auth.getToken();
+        const response = await fetch("/api/oem/orders", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        
+        if (response.status === 401) {
+            Auth.logout();
+            return;
+        }
+        
+        const data = await response.json();
+        allOrders = data.orders || [];
         renderOrders();
-    });
+        
+    } catch (error) {
+        console.error("Error loading orders:", error);
+        Toast.error("Failed to load orders");
+    }
+}
 
-    el("searchInput")?.addEventListener("input", debounce((e) => {
-        State.searchQuery = e.target.value;
-        renderOrders();
-    }, 250));
+function applyFilters() {
+    statusFilter = el("statusFilter")?.value || "all";
+    searchQuery = el("searchInput")?.value || "";
+    renderOrders();
+}
 
+function bindEvents() {
+    el("statusFilter")?.addEventListener("change", applyFilters);
+    el("searchInput")?.addEventListener("input", debounce(applyFilters, 300));
     el("clearSearchBtn")?.addEventListener("click", () => {
-        const input = el("searchInput");
-        if (input) input.value = "";
-        State.searchQuery = "";
-        renderOrders();
+        if (el("searchInput")) el("searchInput").value = "";
+        searchQuery = "";
+        applyFilters();
     });
-
-    el("ordersTableBody")?.addEventListener("click", (e) => {
-        const row = e.target.closest(".js-order-row");
-        if (row?.dataset.href) window.location.href = row.dataset.href;
-    });
-
-    el("ordersTableBody")?.addEventListener("keydown", (e) => {
-        if (e.key !== "Enter") return;
-        const row = e.target.closest(".js-order-row");
-        if (row?.dataset.href) window.location.href = row.dataset.href;
-    });
-
+    el("refreshBtn")?.addEventListener("click", loadOrders);
     el("logoutBtn")?.addEventListener("click", () => Auth.logout());
     el("menuToggle")?.addEventListener("click", () => el("sidebar")?.classList.toggle("open"));
-};
+    
+    const tbody = el("ordersTableBody");
+    if (tbody) {
+        tbody.addEventListener("click", (e) => {
+            const row = e.target.closest(".tr-clickable");
+            if (row) {
+                const orderId = row.dataset.orderId;
+                if (orderId) {
+                    window.location.href = `/oem-order-details.html?id=${orderId}`;
+                }
+            }
+        });
+    }
+}
 
-const init = () => {
+function init() {
     const user = Auth.getCurrentUser();
     setText("companyName", user?.company_name || "OEM");
     bindEvents();
     loadOrders();
-};
+}
 
 document.addEventListener("DOMContentLoaded", init);

@@ -25,7 +25,6 @@ const saveFilesToRFQFolder = async (files, rfqNumber, rfqId, userId) => {
     for (const file of files) {
         const uniqueFilename = `${Date.now()}-${file.originalname}`;
         const filePath = path.join(rfqFolderPath, uniqueFilename);
-        
         fs.renameSync(file.path, filePath);
         
         const result = await pool.query(`
@@ -53,7 +52,6 @@ const copyFilesToPOFolder = async (rfqId, poNumber, poId, userId) => {
     for (const doc of rfqDocs.rows) {
         const uniqueFilename = `${Date.now()}-${doc.file_name}`;
         const newFilePath = path.join(poFolderPath, uniqueFilename);
-        
         fs.copyFileSync(doc.file_path, newFilePath);
         
         const result = await pool.query(`
@@ -78,14 +76,10 @@ const getDashboardStats = async (req, res) => {
 
         const kpis = await pool.query(`
             SELECT
-                COALESCE((SELECT COUNT(*) FROM rfqs WHERE oem_id = $1 AND status = 'open'), 0)         AS active_rfqs,
-                COALESCE((SELECT COUNT(*) FROM quotes q
-                           JOIN rfqs r ON q.rfq_id = r.id
-                           WHERE r.oem_id = $1 AND q.status = 'pending'), 0)                          AS quotes_pending,
-                COALESCE((SELECT COUNT(*) FROM purchase_orders
-                           WHERE oem_id = $1 AND status IN ('accepted','in_progress')), 0)             AS active_orders,
-                COALESCE((SELECT COUNT(*) FROM purchase_orders
-                           WHERE oem_id = $1 AND status = 'delayed'), 0)                              AS delayed_orders
+                COALESCE((SELECT COUNT(*) FROM rfqs WHERE oem_id = $1 AND status = 'open'), 0) AS active_rfqs,
+                COALESCE((SELECT COUNT(*) FROM quotes q JOIN rfqs r ON q.rfq_id = r.id WHERE r.oem_id = $1 AND q.status = 'pending'), 0) AS quotes_pending,
+                COALESCE((SELECT COUNT(*) FROM purchase_orders WHERE oem_id = $1 AND status IN ('accepted','in_progress')), 0) AS active_orders,
+                COALESCE((SELECT COUNT(*) FROM purchase_orders WHERE oem_id = $1 AND status = 'delayed'), 0) AS delayed_orders
         `, [userId]);
 
         const orderStatus = await pool.query(`
@@ -97,7 +91,7 @@ const getDashboardStats = async (req, res) => {
 
         const monthlyTrend = await pool.query(`
             SELECT TO_CHAR(created_at,'Mon YYYY') AS month,
-                   COALESCE(SUM(total_value), 0)   AS total_value
+                   COALESCE(SUM(total_value), 0) AS total_value
             FROM purchase_orders
             WHERE oem_id = $1 AND created_at >= NOW() - INTERVAL '6 months'
             GROUP BY TO_CHAR(created_at,'Mon YYYY'), DATE_TRUNC('month', created_at)
@@ -106,7 +100,7 @@ const getDashboardStats = async (req, res) => {
         `, [userId]);
 
         const bottlenecks = await pool.query(`
-            SELECT 'Delayed Milestones'    AS name, COUNT(*) AS value, 'high'   AS severity
+            SELECT 'Delayed Milestones' AS name, COUNT(*) AS value, 'high' AS severity
             FROM order_milestones om
             JOIN purchase_orders po ON om.po_id = po.id
             WHERE po.oem_id = $1 AND om.status = 'delayed'
@@ -130,10 +124,10 @@ const getDashboardStats = async (req, res) => {
             kpis: kpis.rows[0] || { active_rfqs: 0, quotes_pending: 0, active_orders: 0, delayed_orders: 0 },
             charts: {
                 order_status_distribution: orderStatus.rows || [],
-                monthly_volume_trend:      monthlyTrend.rows || [],
+                monthly_volume_trend: monthlyTrend.rows || [],
             },
-            heatmap:     bottlenecks.rows || [],
-            live_orders: liveOrders.rows  || [],
+            heatmap: bottlenecks.rows || [],
+            live_orders: liveOrders.rows || [],
         });
     } catch (error) {
         console.error('Dashboard stats error:', error);
@@ -192,7 +186,6 @@ const createRFQ = async (req, res) => {
 
             const rfq = result.rows[0];
 
-            // Save files to RFQ folder
             if (req.files && req.files.length > 0) {
                 await saveFilesToRFQFolder(req.files, rfqNumber, rfq.id, userId);
                 console.log(`Saved ${req.files.length} files to RFQ folder for ${rfqNumber}`);
@@ -292,14 +285,13 @@ const acceptQuote = async (req, res) => {
         ];
 
         for (let i = 0; i < milestones.length; i++) {
-            const status = i === 0 ? 'completed' : 'pending';
+            const status = i === 0 ? 'completed' : 'in_progress';
             await client.query(`
                 INSERT INTO order_milestones (po_id, milestone_name, milestone_order, status, completed_at)
                 VALUES ($1,$2,$3,$4, CASE WHEN $4='completed' THEN NOW() ELSE NULL END)
             `, [poResult.rows[0].id, milestones[i], i + 1, status]);
         }
 
-        // Copy files from RFQ to PO folder
         await copyFilesToPOFolder(quote.rfq_id, poNumber, poResult.rows[0].id, userId);
 
         await client.query(`
@@ -346,26 +338,9 @@ const getOrders = async (req, res) => {
             const completed = parseInt(order.completed_milestones) || 0;
             const total = parseInt(order.total_milestones) || 7;
             const progress = Math.round((completed / total) * 100);
-            
-            let calculatedStatus = order.status;
-            
-            if (progress === 100) {
-                calculatedStatus = 'completed';
-            } else if (progress >= 80) {
-                calculatedStatus = 'shipped';
-            } else if (progress >= 60) {
-                calculatedStatus = 'quality_check';
-            } else if (progress >= 40) {
-                calculatedStatus = 'in_progress';
-            } else if (progress >= 20) {
-                calculatedStatus = 'confirmed';
-            } else if (progress > 0) {
-                calculatedStatus = 'processing';
-            }
-            
-            return { ...order, status: calculatedStatus, progress };
+            return { ...order, progress };
         });
-        
+
         res.json({ orders: orders });
     } catch (error) {
         console.error('Get orders error:', error);
@@ -394,7 +369,7 @@ const getOrderDetails = async (req, res) => {
         `, [orderId]);
 
         const milestones = await pool.query(`
-            SELECT id, milestone_name, milestone_order, status, notes, completed_at
+            SELECT id, milestone_name, milestone_order, status, notes, photo_url, completed_at
             FROM order_milestones
             WHERE po_id = $1
             ORDER BY milestone_order ASC
@@ -465,15 +440,8 @@ const getSuppliers = async (req, res) => {
                 u.capabilities,
                 u.custom_capabilities,
                 u.created_at,
-                COALESCE((
-                    SELECT COUNT(DISTINCT po.id)
-                    FROM purchase_orders po
-                    WHERE po.supplier_id = u.id AND po.status = 'completed'
-                ), 0) AS completed_orders,
-                COALESCE((
-                    SELECT COUNT(DISTINCT q.id)
-                    FROM quotes q WHERE q.supplier_id = u.id
-                ), 0) AS total_quotes
+                COALESCE((SELECT COUNT(DISTINCT po.id) FROM purchase_orders po WHERE po.supplier_id = u.id AND po.status = 'completed'), 0) AS completed_orders,
+                COALESCE((SELECT COUNT(DISTINCT q.id) FROM quotes q WHERE q.supplier_id = u.id), 0) AS total_quotes
             FROM users u
             WHERE u.role IN ('supplier','both') AND u.status = 'active'
             ORDER BY u.company_name ASC

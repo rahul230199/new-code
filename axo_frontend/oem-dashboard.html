@@ -1,255 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documents | AXO Networks</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="./css/oem-dashboard.css" />
-  <link rel="stylesheet" href="./css/shared.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | AXO Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/oem-dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
 <div class="oem-container">
-
-  <!-- ═══════════════════════════════════════
-       SIDEBAR
-       ═══════════════════════════════════════ -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <h2>AXO Networks</h2>
-      <p>OEM Portal</p>
-    </div>
-    <nav class="sidebar-nav" aria-label="OEM navigation">
-      <a href="/oem-dashboard.html"  class="nav-item"><i class="fas fa-chart-line"    aria-hidden="true"></i><span>Dashboard</span></a>
-      <a href="/oem-rfq.html"        class="nav-item"><i class="fas fa-file-alt"      aria-hidden="true"></i><span>RFQ Management</span></a>
-      <a href="/oem-orders.html"     class="nav-item"><i class="fas fa-shopping-cart" aria-hidden="true"></i><span>Orders</span></a>
-      <a href="/oem-suppliers.html"  class="nav-item"><i class="fas fa-truck"          aria-hidden="true"></i><span>Suppliers</span></a>
-      <a href="/oem-documents.html"  class="nav-item active"><i class="fas fa-folder-open"   aria-hidden="true"></i><span>Documents</span></a>
-      <a href="/oem-profile.html"    class="nav-item"><i class="fas fa-building"      aria-hidden="true"></i><span>Profile</span></a>
-    </nav>
-    <div class="sidebar-footer">
-      <button class="logout-btn" id="logoutBtn" type="button">
-        <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
-      </button>
-    </div>
-  </aside>
-
-  <!-- ═══════════════════════════════════════
-       MAIN CONTENT
-       ═══════════════════════════════════════ -->
-  <main class="main-content">
-
-    <!-- Top Bar -->
-    <div class="top-bar">
-      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle sidebar">
-        <i class="fas fa-bars" aria-hidden="true"></i>
-      </button>
-      <div class="top-bar-right">
-        <div class="notification-bell" aria-label="Notifications">
-          <i class="far fa-bell" aria-hidden="true"></i>
-          <span class="notification-badge">0</span>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>AXO Networks</h2>
+            <p>OEM Portal</p>
         </div>
-        <div class="user-info">
-          <!-- id="companyName" — setText() in init() -->
-          <span id="companyName">Loading…</span>
-          <div class="avatar" aria-hidden="true"><i class="fas fa-industry"></i></div>
+        <nav class="sidebar-nav">
+            <a href="/oem-dashboard.html" class="nav-item active"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="/oem-rfq.html" class="nav-item"><i class="fas fa-file-alt"></i><span>RFQ Management</span></a>
+            <a href="/oem-orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
+            <a href="/oem-suppliers.html" class="nav-item"><i class="fas fa-truck"></i><span>Suppliers</span></a>
+            <a href="/oem-documents.html" class="nav-item"><i class="fas fa-folder-open"></i><span>Documents</span></a>
+            <a href="/oem-profile.html" class="nav-item"><i class="fas fa-building"></i><span>Profile</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
-      </div>
-    </div>
+    </aside>
 
-    <!-- Page Header -->
-    <div class="page-header">
-      <div>
-        <h1>Document Library</h1>
-        <p>Manage your design files and specifications</p>
-      </div>
-      <div class="page-header__actions">
-        <!--
-          id="uploadDocBtn" — bindEvents() → openUploadModal()
-          id="refreshBtn"   — bindEvents() → loadDocuments()
-        -->
-        <button class="btn btn--outline" id="refreshBtn" type="button">
-          <i class="fas fa-sync-alt" aria-hidden="true"></i> Refresh
-        </button>
-        <button class="btn btn--primary" id="uploadDocBtn" type="button">
-          <i class="fas fa-upload" aria-hidden="true"></i> Upload Document
-        </button>
-      </div>
-    </div>
+    <main class="main-content">
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <div class="top-bar-right">
+                <div class="notification-bell" id="notificationBell">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">0</span>
+                </div>
+                <div class="user-info">
+                    <span id="companyName">Loading...</span>
+                    <div class="avatar"><i class="fas fa-industry"></i></div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Document Count
-         id="docCount" — setText("docCount", "3 documents") in renderDocuments()
-         No filter bar: documents.js has no client-side filter logic.
-         Category / search filtering would require adding applyFilters()
-         to documents.js first, then the filter bar here. -->
-    <div class="doc-toolbar">
-      <span id="docCount" class="result-count" aria-live="polite"></span>
-    </div>
+        <div class="page-header">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Real-time supply chain performance</p>
+            </div>
+        </div>
 
-    <!--
-      id="documentsGrid"
-      renderDocuments() injects .doc-card items.
-      loadDocuments() injects .skeleton-card placeholders.
-    -->
-    <div id="documentsGrid" class="documents-grid" aria-live="polite">
-      <!-- skeleton shown by loadDocuments() on first load -->
-    </div>
+        <div class="kpi-grid" id="statsGrid">
+            <div class="kpi-card">
+                <div class="kpi-card__icon kpi-card__icon--blue"><i class="fas fa-file-alt"></i></div>
+                <div class="kpi-card__body">
+                    <span class="kpi-card__label">Active RFQs</span>
+                    <div class="kpi-card__value" id="activeRFQs">0</div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-card__icon kpi-card__icon--orange"><i class="fas fa-receipt"></i></div>
+                <div class="kpi-card__body">
+                    <span class="kpi-card__label">Quotes Pending</span>
+                    <div class="kpi-card__value" id="pendingQuotes">0</div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-card__icon kpi-card__icon--green"><i class="fas fa-shopping-cart"></i></div>
+                <div class="kpi-card__body">
+                    <span class="kpi-card__label">Active Orders</span>
+                    <div class="kpi-card__value" id="activeOrders">0</div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-card__icon kpi-card__icon--red"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="kpi-card__body">
+                    <span class="kpi-card__label">Delayed Orders</span>
+                    <div class="kpi-card__value" id="delayedOrders">0</div>
+                </div>
+            </div>
+        </div>
 
-  </main>
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-card__title"><i class="fas fa-chart-pie"></i> Order Status</div>
+                <canvas id="orderStatusChart" height="200"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-card__title"><i class="fas fa-chart-line"></i> Monthly Trend</div>
+                <canvas id="monthlyTrendChart" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="heatmap-card">
+            <div class="chart-card__title"><i class="fas fa-fire"></i> Production Bottlenecks</div>
+            <div id="bottlenecksList" class="heatmap-grid">
+                <div class="loading">Loading bottlenecks...</div>
+            </div>
+        </div>
+
+        <div class="live-orders-section">
+            <div class="section-header">
+                <h3 class="section-title"><i class="fas fa-truck-fast"></i> Live Orders</h3>
+            </div>
+            <div class="orders-table-card">
+                <div class="table-container">
+                    <div id="liveOrdersList" class="loading">Loading orders...</div>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════
-     MODAL: UPLOAD DOCUMENT
-     All field IDs are read by handleUploadSubmit() and bindEvents():
-       uploadForm       — form submit listener
-       docUploadArea    — drag-drop + click to browse
-       docFileInput     — hidden file input
-       docBrowseBtn     — triggers docFileInput.click()
-       selectedDocFile  — _updateFilePreview() renders file name + size
-       docCategory      — FormData.append("category", ...)
-       docDescription   — FormData.append("description", ...)
-       uploadSubmitBtn  — disabled during upload, REQUIRED by JS
+<script>
+const token = localStorage.getItem('axo_access_token');
+if (!token) { window.location.href = '/login.html'; }
 
-     Close: .js-close-modal class → querySelectorAll(".js-close-modal")
-            backdrop click on #uploadModal
-            Escape key
-     ═══════════════════════════════════════════════════════ -->
-<div id="uploadModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="uploadModalTitle" style="display:none">
-  <div class="modal-content">
+try {
+    const user = JSON.parse(localStorage.getItem('axo_user') || '{}');
+    document.getElementById('companyName').textContent = user.company_name || user.email || 'OEM User';
+} catch(e) {}
 
-    <div class="modal-header">
-      <h3 id="uploadModalTitle">
-        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> Upload Document
-      </h3>
-      <button class="js-close-modal" type="button" aria-label="Close modal">&times;</button>
+document.getElementById('logoutBtn')?.addEventListener('click', function() {
+    localStorage.removeItem('axo_access_token');
+    localStorage.removeItem('axo_user');
+    window.location.href = '/login.html';
+});
+
+document.getElementById('menuToggle')?.addEventListener('click', function() {
+    document.getElementById('sidebar')?.classList.toggle('open');
+});
+
+async function loadDashboard() {
+    try {
+        const response = await fetch('/api/oem/dashboard/stats', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        
+        if (response.status === 401) {
+            localStorage.removeItem('axo_access_token');
+            localStorage.removeItem('axo_user');
+            window.location.href = '/login.html';
+            return;
+        }
+        
+        const data = await response.json();
+        
+        document.getElementById('activeRFQs').textContent = data.kpis?.active_rfqs || 0;
+        document.getElementById('pendingQuotes').textContent = data.kpis?.quotes_pending || 0;
+        document.getElementById('activeOrders').textContent = data.kpis?.active_orders || 0;
+        document.getElementById('delayedOrders').textContent = data.kpis?.delayed_orders || 0;
+        
+        const bottlenecksList = document.getElementById('bottlenecksList');
+        if (data.heatmap && data.heatmap.length > 0) {
+            let html = '';
+            data.heatmap.forEach(item => {
+                let severityClass = '';
+                if (item.severity === 'high') severityClass = 'heatmap-item__fill--high';
+                else if (item.severity === 'medium') severityClass = 'heatmap-item__fill--medium';
+                else severityClass = 'heatmap-item__fill--low';
+                
+                html += '<div class="heatmap-item">';
+                html += '<div class="heatmap-item__label">' + item.name + '</div>';
+                html += '<div class="heatmap-item__track">';
+                html += '<div class="heatmap-item__fill ' + severityClass + '" style="width: ' + Math.min(item.value, 100) + '%"></div>';
+                html += '</div>';
+                html += '<div class="heatmap-item__value">' + item.value + '%</div>';
+                html += '</div>';
+            });
+            bottlenecksList.innerHTML = html;
+        } else {
+            bottlenecksList.innerHTML = '<div class="empty-state"><i class="fas fa-check-circle"></i><p>No bottlenecks detected</p></div>';
+        }
+        
+        const liveOrdersList = document.getElementById('liveOrdersList');
+        if (data.live_orders && data.live_orders.length > 0) {
+            let html = '<table class="data-table"><thead><tr>';
+            html += '<th>PO Number</th><th>Part</th><th>Supplier</th><th>Status</th>';
+            html += '</tr></thead><tbody>';
+            data.live_orders.forEach(order => {
+                html += '<tr class="tr-clickable" onclick="window.location.href=\'/oem-order-details.html?id=' + order.id + '\'">';
+                html += '<td class="po-number">' + (order.po_number || 'N/A') + '</td>';
+                html += '<td>' + (order.part_name || 'N/A') + '</td>';
+                html += '<td>' + (order.supplier_name || 'N/A') + '</td>';
+                html += '<td><span class="badge status-' + (order.status || 'pending') + '">' + (order.status || 'pending') + '</span></td>';
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            liveOrdersList.innerHTML = html;
+        } else {
+            liveOrdersList.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>No active orders</p></div>';
+        }
+        
+        // Initialize charts if data available
+        if (data.charts) {
+            if (data.charts.order_status_distribution && data.charts.order_status_distribution.length > 0) {
+                const ctx = document.getElementById('orderStatusChart')?.getContext('2d');
+                if (ctx) {
+                    const labels = data.charts.order_status_distribution.map(s => s.status);
+                    const values = data.charts.order_status_distribution.map(s => parseInt(s.count) || 0);
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: { labels: labels, datasets: [{ data: values, backgroundColor: ['#3b8eff', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'] }] },
+                        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
+                    });
+                }
+            }
+            
+            if (data.charts.monthly_volume_trend && data.charts.monthly_volume_trend.length > 0) {
+                const ctx = document.getElementById('monthlyTrendChart')?.getContext('2d');
+                if (ctx) {
+                    const months = data.charts.monthly_volume_trend.map(m => m.month);
+                    const values = data.charts.monthly_volume_trend.map(m => parseFloat(m.total_value) || 0);
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: { labels: months, datasets: [{ label: 'Order Value (USD)', data: values, borderColor: '#3b8eff', backgroundColor: 'rgba(59,142,255,0.1)', fill: true, tension: 0.3 }] },
+                        options: { responsive: true, maintainAspectRatio: true }
+                    });
+                }
+            }
+        }
+        
+    } catch (error) {
+        console.error('Error loading dashboard:', error);
+    }
+}
+
+loadDashboard();
+</script>
+
+<div class="notification-overlay" id="notificationOverlay"></div>
+<div class="notification-panel" id="notificationPanel">
+    <div class="notification-header">
+        <h3><i class="fas fa-bell"></i> Notifications</h3>
+        <button id="markAllRead">Mark all as read</button>
     </div>
-
-    <div class="modal-body">
-      <form id="uploadForm">
-
-        <!--
-          id="docUploadArea"
-          bindDragDrop(): dragover → add .drag-over, dragleave/drop → remove
-          click → el("docFileInput").click()
-        -->
-        <div class="upload-area" id="docUploadArea" role="button" tabindex="0" aria-label="Click or drag to upload file">
-          <i class="fas fa-cloud-upload-alt upload-area__icon" aria-hidden="true"></i>
-          <p class="upload-area__text">Drag &amp; drop file here or click to upload</p>
-          <small class="upload-area__hint">PDF, DWG, STEP, JPG, PNG, DOC &mdash; Max 10 MB</small>
-
-          <!--
-            id="docFileInput" — hidden, triggered by area click and browse button
-            change event → _handleFileSelect(file)
-          -->
-          <input
-            type="file"
-            id="docFileInput"
-            accept=".pdf,.dwg,.step,.stp,.iges,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.zip"
-            style="display:none"
-            aria-hidden="true"
-          />
-
-          <!--
-            id="docBrowseBtn"
-            click → e.stopPropagation(); el("docFileInput").click()
-          -->
-          <button type="button" class="btn btn--outline btn--sm" id="docBrowseBtn">
-            <i class="fas fa-folder-open" aria-hidden="true"></i> Browse Files
-          </button>
-        </div>
-
-        <!--
-          id="selectedDocFile"
-          _updateFilePreview(): style.display flex/none, innerHTML with file info
-          js-clear-file button inside clears State.selectedFile
-        -->
-        <div id="selectedDocFile" class="selected-file-row" style="display:none"></div>
-
-        <!-- Category -->
-        <div class="form-group">
-          <label for="docCategory">Category</label>
-          <!--
-            id="docCategory"
-            handleUploadSubmit(): formData.append("category", el("docCategory").value)
-          -->
-          <select id="docCategory" class="form-control">
-            <option value="RFQ Documents">RFQ Documents</option>
-            <option value="Design Files">Design Files</option>
-            <option value="Technical Specs">Technical Specs</option>
-            <option value="CAD Models">CAD Models</option>
-          </select>
-        </div>
-
-        <!-- Description -->
-        <div class="form-group">
-          <label for="docDescription">Description <span class="form-hint">(optional)</span></label>
-          <!--
-            id="docDescription"
-            handleUploadSubmit(): formData.append("description", el("docDescription").value)
-          -->
-          <textarea
-            id="docDescription"
-            class="form-control"
-            rows="3"
-            placeholder="Enter document description…"
-          ></textarea>
-        </div>
-
-        <!-- Form Actions -->
-        <div class="form-actions">
-          <button type="button" class="btn btn--outline js-close-modal">Cancel</button>
-          <!--
-            id="uploadSubmitBtn" — REQUIRED by handleUploadSubmit():
-              submitBtn.disabled = true;
-              submitBtn.textContent = "Uploading…";
-            Without this id the button stays enabled during the API call.
-          -->
-          <button type="submit" class="btn btn--primary" id="uploadSubmitBtn">
-            <i class="fas fa-upload" aria-hidden="true"></i> Upload
-          </button>
-        </div>
-
-      </form>
+    <div class="notification-list" id="notificationList">
+        <div class="notification-empty"><i class="fas fa-bell-slash"></i><p>No notifications</p></div>
     </div>
-
-  </div>
 </div>
-
-<!-- ═══════════════════════════════════════════════════════
-     MODAL: DOCUMENT DETAILS
-     id="docDetailsModal" — showEl/hideEl in openViewModal() / close handlers
-     id="docDetails"      — setHTML() injects:
-       .doc-preview__icon, dl.doc-preview__info,
-       .doc-preview__actions (js-download-active, js-delete-active buttons)
-     ═══════════════════════════════════════════════════════ -->
-<div id="docDetailsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="docDetailsModalTitle" style="display:none">
-  <div class="modal-content">
-
-    <div class="modal-header">
-      <h3 id="docDetailsModalTitle">
-        <i class="fas fa-file-alt" aria-hidden="true"></i> Document Details
-      </h3>
-      <button class="js-close-modal" type="button" aria-label="Close modal">&times;</button>
-    </div>
-
-    <!--
-      id="docDetails"
-      openViewModal() calls setHTML("docDetails", ...) with:
-        doc-preview__icon, doc-preview__info dl, doc-preview__actions
-      el("docDetails") has a click listener for js-download-active / js-delete-active
-    -->
-    <div class="modal-body" id="docDetails" aria-live="polite"></div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════
-     MODULE SCRIPT
-     ═══════════════════════════════════════════════════════ -->
-<script type="module" src="./js/pages/oem/documents.js"></script>
-
+<script src="/js/notification.js"></script>
 </body>
 </html>
