@@ -99,6 +99,53 @@ function escapeHtml(str) {
     });
 }
 
+function getFileIcon(filename) {
+    const ext = filename.split('.').pop().toLowerCase();
+    const icons = {
+        pdf: 'fa-file-pdf', dwg: 'fa-file', step: 'fa-cube',
+        jpg: 'fa-file-image', png: 'fa-file-image', doc: 'fa-file-word', docx: 'fa-file-word'
+    };
+    return icons[ext] || 'fa-file';
+}
+
+async function downloadDocument(docId, fileName) {
+    try {
+        // Fetch the document with authorization header
+        const response = await fetch('/api/oem/documents/' + docId + '/download', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        
+        if (response.status === 401) {
+            alert('Session expired. Please login again.');
+            localStorage.removeItem('axo_access_token');
+            localStorage.removeItem('axo_user');
+            window.location.href = '/login.html';
+            return;
+        }
+        
+        if (!response.ok) {
+            throw new Error('Download failed');
+        }
+        
+        // Get the blob from response
+        const blob = await response.blob();
+        
+        // Create download link
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        
+    } catch (error) {
+        console.error('Download error:', error);
+        alert('Error downloading file: ' + error.message);
+    }
+}
+
 async function loadDocuments() {
     const container = document.getElementById('documentsList');
     container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading documents...</div>';
@@ -127,6 +174,7 @@ async function loadDocuments() {
         let html = '';
         for (var i = 0; i < filteredDocs.length; i++) {
             var doc = filteredDocs[i];
+            var safeFileName = escapeHtml(doc.file_name).replace(/'/g, "\\'");
             html += '<div class="doc-card">';
             html += '<div class="doc-card__icon"><i class="fas ' + getFileIcon(doc.file_name) + ' fa-2x"></i></div>';
             html += '<div class="doc-card__body">';
@@ -138,7 +186,7 @@ async function loadDocuments() {
             html += '</div>';
             html += '</div>';
             html += '<div class="doc-card__actions">';
-            html += '<button class="btn btn--sm btn--primary" onclick="downloadDocument(' + doc.id + ')">';
+            html += '<button class="btn btn--sm btn--primary" onclick="downloadDocument(' + doc.id + ', \'' + safeFileName + '\')">';
             html += '<i class="fas fa-download"></i> Download';
             html += '</button>';
             html += '</div>';
@@ -149,19 +197,6 @@ async function loadDocuments() {
         console.error('Error:', error);
         container.innerHTML = '<div class="empty-state">Error loading documents</div>';
     }
-}
-
-function getFileIcon(filename) {
-    const ext = filename.split('.').pop().toLowerCase();
-    const icons = {
-        pdf: 'fa-file-pdf', dwg: 'fa-file', step: 'fa-cube',
-        jpg: 'fa-file-image', png: 'fa-file-image', doc: 'fa-file-word', docx: 'fa-file-word'
-    };
-    return icons[ext] || 'fa-file';
-}
-
-function downloadDocument(docId) {
-    window.open('/api/oem/documents/' + docId + '/download?token=' + token, '_blank');
 }
 
 loadDocuments();

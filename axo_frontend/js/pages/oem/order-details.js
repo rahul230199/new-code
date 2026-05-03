@@ -1,432 +1,266 @@
 /* =============================================================
    AXO NETWORKS — OEM ORDER DETAILS
-   pages/oem/order-details.js
-
-   Sections:
-   - Order header  : PO number, supplier, value, status
-   - Info cards    : part, payment terms, dates
-   - Milestone tracker : 7-step timeline, OEM can mark steps
-   - Message thread    : real-time chat with supplier (30s poll)
-
-   Backend endpoints used:
-     GET  /api/oem/orders/:id
-          → { order, communications, milestones }
-     POST /api/oem/orders/:id/messages
-          → { success, message }
-     PUT  /api/oem/orders/:orderId/milestones/:milestoneId
-          → { success, progress }
+   Show Milestone Status (No Pending)
    ============================================================= */
 
-import Router  from "../../core/router.js";
-import API     from "../../core/api.js";
-import Auth    from "../../core/auth.js";
-import Toast   from "../../core/toast.js";
-import CONFIG  from "../../core/config.js";
-import {
-  sanitizeHTML,
-  formatDate,
-  formatDateTime,
-  formatRelativeTime,
-  formatCurrency,
-  formatStatus,
-  getStatusClass,
-  getQueryParam,
-} from "../../core/utils.js";
+import Router from "../../core/router.js";
+import Auth from "../../core/auth.js";
+import Toast from "../../core/toast.js";
+import { formatDate, formatCurrency } from "../../core/utils.js";
 
-// -----------------------------------------------------------------
-// Guard
-// -----------------------------------------------------------------
 if (!Router.guardPage(["oem", "both", "admin"])) throw new Error("REDIRECT");
 
-// =================================================================
-// RESOLVE ORDER ID FROM URL
-// =================================================================
-const ORDER_ID = getQueryParam("id");
+let currentOrderId = null;
 
-// =================================================================
-// STATE
-// =================================================================
-const State = {
-  order:          null,
-  milestones:     [],
-  messages:       [],
-  lastMessageId:  null,     // used to detect new messages without JSON.stringify
-  pollTimer:      null,
-  POLL_MS:        30_000,   // 30s — not 5s
-  sending:        false,
-};
-
-// =================================================================
-// DOM HELPERS
-// =================================================================
-const el      = (id)       => document.getElementById(id);
+const el = (id) => document.getElementById(id);
 const setText = (id, text) => { const n = el(id); if (n) n.textContent = text; };
-const setHTML = (id, html) => { const n = el(id); if (n) n.innerHTML   = html; };
+const setHTML = (id, html) => { const n = el(id); if (n) n.innerHTML = html; };
 
-// =================================================================
-// RENDER — ORDER HEADER + INFO CARDS
-// =================================================================
-const renderOrderHeader = (order) => {
-  const statusClass = getStatusClass(order.status);
+function getMilestoneStatusClass(status) {
+    const classMap = {
+        in_progress: 'info',
+        completed: 'success',
+        delayed: 'danger'
+    };
+    return classMap[status] || 'neutral';
+}
 
-  setText("poNumber",       order.po_number    || `PO-${order.id}`);
-  setText("supplierName",   order.supplier_name || "—");
-  setText("orderDate",      formatDate(order.created_at));
-  setText("orderValue",     formatCurrency(order.total_value || 0, order.currency || "USD"));
-  setText("orderQuantity",  `${order.quantity ?? "—"} ${order.unit || "units"}`);
-  setText("partName",       order.part_name     || "—");
-  setText("paymentTerms",   order.payment_terms || "Net 30");
+function formatMilestoneStatus(status) {
+    if (status === 'in_progress') return 'In Progress';
+    if (status === 'completed') return 'Completed';
+    if (status === 'delayed') return 'Delayed';
+    return status;
+}
 
-  const statusEl = el("orderStatus");
-  if (statusEl) {
-    statusEl.textContent = formatStatus(order.status);
-    statusEl.className   = `badge badge--${statusClass}`;
-  }
-};
-
-// =================================================================
-// RENDER — MILESTONE TRACKER
-// =================================================================
-const renderMilestones = (milestones) => {
-  const container = el("timelineSteps");
-  if (!container) return;
-
-  const completed  = milestones.filter((m) => m.status === "completed").length;
-  const total      = milestones.length;
-  const progress   = total > 0 ? Math.round((completed / total) * 100) : 0;
-
-  // Update progress bar
-  const bar = el("progressBarFill");
-  if (bar) bar.style.width = `${progress}%`;
-  setText("progressText", `${progress}% Complete`);
-
-  if (!milestones.length) {
-    container.innerHTML = `<p class="text-muted">No milestones found.</p>`;
-    return;
-  }
-
-  container.innerHTML = milestones.map((m, index) => {
-    const isCompleted   = m.status === "completed";
-    const isActive      = !isCompleted && index === completed;
-    const isDelayed     = m.status === "delayed";
-
-    const stepClass = isCompleted
-      ? "milestone-step--completed"
-      : isActive
-      ? "milestone-step--active"
-      : isDelayed
-      ? "milestone-step--delayed"
-      : "milestone-step--pending";
-
-    const completedAt = isCompleted && m.completed_at
-      ? `<span class="milestone-step__date">${formatDate(m.completed_at)}</span>`
-      : "";
-
-    // OEM can mark pending/active milestones as completed
-   const canUpdate = false;
-    const updateBtn = canUpdate
-      ? `<button
-           class="btn btn--xs btn--outline js-update-milestone"
-           data-milestone-id="${m.id}"
-           data-current-status="${m.status}"
-           aria-label="Update milestone: ${sanitizeHTML(m.milestone_name)}"
-         >
-           Mark Complete
-         </button>`
-      : "";
-
-    return `
-      <div class="milestone-step ${stepClass}" data-id="${m.id}">
-        <div class="milestone-step__indicator" aria-hidden="true">
-          <span class="milestone-step__dot"></span>
-          ${index < milestones.length - 1
-            ? `<span class="milestone-step__connector"></span>`
-            : ""}
-        </div>
-        <div class="milestone-step__body">
-          <span class="milestone-step__name">${sanitizeHTML(m.milestone_name)}</span>
-          ${completedAt}
-          ${m.notes
-            ? `<span class="milestone-step__note">${sanitizeHTML(m.notes)}</span>`
-            : ""}
-          <div class="milestone-step__actions">${updateBtn}</div>
-        </div>
-      </div>`;
-  }).join("");
-};
-
-// =================================================================
-// RENDER — MESSAGE THREAD
-// =================================================================
-const renderMessages = (messages, scrollToBottom = false) => {
-  const chatDiv = el("chatMessages");
-  if (!chatDiv) return;
-
-  if (!messages.length) {
-    chatDiv.innerHTML = `
-      <div class="chat-empty">
-        <p>No messages yet. Start the conversation with your supplier.</p>
-      </div>`;
-    return;
-  }
-
-  const currentUser = Auth.getCurrentUser();
-
-  chatDiv.innerHTML = messages.map((msg) => {
-    // OEM sent = sender_type is "OEM" or sender matches current user
-    const isSent = msg.sender_type === "OEM";
-
-    return `
-      <div class="chat-msg ${isSent ? "chat-msg--sent" : "chat-msg--received"}">
-        <div class="chat-msg__bubble">
-          <div class="chat-msg__meta">
-            <strong>${sanitizeHTML(msg.sender_name)}</strong>
-            <span class="chat-msg__role">${isSent ? "You" : "Supplier"}</span>
-          </div>
-          <p class="chat-msg__text">${sanitizeHTML(msg.message)}</p>
-          <span class="chat-msg__time">${formatRelativeTime(msg.created_at)}</span>
-        </div>
-      </div>`;
-  }).join("");
-
-  if (scrollToBottom) {
-    chatDiv.scrollTop = chatDiv.scrollHeight;
-  }
-};
-
-// =================================================================
-// APPEND A SINGLE MESSAGE (optimistic send — no full re-render)
-// =================================================================
-const appendMessage = (msg) => {
-  const chatDiv = el("chatMessages");
-  if (!chatDiv) return;
-
-  // Remove empty state if present
-  const emptyEl = chatDiv.querySelector(".chat-empty");
-  if (emptyEl) emptyEl.remove();
-
-  const isSent = msg.sender_type === "OEM";
-
-  const div = document.createElement("div");
-  div.className = `chat-msg ${isSent ? "chat-msg--sent" : "chat-msg--received"}`;
-  div.innerHTML = `
-    <div class="chat-msg__bubble">
-      <div class="chat-msg__meta">
-        <strong>${sanitizeHTML(msg.sender_name)}</strong>
-        <span class="chat-msg__role">${isSent ? "You" : "Supplier"}</span>
-      </div>
-      <p class="chat-msg__text">${sanitizeHTML(msg.message)}</p>
-      <span class="chat-msg__time">Just now</span>
-    </div>`;
-
-  chatDiv.appendChild(div);
-  chatDiv.scrollTop = chatDiv.scrollHeight;
-};
-
-// =================================================================
-// SEND MESSAGE
-// =================================================================
-const sendMessage = async () => {
-  if (State.sending) return;
-
-  const input   = el("messageInput");
-  const sendBtn = el("sendBtn");
-  const message = input?.value.trim() ?? "";
-
-  if (!message) {
-    Toast.warning("Please enter a message before sending.");
-    return;
-  }
-
-  State.sending      = true;
-  if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = "Sending…"; }
-
-  try {
-    const { message: saved } = await API.post(
-      `/oem/orders/${ORDER_ID}/messages`,
-      { message }
-    );
-
-    if (input) input.value = "";
-
-    // Optimistically append — don't wait for the next poll
-    const currentUser = Auth.getCurrentUser();
-    appendMessage({
-      sender_type: "OEM",
-      sender_name: saved?.sender_name || currentUser?.company_name || "You",
-      message,
-      created_at:  new Date().toISOString(),
+function renderMilestones(milestones, progress) {
+    const container = el("timelineSteps");
+    if (!container) return;
+    
+    if (!milestones || milestones.length === 0) {
+        container.innerHTML = '<div class="empty-state">No milestones defined</div>';
+        return;
+    }
+    
+    let html = '';
+    milestones.forEach((milestone, index) => {
+        const statusClass = getMilestoneStatusClass(milestone.status);
+        const statusText = formatMilestoneStatus(milestone.status);
+        const isCompleted = milestone.status === 'completed';
+        const isActive = milestone.status === 'in_progress';
+        
+        html += `
+            <div class="milestone-step">
+                <div class="milestone-step__indicator">
+                    <div class="milestone-step__dot ${isCompleted ? 'completed' : isActive ? 'active' : ''}">
+                        ${isCompleted ? '<i class="fas fa-check"></i>' : ''}
+                    </div>
+                    ${index < milestones.length - 1 ? '<div class="milestone-step__connector"></div>' : ''}
+                </div>
+                <div class="milestone-step__content">
+                    <div class="milestone-step__header">
+                        <span class="milestone-step__name">${escapeHtml(milestone.milestone_name)}</span>
+                        <span class="badge badge--${statusClass}">${statusText}</span>
+                    </div>
+                    ${milestone.completed_at ? `<div class="milestone-step__date">Completed: ${formatDate(milestone.completed_at)}</div>` : ''}
+                    ${milestone.notes ? `<div class="milestone-step__note"><i class="fas fa-sticky-note"></i> ${escapeHtml(milestone.notes)}</div>` : ''}
+                    ${milestone.photo_url ? `<div class="milestone-step__photo"><img src="${milestone.photo_url}" alt="Milestone evidence" onclick="window.open(this.src)"></div>` : ''}
+                </div>
+            </div>
+        `;
     });
+    
+    container.innerHTML = html;
+    
+    const progressBar = el("progressBarFill");
+    const progressText = el("progressText");
+    if (progressBar) progressBar.style.width = `${progress}%`;
+    if (progressText) progressText.textContent = `${progress}% Complete`;
+}
 
-    // Track last message ID so poll doesn't re-render the same data
-    if (saved?.id) State.lastMessageId = saved.id;
-
-  } catch (err) {
-    Toast.error(err.message || "Failed to send message.");
-  } finally {
-    State.sending      = false;
-    if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = "Send"; }
-  }
-};
-
-// =================================================================
-// UPDATE MILESTONE
-// =================================================================
-const updateMilestone = async (milestoneId, btn) => {
-  btn.disabled    = true;
-  btn.textContent = "Updating…";
-  Toast.info("Updating milestone...");
-
-  try {
-    const { progress } = await API.put(
-  `/supplier/orders/${ORDER_ID}/milestones/${milestoneId}`,
-  { status: "completed" }
-);
-
-    Toast.success("Milestone marked as complete.");
-
-    // Reload full order to reflect new milestone + progress state
-    await loadOrderDetails({ silently: true });
-
-  } catch (err) {
-    Toast.error(err.message || err.error || "Failed to update milestone.");
-    btn.disabled    = false;
-    btn.textContent = "Mark Complete";
-  }
-};
-
-// =================================================================
-// LOAD ORDER DETAILS
-// =================================================================
-const loadOrderDetails = async ({ silently = false } = {}) => {
-  if (!ORDER_ID) {
-    setHTML("orderDetailsContainer", `
-      <div class="empty-state">
-        <p>No order ID provided.</p>
-        <a href="${CONFIG.ROUTES.OEM_ORDERS}" class="btn btn--primary">Back to Orders</a>
-      </div>`);
-    return;
-  }
-
-  if (!silently) {
-    // Show skeleton only on first load
-    el("orderDetailsContainer")?.classList.add("loading");
-  }
-
-  try {
-    const data = await API.get(`/oem/orders/${ORDER_ID}`);
-
-    if (!data.order || !Object.keys(data.order).length) {
-      setHTML("orderDetailsContainer", `
-        <div class="empty-state">
-          <p>Order not found.</p>
-          <a href="${CONFIG.ROUTES.OEM_ORDERS}" class="btn btn--primary">Back to Orders</a>
-        </div>`);
-      stopPolling();
-      return;
+function renderMessages(messages) {
+    const container = el("chatMessages");
+    if (!container) return;
+    
+    if (!messages || messages.length === 0) {
+        container.innerHTML = '<div class="chat-empty"><i class="fas fa-comments"></i><p>No messages yet.</p></div>';
+        return;
     }
+    
+    let html = '';
+    messages.forEach(msg => {
+        const isOEM = msg.sender_type === 'OEM';
+        html += `
+            <div class="chat-msg ${isOEM ? 'chat-msg--sent' : 'chat-msg--received'}">
+                <div class="chat-msg__bubble">
+                    <div class="chat-msg__meta">
+                        <strong>${escapeHtml(msg.sender_name)}</strong>
+                        <span class="chat-msg__role">${msg.sender_type}</span>
+                    </div>
+                    <div class="chat-msg__text">${escapeHtml(msg.message)}</div>
+                    <div class="chat-msg__time">${formatDate(msg.created_at)}</div>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+    container.scrollTop = container.scrollHeight;
+}
 
-    State.order      = data.order;
-    State.milestones = data.milestones     || [];
-    const newMsgs    = data.communications || [];
-
-    renderOrderHeader(State.order);
-    renderMilestones(State.milestones);
-
-    // Only re-render messages if new ones arrived (check by count + last id)
-    const latestId = newMsgs[newMsgs.length - 1]?.id ?? null;
-    const hasNew   = newMsgs.length !== State.messages.length ||
-                     latestId !== State.lastMessageId;
-
-    if (hasNew) {
-      State.messages     = newMsgs;
-      State.lastMessageId = latestId;
-      renderMessages(State.messages, true);
+async function sendMessage() {
+    const messageInput = el("messageInput");
+    const sendBtn = el("sendBtn");
+    const message = messageInput?.value.trim();
+    
+    if (!message) {
+        Toast.warning("Please enter a message");
+        return;
     }
-
-  } catch (err) {
-    if (!silently) {
-      Toast.error(err.message || "Failed to load order details.");
+    
+    if (!currentOrderId) return;
+    
+    try {
+        if (sendBtn) {
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        }
+        
+        const token = Auth.getToken();
+        const response = await fetch(`/api/oem/orders/${currentOrderId}/messages`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message })
+        });
+        
+        if (response.status === 401) {
+            Auth.logout();
+            return;
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            if (messageInput) messageInput.value = "";
+            // Reload to show new message
+            loadOrderDetails();
+            Toast.success("Message sent");
+        } else {
+            Toast.error(data.error || "Failed to send message");
+        }
+        
+    } catch (error) {
+        console.error("Send message error:", error);
+        Toast.error("Failed to send message");
+    } finally {
+        if (sendBtn) {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send';
+        }
     }
-  } finally {
-    el("orderDetailsContainer")?.classList.remove("loading");
-  }
-};
+}
 
-// =================================================================
-// POLLING
-// =================================================================
-const startPolling = () => {
-  if (State.pollTimer) return;
-  State.pollTimer = setInterval(
-    () => loadOrderDetails({ silently: true }),
-    State.POLL_MS
-  );
-};
-
-const stopPolling = () => {
-  if (State.pollTimer) {
-    clearInterval(State.pollTimer);
-    State.pollTimer = null;
-  }
-};
-
-// Stop polling when tab is hidden, resume when visible
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    stopPolling();
-  } else {
-    loadOrderDetails({ silently: true });
-    startPolling();
-  }
-});
-
-window.addEventListener("pagehide", stopPolling);
-
-// =================================================================
-// EVENT BINDING
-// =================================================================
-const bindEvents = () => {
-
-  // ── Send message — button click ───────────────────────────────
-  el("sendBtn")?.addEventListener("click", sendMessage);
-
-  // ── Send message — Enter key (Shift+Enter = new line) ─────────
-  el("messageInput")?.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
+async function loadOrderDetails() {
+    const container = el("orderDetailsContainer");
+    if (!container) return;
+    
+    container.classList.add("loading");
+    
+    try {
+        const token = Auth.getToken();
+        const response = await fetch(`/api/oem/orders/${currentOrderId}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        
+        if (response.status === 401) {
+            Auth.logout();
+            return;
+        }
+        
+        if (response.status === 404) {
+            setHTML("orderDetailsContainer", '<div class="empty-state">Order not found</div>');
+            return;
+        }
+        
+        const data = await response.json();
+        const order = data.order;
+        const communications = data.communications || [];
+        const milestones = data.milestones || [];
+        
+        setText("poNumber", order.po_number || `PO-${order.id}`);
+        setText("supplierName", order.supplier_name || "N/A");
+        setText("orderDate", formatDate(order.created_at));
+        setText("orderValue", formatCurrency(order.total_value, order.currency || "USD"));
+        setText("orderQuantity", `${order.quantity || 0} units`);
+        setText("partName", order.part_name || "N/A");
+        setText("paymentTerms", order.payment_terms || "Net 30");
+        
+        const statusEl = el("orderStatus");
+        if (statusEl) {
+            // Get current milestone name for status
+            const currentMilestone = milestones.find(m => m.status === 'in_progress') || milestones.filter(m => m.status === 'completed').pop();
+            const displayStatus = currentMilestone?.milestone_name || order.status || "Order Confirmed";
+            statusEl.textContent = displayStatus;
+            statusEl.className = `badge badge--primary`;
+        }
+        
+        const completed = milestones.filter(m => m.status === 'completed').length;
+        const progress = milestones.length > 0 ? Math.round((completed / milestones.length) * 100) : 0;
+        
+        renderMilestones(milestones, progress);
+        renderMessages(communications);
+        
+    } catch (error) {
+        console.error("Error loading order details:", error);
+        setHTML("orderDetailsContainer", '<div class="empty-state">Error loading order details</div>');
+        Toast.error("Failed to load order details");
+    } finally {
+        container.classList.remove("loading");
     }
-  });
+}
 
-  // ── Milestone update — event delegation ───────────────────────
-  el("timelineSteps")?.addEventListener("click", (e) => {
-    const btn = e.target.closest(".js-update-milestone");
-    if (btn) updateMilestone(btn.dataset.milestoneId, btn);
-  });
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
 
-  // ── Back button ───────────────────────────────────────────────
-  el("backBtn")?.addEventListener("click", () => {
-    window.location.href = CONFIG.ROUTES.OEM_ORDERS;
-  });
+function bindEvents() {
+    el("backBtn")?.addEventListener("click", () => {
+        window.location.href = "/oem-orders.html";
+    });
+    
+    el("sendBtn")?.addEventListener("click", sendMessage);
+    
+    el("messageInput")?.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    el("logoutBtn")?.addEventListener("click", () => Auth.logout());
+    el("menuToggle")?.addEventListener("click", () => el("sidebar")?.classList.toggle("open"));
+}
 
-  // ── Sidebar / auth ────────────────────────────────────────────
-  el("logoutBtn")?.addEventListener("click",  () => Auth.logout());
-  el("menuToggle")?.addEventListener("click", () => {
-    el("sidebar")?.classList.toggle("open");
-  });
-};
-
-// =================================================================
-// INIT
-// =================================================================
-const init = () => {
-  const user = Auth.getCurrentUser();
-  setText("companyName", user?.company_name || "OEM");
-
-  bindEvents();
-  loadOrderDetails();
-  startPolling();
-};
+function init() {
+    const urlParams = new URLSearchParams(window.location.search);
+    currentOrderId = urlParams.get("id");
+    
+    if (!currentOrderId) {
+        setHTML("orderDetailsContainer", '<div class="empty-state">No order ID specified</div>');
+        return;
+    }
+    
+    const user = Auth.getCurrentUser();
+    setText("companyName", user?.company_name || "OEM");
+    bindEvents();
+    loadOrderDetails();
+}
 
 document.addEventListener("DOMContentLoaded", init);
