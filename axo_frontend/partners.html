@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>AXO Networks - Advanced Manufacturing Partners</title>
+    <meta name="description" content="AXO Networks brings suppliers, production, and capital into one system so nothing slows you down.">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/partners.css">
+</head>
+<body>
+
+<div class="atmospheric-bg">
+    <img src="https://static.wixstatic.com/media/3d4c2a_6a3285779af54e5eb504103e8f87828e~mv2.png" alt="Atmospheric Texture" loading="eager" fetchpriority="high">
+</div>
+
+<header class="header" id="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">AXO Networks</a>
+            <div class="right-side">
+                <div class="nav">
+                    <a href="/industrial-os" class="nav-item">Industrial OS</a>
+                    <a href="/theAxis" class="nav-item">The Axis</a>
+                    <a href="/about" class="nav-item">About</a>
+                    <a href="/blog" class="nav-item">Insights</a>
+                    <a href="/careers" class="nav-item">Careers</a>
+                </div>
+                <a href="/login" class="connect-btn">LOGIN</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="mobile-sidebar" id="mobileSidebar">
+    <button class="close-sidebar" id="closeSidebar">
+        <i class="fas fa-times"></i>
+    </button>
+    <div class="mobile-nav">
+        <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
+        <a href="/theAxis" class="mobile-nav-item">The Axis</a>
+        <a href="/about" class="mobile-nav-item">About</a>
+        <a href="/blog" class="mobile-nav-item">Insights</a>
+        <a href="/careers" class="mobile-nav-item">Careers</a>
+        <a href="/login" class="mobile-connect-btn">LOGIN</a>
+    </div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Main content -->
+<section class="partners-hero container">
+
+  <h1>ADVANCED MANUFACTURING PARTNERS</h1>
+
+  <p>
+    Enabling high precision production through technology and infrastructure partners.
+  </p>
+
+</section>
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>AXO Networks</h3>
+                <p>AuroXOrigin Networks Private Limited</p>
+                <p class="copyright">© 2026</p>
+            </div>
+            <div class="footer-links-center">
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/blog">Insights</a>
+                <a href="/contact">Contact Us</a>
+		<a href="https://www.linkedin.com/company/axo-networks/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+// Mobile-optimized JavaScript with video autoplay fix
+(function() {
+    // Mobile menu functionality
+    const header = document.getElementById('header');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileSidebar = document.getElementById('mobileSidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function openMobileMenu() {
+        mobileSidebar.classList.add('open');
+        sidebarOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        mobileSidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        mobileMenuBtn.addEventListener('touchstart', openMobileMenu, { passive: true });
+    }
+    if (closeSidebar) {
+        closeSidebar.addEventListener('click', closeMobileMenu);
+    }
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeMobileMenu);
+    }
+
+    document.querySelectorAll('.mobile-nav-item, .mobile-connect-btn').forEach(item => {
+        item.addEventListener('click', closeMobileMenu);
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileSidebar && mobileSidebar.classList.contains('open')) {
+            closeMobileMenu();
+        }
+    });
+
+    // Throttled scroll handler
+    let lastScrollTop = 0;
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    header.style.transform = 'translateY(-100%)';
+                } else {
+                    header.style.transform = 'translateY(0)';
+                }
+                if (scrollTop > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                lastScrollTop = scrollTop;
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+    })();
+</script>
+</body>
+</html>

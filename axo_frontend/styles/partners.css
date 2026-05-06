@@ -1,0 +1,113 @@
+/* =========================
+   PARTNERS HERO
+========================= */
+
+.partners-hero {
+  text-align: center;
+  padding: 140px 20px 80px;
+}
+
+/* HEADING */
+.partners-hero h1 {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+/* PARAGRAPH */
+.partners-hero p {
+  max-width: 650px;
+  margin: 0 auto;
+
+  font-size: 16px;
+  line-height: 1.6;
+
+  color: rgba(255,255,255,0.65);
+}
+
+/* =========================
+   PAGE LAYOUT FIX
+========================= */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Push footer to bottom */
+.footer {
+  margin-top: auto;
+}
+
+/* Center hero vertically */
+main {
+  min-height: calc(100vh - 160px); /* header + footer adjust */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partners-hero h1 {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: 1px;
+
+  line-height: 1.2;
+  max-width: 800px;
+  margin: 0 auto 16px;
+
+  text-shadow: 0 0 20px rgba(255,255,255,0.06);
+}
+.partners-hero p {
+  font-size: 16px;
+  line-height: 1.6;
+
+  color: rgba(255,255,255,0.65);
+
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* background */
+/* =========================
+   PARTNERS BACKGROUND
+========================= */
+
+body {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  background: #000;
+}
+
+/* Background image layer */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background: url('/assets/partners-bg.png') center/cover no-repeat;
+
+  filter:  brightness(0.50); /* 🔥 dark + blur */
+  transform: scale(1.1); /* avoid blur edges */
+
+  z-index: -2;
+}
+
+/* Overlay for readability + tone */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background:
+    rgba(0, 0, 0, 0.65),
+    radial-gradient(circle at center, rgba(59,130,246,0.06), transparent 70%);
+
+  z-index: -1;
+}
+
+/* responsive  */

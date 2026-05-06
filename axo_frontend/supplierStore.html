@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXO Networks - Axis</title>
+    <title>AXO Networks - Supplier Store</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,21 +11,15 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Fonts -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> -->
+  
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
-    <!-- MAIN CSS (same as index) -->
+
     <link rel="stylesheet" href="styles/index.css">
 
     <!-- ONLY additional -->
-    <link rel="stylesheet" href="styles/axisStore.css">
+    <link rel="stylesheet" href="styles/supplierStore.css">
 </head>
 <body id="top">
-
-<!-- SAME ATMOSPHERIC BG -->
-<!-- <div class="atmospheric-bg">
-    <img src="https://static.wixstatic.com/media/3d4c2a_6a3285779af54e5eb504103e8f87828e~mv2.png">
-</div> -->
 
 <!-- SAME HEADER -->
 <header class="header" id="header">
@@ -35,7 +29,7 @@
             <div class="right-side">
                 <div class="nav">
                     <a href="/industrial-os" class="nav-item">Industrial OS</a>
-                    <a href="/axisStore" class="nav-item">The Axis</a>
+                    <a href="/theAxis" class="nav-item">The Axis</a>
                     <a href="/about" class="nav-item">About</a>
                     <a href="/blog" class="nav-item">Insights</a>
                     <a href="/careers" class="nav-item">Careers</a>
@@ -48,13 +42,6 @@
         </div>
     </div>
 </header>
-<!--
-LETS START coding from here. 
-
--->
-
-
-
 
 <!-- SAME MOBILE MENU -->
 <div class="mobile-sidebar" id="mobileSidebar">
@@ -63,7 +50,7 @@ LETS START coding from here.
     </button>
     <div class="mobile-nav">
         <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
-        <a href="/axisStore" class="mobile-nav-item">THE AXIS</a>
+        <a href="/theAxis" class="mobile-nav-item">THE AXIS</a>
         <a href="/about" class="mobile-nav-item">About</a>
         <a href="/blog" class="mobile-nav-item">Insights</a>
         <a href="/careers" class="mobile-nav-item">Careers</a>
@@ -90,9 +77,6 @@ LETS START coding from here.
                 world's most reliable suppliers.
             </p>
 
-            <!-- <button class="hero-btn" id="exploreBtn">
-                EXPLORE THE AXIS →
-            </button> -->
             <div class="hero-cta">
                 <a href="#supplierss" class="cta-button-large">
                     <span>Explore the Axis <i class="fas fa-arrow-right"></i></span>
@@ -102,161 +86,122 @@ LETS START coding from here.
     </section>
 
 
-    <section class="features-strip">
-        <div class="container">
-            <div class="features-grid">
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-microchip"></i>
-                    </div>
-                    <div>
-                        <h4>Precision Sourcing</h4>
-                        <p>Atomic-level accuracy in supplier matching.</p>
-                    </div>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div>
-                        <h4>Verified Integrity</h4>
-                        <p>Every architect vetted for industrial scale.</p>
-                    </div>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <div>
-                        <h4>Rapid Implementation</h4>
-                        <p>From blueprint to production in record time.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="architects-section" id="architects">
-        <div class="container">
-
-            <div class="architects-grid">
-                
-                <!-- LEFT -->
-                <div class="architects-left">
-                    <h2>The Architects<br>of The Axis</h2>
-                </div>
-
-                <!-- RIGHT -->
-                <div class="architects-right">
-                    <p>
-                        Discover the foundational pillars of modern manufacturing.
-                        These are not just suppliers; they are the instruments of your progress.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="section-divider"></div>
-
-        </div>
-    </section>
-
     <section class="suppliers-section" id="supplierss">
         <div class="container">
 
             <div class="suppliers-grid">
 
                 <!-- CARD -->
-                <div class="supplier-card" onclick="openProductList(1)">
+                <div class="supplier-card" >
                     <div class="card-image">
                         <img src="/assets/gms-cover.png" alt="supplier">
 
                         <div class="verified-badge verified">
-                            <i class="fas fa-check-circle"></i> VERIFIED
+                            <i class="fas fa-check-circle"></i> AXO VERIFIED
                         </div>
 
                         <div class="card-overlay">
-                            <button>VISIT PAVILION →</button>
+                            <!-- <button>VISIT PAVILION →</button> -->
                         </div>
                     </div>
 
                     <div class="card-content">
-                        <div class="logo-box"><img src="assets/gmsLogo.png" alt="GMS Logo"></div>
 
-                        <h3>Global Marketing Services (GMS)</h3>
+                    <h3>Global Marketing Services (GMS)</h3>
 
-                        <p class="tagline">
-                            POWERING PRECISION FOR EV & SEMICONDUCTOR MANUFACTURING
-                        </p>
+                    <p class="capability">
+                        Lithium Battery Pack Manufacturer for EV Applications
+                    </p>
 
-                        <p class="desc">
-                            A strategic partner in semiconductor and microelectronics solutions,
-                            GMS enables the foundation of EV innovation. From fabrication setup
-                            to advanced packaging processes, they bridge global technology
-                            providers with manufacturers building the next generation of
-                            electric mobility systems.
-                        </p>
+                    <div class="specs">
+                        <p><strong>Products:</strong> 48V–72V Lithium Battery Packs</p>
+                        <p><strong>Capacity:</strong> 50 units / month</p>
+                        <p><strong>Location:</strong> Bangalore</p>
+                        <p><strong>Lead Time:</strong> 3 months</p>
+                        <p><strong>MOQ:</strong> 50 units</p>
+                    </div>
+
+                    <p class="tags">
+                        Battery · EV · Lithium · Custom Packs
+                    </p>
+
+                    <a href="/supplierStore" class="cta-button-large card-cta">
+                    <span>Request Quote <i class="fas fa-arrow-right"></i></span>
+                    </a>
+
                     </div>
                 </div>
 
                 <!-- Duplicate 2 more cards -->
-                <div class="supplier-card" onclick="openProductList(2)">
+                <div class="supplier-card">
                     <div class="card-image">
                         <img src="/assets/ev-battery.jpg">
                         <div class="verified-badge pending">
                             <i class="fas fa-clock"></i> VERIFICATION PENDING
                         </div>
-                        <div class="card-overlay"><button>VISIT PAVILION →</button></div>
+                        <div class="card-overlay">
+                            <!-- <button>VISIT PAVILION → 
+
+                            </button> --> </div>
                     </div>
 
                     <div class="card-content">
-                        <div class="logo-box">
-                            <img src="assets/voltEdgeLogo.png" alt="VoltEdge Logo">
+                        <h3>VoltEdge Energy Systems</h3>
+                        <p class="capability">
+                        Advanced Lithium-ion Battery Systems for EV Platforms
+                        </p>
+
+                        <div class="specs">
+                        <p><strong>Products:</strong> Modular Battery Packs & BMS</p>
+                        <p><strong>Capacity:</strong> 120 units / month</p>
+                        <p><strong>Location:</strong> Pune</p>
+                        <p><strong>Lead Time:</strong> 6–8 weeks</p>
+                        <p><strong>MOQ:</strong> 30 units</p>
                         </div>
 
-                        <h3>VoltEdge Energy Systems</h3>
-
-                        <p class="tagline">
-                            ADVANCED ENERGY STORAGE FOR ELECTRIC MOBILITY
+                        <p class="tags">
+                        Energy Storage · EV · BMS · Modular Systems
                         </p>
 
-                        <p class="desc">
-                            Designing high-performance lithium-ion battery systems, BMS solutions, and modular energy packs for EV manufacturers. Built for safety, scalability, and long lifecycle performance.
-                        </p>
+                         <a href="/supplierStore" class="cta-button-large card-cta">
+                        <span>Request Quote <i class="fas fa-arrow-right"></i></span>
+                        </a>
                     </div>
                 </div>
 
-                <div class="supplier-card" onclick="openProductList(3)">
+                <div class="supplier-card" >
                     <div class="card-image">
                         <img src="/assets/ev-motor.jpg">
                         <div class="verified-badge pending">
                             <i class="fas fa-clock"></i> VERIFICATION PENDING
                         </div>
-                        <div class="card-overlay"><button>VISIT PAVILION →</button></div>
+                        <div class="card-overlay">
+                            <!-- <button></button>   -->
+                          
+                        </div>
                     </div>
 
                     <div class="card-content">
-                        <div class="logo-box">
-                            <img src="assets/motionDriveLogo.png" alt="MotionDrive Logo">
+                        <h3>MotionDrive Technologies</h3>
+                        <p class="capability">
+                        Electric Powertrain Systems for Automotive & Industrial EVs
+                        </p>
+
+                        <div class="specs">
+                        <p><strong>Products:</strong> Motors, Inverters, Drivetrain Systems</p>
+                        <p><strong>Capacity:</strong> 80 units / month</p>
+                        <p><strong>Location:</strong> Chennai</p>
+                        <p><strong>Lead Time:</strong> 10–12 weeks</p>
+                        <p><strong>MOQ:</strong> 20 units</p>
                         </div>
 
-                        <h3>MotionDrive Technologies</h3>
-
-                        <p class="tagline">
-                            HIGH-EFFICIENCY EV POWERTRAIN SOLUTIONS
+                        <p class="tags">
+                        Motors · EV · Powertrain · Industrial Mobility
                         </p>
 
-                        <p class="desc">
-                            Engineering electric motors, inverters, and drivetrain systems optimized for performance and efficiency. Enabling next-gen EV platforms across automotive and industrial mobility.
-                        </p>
+                        <a href="/supplierStore" class="cta-button-large card-cta">
+                        <span>Request Quote <i class="fas fa-arrow-right"></i></span>
+                        </a>
                     </div>
                 </div>
 
@@ -266,50 +211,6 @@ LETS START coding from here.
     </section>
 
 
-    <section class="progress-section">
-        <div class="container center">
-
-            <h2>Instruments of Progress.</h2>
-
-            <p>
-                In the Axis, we aren’t selling services. We are providing the foundational
-                architecture for your next breakthrough. This is an invitation to build
-                something monumental.
-            </p>
-
-
-        </div>
-    </section>
-
-
-    <!-- <section class="axis-section">
-        <div class="container axis-grid">
-
-            <div class="axis-col">
-                <h3>THE AXIS</h3>
-                <p>
-                    Connecting every maker, startup, and OEM to the world's most reliable suppliers.
-                </p>
-            </div>
-
-          
-            <div class="axis-col">
-                <h4>Navigate</h4>
-                <a href="#top">Home</a>
-                <a href="#supplierss">Suppliers</a>
-            </div>
-
-            
-            <div class="axis-col">
-                <h4>About</h4>
-                <p>
-                    The Axis is a premium industrial marketplace showcasing verified suppliers
-                    and their instruments of progress.
-                </p>
-            </div>
-
-        </div>
-    </section> -->
 
     
 </main>
@@ -424,21 +325,6 @@ window.addEventListener("load", () => {
     }, 200); // small delay for smooth feel
 });
 
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-    }
-  });
-}, { threshold: 0.3 });
-
-/* observe ALL animated sections */
-document.querySelectorAll(
-  '.features-strip, .architects-section'
-).forEach(el => {
-  observer.observe(el);
-});
 
 </script>
 
