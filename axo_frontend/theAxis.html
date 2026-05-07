@@ -2,29 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>AXO Networks - The Axis</title>
-    <meta name="description" content="AXO Networks brings suppliers, production, and capital into one system so nothing slows you down.">
-    
-    <!-- Preconnect to external domains -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXO Networks - Supplier Store</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Main CSS -->
+  
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="styles/index.css">
+
+    <!-- ONLY additional -->
     <link rel="stylesheet" href="styles/theAxis.css">
 </head>
-<body>
+<body id="top">
 
-<div class="atmospheric-bg">
-    <img src="https://static.wixstatic.com/media/3d4c2a_6a3285779af54e5eb504103e8f87828e~mv2.png" alt="Atmospheric Texture" loading="eager" fetchpriority="high">
-</div>
-
+<!-- SAME HEADER -->
 <header class="header" id="header">
     <div class="container">
         <div class="header-content">
@@ -46,23 +43,50 @@
     </div>
 </header>
 
+<!-- SAME MOBILE MENU -->
 <div class="mobile-sidebar" id="mobileSidebar">
     <button class="close-sidebar" id="closeSidebar">
         <i class="fas fa-times"></i>
     </button>
     <div class="mobile-nav">
         <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
-        <a href="/theAxis" class="mobile-nav-item">The Axis</a>
+        <a href="/theAxis" class="mobile-nav-item">THE AXIS</a>
         <a href="/about" class="mobile-nav-item">About</a>
         <a href="/blog" class="mobile-nav-item">Insights</a>
         <a href="/careers" class="mobile-nav-item">Careers</a>
         <a href="/login" class="mobile-connect-btn">LOGIN</a>
     </div>
 </div>
+
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<!-- Main content -->
-<section class="axis-strips">
+<!-- 🔥 ONLY THIS SECTION IS NEW -->
+
+<main class="store-page">
+
+    <!-- we will build everything inside this -->
+    <section class="store-hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <h1>The Gravity<br>of Trust.</h1>
+
+            <p>
+                The Axis: Connecting every maker, startup, and OEM to the
+                world's most reliable suppliers.
+            </p>
+
+            <div class="hero-cta">
+                <a href="#axis-decision" class="cta-button-large">
+                    <span>Explore the Axis <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main content -->
+<!-- <section class="axis-strips">
 
   <a href="/supplierStore" class="axis-strip">
     <div class="strip-content">
@@ -86,11 +110,45 @@
     </span>
   </a>
 
+</section> -->
+<section class="axis-decision" id="axis-decision">
+
+  <div class="decision-card">
+    <h2>Suppliers</h2>
+    <p>
+      Explore verified component and equipment providers across the industrial ecosystem.
+    </p>
+
+    <a href="/supplierStore.html" class="cta-button-large">
+      <span>Explore Suppliers <i class="fas fa-arrow-right"></i></span>
+    </a>
+  </div>
+
+  <div class="decision-card">
+    <h2>Advanced Manufacturing Partners</h2>
+    <p>
+      Collaborate with production, R&D, and infrastructure partners for precision manufacturing.
+    </p>
+
+    <a href="/partners.html" class="cta-button-large">
+      <span>Explore Partners <i class="fas fa-arrow-right"></i></span>
+    </a>
+  </div>
+
 </section>
 
+</section>
+
+    
 
 
-<footer class="footer">
+
+    
+</main>
+
+
+<!-- SAME FOOTER -->
+<footer class="footer" >
     <div class="container">
         <div class="footer-content">
             <div class="footer-brand">
@@ -109,11 +167,26 @@
     </div>
 </footer>
 
-
+<!-- SAME JS (copied from index.html) -->
 <script>
-// Mobile-optimized JavaScript with video autoplay fix
+document.getElementById("exploreBtn").addEventListener("click", function () {
+    const section = document.getElementById("architects");
+
+    const yOffset = -80; // adjust based on your navbar height
+    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({
+        top: y,
+        behavior: "smooth"
+    });
+});
+
+
+
+
+</script>
+<script>
 (function() {
-    // Mobile menu functionality
     const header = document.getElementById('header');
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileSidebar = document.getElementById('mobileSidebar');
@@ -134,26 +207,22 @@
 
     if (mobileMenuBtn) {
         mobileMenuBtn.addEventListener('click', openMobileMenu);
-        mobileMenuBtn.addEventListener('touchstart', openMobileMenu, { passive: true });
+        // mobileMenuBtn.addEventListener('touchstart', openMobileMenu, { passive: true });
     }
-    if (closeSidebar) {
-        closeSidebar.addEventListener('click', closeMobileMenu);
-    }
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', closeMobileMenu);
-    }
+
+    if (closeSidebar) closeSidebar.addEventListener('click', closeMobileMenu);
+    if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeMobileMenu);
 
     document.querySelectorAll('.mobile-nav-item, .mobile-connect-btn').forEach(item => {
         item.addEventListener('click', closeMobileMenu);
     });
 
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileSidebar && mobileSidebar.classList.contains('open')) {
+        if (e.key === 'Escape' && mobileSidebar.classList.contains('open')) {
             closeMobileMenu();
         }
     });
 
-    // Throttled scroll handler
     let lastScrollTop = 0;
     let ticking = false;
 
@@ -161,23 +230,46 @@
         if (!ticking) {
             requestAnimationFrame(() => {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
                 if (scrollTop > lastScrollTop && scrollTop > 100) {
                     header.style.transform = 'translateY(-100%)';
                 } else {
                     header.style.transform = 'translateY(0)';
                 }
+
                 if (scrollTop > 50) {
                     header.classList.add('scrolled');
                 } else {
                     header.classList.remove('scrolled');
                 }
+
                 lastScrollTop = scrollTop;
                 ticking = false;
             });
             ticking = true;
         }
     });
-    })();
+})();
 </script>
+<script> // animation
+window.addEventListener("load", () => {
+    const hero = document.querySelector(".hero-content");
+    
+    setTimeout(() => {
+        hero.classList.add("show");
+    }, 200); // small delay for smooth feel
+});
+
+
+</script>
+
+
 </body>
+<script>
+function openProductList(id) {
+    window.location.href = `/productList?id=${id}`;
+}
+</script>
+
+
 </html>

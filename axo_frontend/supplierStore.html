@@ -2,26 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXO Networks - Supplier Store</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>AXO Networks - The Axis</title>
+    <meta name="description" content="AXO Networks brings suppliers, production, and capital into one system so nothing slows you down.">
+    
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Fonts -->
-  
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main CSS -->
     <link rel="stylesheet" href="styles/index.css">
-
-    <!-- ONLY additional -->
+    <link rel="stylesheet" href="styles/theAxis.css">
     <link rel="stylesheet" href="styles/supplierStore.css">
 </head>
-<body id="top">
+<body>
 
-<!-- SAME HEADER -->
+<div class="atmospheric-bg">
+    <img src="https://static.wixstatic.com/media/3d4c2a_6a3285779af54e5eb504103e8f87828e~mv2.png" alt="Atmospheric Texture" loading="eager" fetchpriority="high">
+</div>
+
 <header class="header" id="header">
     <div class="container">
         <div class="header-content">
@@ -43,57 +47,52 @@
     </div>
 </header>
 
-<!-- SAME MOBILE MENU -->
 <div class="mobile-sidebar" id="mobileSidebar">
     <button class="close-sidebar" id="closeSidebar">
         <i class="fas fa-times"></i>
     </button>
     <div class="mobile-nav">
         <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
-        <a href="/theAxis" class="mobile-nav-item">THE AXIS</a>
+        <a href="/theAxis" class="mobile-nav-item">The Axis</a>
         <a href="/about" class="mobile-nav-item">About</a>
         <a href="/blog" class="mobile-nav-item">Insights</a>
         <a href="/careers" class="mobile-nav-item">Careers</a>
         <a href="/login" class="mobile-connect-btn">LOGIN</a>
     </div>
 </div>
-
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<!-- 🔥 ONLY THIS SECTION IS NEW -->
-
-<main class="store-page">
-
-    <!-- we will build everything inside this -->
-    <section class="store-hero">
-        <div class="hero-bg"></div>
-        <div class="hero-overlay"></div>
-
-        <div class="hero-content">
-            <h1>The Gravity<br>of Trust.</h1>
-
-            <p>
-                The Axis: Connecting every maker, startup, and OEM to the
-                world's most reliable suppliers.
-            </p>
-
-            <div class="hero-cta">
-                <a href="#supplierss" class="cta-button-large">
-                    <span>Explore the Axis <i class="fas fa-arrow-right"></i></span>
-                </a>
-            </div>
-        </div>
-    </section>
 
 
-    <section class="suppliers-section" id="supplierss">
+
+<!--  -->
+<section class="supplier-intro">
+
+  <h1>Industrial Suppliers</h1>
+
+  <p>
+    Discover trusted manufacturers and component providers across battery systems,
+    powertrain, and advanced industrial technologies.
+  </p>
+
+  <div class="supplier-tags">
+    <span>Battery Systems</span>
+    <span>Powertrain</span>
+    <span>Energy Storage</span>
+    <span>and many more</span>
+  </div>
+
+</section>
+
+<!-- Grid Cards -->
+<section class="suppliers-section" id="supplierss">
         <div class="container">
 
             <div class="suppliers-grid">
 
                 <!-- CARD -->
                 <div class="supplier-card" >
-                    <div class="card-image">
+                    <div class="card-image" onclick="openProductList(1)">
                         <img src="/assets/gms-cover.png" alt="supplier">
 
                         <div class="verified-badge verified">
@@ -134,7 +133,7 @@
 
                 <!-- Duplicate 2 more cards -->
                 <div class="supplier-card">
-                    <div class="card-image">
+                    <div class="card-image" onclick="openProductList(2)">
                         <img src="/assets/ev-battery.jpg">
                         <div class="verified-badge pending">
                             <i class="fas fa-clock"></i> VERIFICATION PENDING
@@ -170,7 +169,7 @@
                 </div>
 
                 <div class="supplier-card" >
-                    <div class="card-image">
+                    <div class="card-image" onclick="openProductList(3)">
                         <img src="/assets/ev-motor.jpg">
                         <div class="verified-badge pending">
                             <i class="fas fa-clock"></i> VERIFICATION PENDING
@@ -210,14 +209,7 @@
         </div>
     </section>
 
-
-
-    
-</main>
-
-
-<!-- SAME FOOTER -->
-<footer class="footer" >
+<footer class="footer">
     <div class="container">
         <div class="footer-content">
             <div class="footer-brand">
@@ -236,22 +228,16 @@
     </div>
 </footer>
 
-<!-- SAME JS (copied from index.html) -->
 <script>
-document.getElementById("exploreBtn").addEventListener("click", function () {
-    const section = document.getElementById("architects");
-
-    const yOffset = -80; // adjust based on your navbar height
-    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-    window.scrollTo({
-        top: y,
-        behavior: "smooth"
-    });
-});
+    // opening product listing page...
+function openProductList(id) {
+    window.location.href = `/productList?id=${id}`;
+}
 </script>
 <script>
+// Mobile-optimized JavaScript with video autoplay fix
 (function() {
+    // Mobile menu functionality
     const header = document.getElementById('header');
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileSidebar = document.getElementById('mobileSidebar');
@@ -272,22 +258,26 @@ document.getElementById("exploreBtn").addEventListener("click", function () {
 
     if (mobileMenuBtn) {
         mobileMenuBtn.addEventListener('click', openMobileMenu);
-        // mobileMenuBtn.addEventListener('touchstart', openMobileMenu, { passive: true });
+        mobileMenuBtn.addEventListener('touchstart', openMobileMenu, { passive: true });
     }
-
-    if (closeSidebar) closeSidebar.addEventListener('click', closeMobileMenu);
-    if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeMobileMenu);
+    if (closeSidebar) {
+        closeSidebar.addEventListener('click', closeMobileMenu);
+    }
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeMobileMenu);
+    }
 
     document.querySelectorAll('.mobile-nav-item, .mobile-connect-btn').forEach(item => {
         item.addEventListener('click', closeMobileMenu);
     });
 
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileSidebar.classList.contains('open')) {
+        if (e.key === 'Escape' && mobileSidebar && mobileSidebar.classList.contains('open')) {
             closeMobileMenu();
         }
     });
 
+    // Throttled scroll handler
     let lastScrollTop = 0;
     let ticking = false;
 
@@ -295,44 +285,23 @@ document.getElementById("exploreBtn").addEventListener("click", function () {
         if (!ticking) {
             requestAnimationFrame(() => {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
                 if (scrollTop > lastScrollTop && scrollTop > 100) {
                     header.style.transform = 'translateY(-100%)';
                 } else {
                     header.style.transform = 'translateY(0)';
                 }
-
                 if (scrollTop > 50) {
                     header.classList.add('scrolled');
                 } else {
                     header.classList.remove('scrolled');
                 }
-
                 lastScrollTop = scrollTop;
                 ticking = false;
             });
             ticking = true;
         }
     });
-})();
+    })();
 </script>
-<script> // animation
-window.addEventListener("load", () => {
-    const hero = document.querySelector(".hero-content");
-    
-    setTimeout(() => {
-        hero.classList.add("show");
-    }, 200); // small delay for smooth feel
-});
-
-
-</script>
-
-
 </body>
-<script>
-function openProductList(id) {
-    window.location.href = `/productList?id=${id}`;
-}
-</script>
 </html>
