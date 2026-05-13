@@ -10,7 +10,7 @@
 /* ─────────────────────────────────────────────────────────────────
    0.  GOOGLE FONTS — D-DIN / Barlow Condensed (SpaceX aesthetic)
    ───────────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* ─────────────────────────────────────────────────────────────────
    1.  DESIGN TOKENS
@@ -64,8 +64,8 @@
   --sidebar-collapsed: 72px;
 
   /* — Typography — */
-  --font-display:      'Barlow Condensed', sans-serif;
-  --font-body:         'Barlow', sans-serif;
+--font-display: 'Inter', sans-serif;
+--font-body: 'Inter', sans-serif;
 
   /* — Sizing — */
   --topbar-h:          64px;
@@ -3141,4 +3141,278 @@ a:focus:not(:focus-visible) {
   .progress-bar__fill::after { display: none; }
   .skeleton-card::after,
   .skeleton-row { animation: none !important; background: var(--gray-200) !important; }
+}
+
+
+
+
+
+
+/* =====================================================
+   GLOBAL / RESET HELPERS
+===================================================== */
+* {
+  box-sizing: border-box;
+}
+
+canvas {
+  display: block;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+.page-header {
+  margin-bottom: 10px; /* tight spacing with KPI */
+}
+
+.dashboard-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.dashboard-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* =====================================================
+   MAIN LAYOUT
+===================================================== */
+.dashboard-body {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  gap: 20px;
+
+  align-items: start;
+}
+
+/* Left + Right columns */
+.dashboard-main,
+.dashboard-side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* =====================================================
+   KPI GRID
+===================================================== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* =====================================================
+   KPI CARD
+===================================================== */
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 20px;
+  border-radius: 16px;
+
+  background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+  box-shadow: 0 10px 25px rgba(15,18,63,0.08);
+
+  transition: 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+}
+
+/* KPI ICON */
+.kpi-card__icon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  font-size: 20px;
+  color: #fff;
+
+  background: linear-gradient(135deg, #0F123F 0%, #3A408F 100%);
+}
+
+/* KPI TEXT */
+.kpi-card__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-card__label {
+  font-size: 12px;
+  color: #9aa4b2;
+}
+
+.kpi-card__value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0F123F;
+}
+
+.kpi-card__sub {
+  font-size: 12px;
+  color: #b5bcc8;
+}
+
+/* =====================================================
+   GENERIC CARD STYLE (used everywhere)
+===================================================== */
+.chart-card,
+.orders-card,
+.heatmap-card {
+  background: #ffffff;
+  border-radius: 16px;
+
+  padding: 18px;
+
+  border: 1px solid #eef1f6;
+  box-shadow: 0 8px 20px rgba(15,18,63,0.06);
+}
+
+/* =====================================================
+   CARD TITLES
+===================================================== */
+.chart-card__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+
+  margin-bottom: 12px;
+}
+
+/* =====================================================
+   CHART SIZING SYSTEM (VERY IMPORTANT)
+===================================================== */
+
+/* MAIN LARGE CHART (line chart) */
+.dashboard-main .chart-card {
+  height: 320px;
+}
+
+.dashboard-main .chart-card canvas {
+  height: 250px !important;
+  width: 100% !important;
+}
+
+/* RIGHT SIDE SMALL CARDS (doughnut) */
+.dashboard-side .chart-card {
+  min-height: 320px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* clean center */
+}
+
+.dashboard-side .chart-card canvas {
+  height: 210px !important;
+  width: 100% !important;
+  margin: 0 auto;
+}
+
+/* =====================================================
+   LIVE ORDERS CARD
+===================================================== */
+.orders-card {
+  min-height: 180px;
+}
+
+/* =====================================================
+   HEATMAP
+===================================================== */
+.heatmap-card {
+  padding-top: 16px;
+}
+
+
+/* force Override  */
+/* FORCE OVERRIDE EXISTING SYSTEM */
+
+.dashboard-main .chart-card {
+  height: 320px !important;
+}
+
+.dashboard-side .chart-card {
+  height: 260px !important;
+}
+
+.chart-card {
+  padding: 16px !important;
+}
+
+.chart-card canvas {
+  height: 220px !important;
+}
+
+.dashboard-body {
+  padding-top: 20px;
+}
+
+
+/* fix trend chart placement */
+.chart-section {
+  padding: 0 16px;
+}
+
+/* LARGE LIVE ORDERS SECTION */
+.live-orders-large {
+  min-height: 320px;
+}
+
+/* RIGHT SIDE BOTTLENECK CARD */
+.bottleneck-card {
+  min-height: 220px;
+}
+
+
+/* bottleneck color  */
+
+/* HIGH */
+.heatmap-item__fill--high {
+  background: linear-gradient(
+    90deg,
+    #FF7B7B 0%,
+    #FF9A9A 100%
+  );
+}
+
+/* MEDIUM */
+.heatmap-item__fill--medium {
+  background: linear-gradient(
+    90deg,
+    #6F75D8 0%,
+    #8B90D0 100%
+  );
+}
+
+/* LOW */
+.heatmap-item__fill--low {
+  background: linear-gradient(
+    90deg,
+    #2F3474 0%,
+    #4A51B5 100%
+  );
+}
+
+/* live order UI fix */
+.orders-section {
+  padding: 0 16px;
+}
+/* right section ui fix */
+.dashboard-side {
+  padding-right: 16px;
 }
