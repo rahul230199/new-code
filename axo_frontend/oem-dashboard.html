@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | AXO Networks</title>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/oem-dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -31,33 +31,49 @@
     </aside>
 
     <main class="main-content">
+
+        <!--  -->
         <div class="top-bar">
             <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
             <div class="top-bar-right">
-                <div class="notification-bell" id="notificationBell">
-                    <i class="far fa-bell"></i>
-                    <span class="notification-badge">0</span>
+                <div class="notification-bell">
+                <i class="far fa-bell"></i>
+                <span class="notification-badge">0</span>
                 </div>
+
                 <div class="user-info">
-                    <span id="companyName">Loading...</span>
-                    <div class="avatar"><i class="fas fa-industry"></i></div>
+                <span id="companyName">Loading...</span>
+                <div class="avatar"><i class="fas fa-industry"></i></div>
                 </div>
             </div>
         </div>
 
-        <div class="page-header">
-            <div>
-                <h1>Dashboard</h1>
-                <p>Real-time supply chain performance</p>
-            </div>
-        </div>
 
-        <div class="kpi-grid" id="statsGrid">
+<div class="dashboard-body">
+
+  <!-- LEFT SIDE -->
+  <div class="dashboard-main">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="header-text">
+        <h1 class="dashboard-title">
+          DASHBOARD
+        </h1>
+        <p class="dashboard-subtitle">
+          Track your supply chain performance in real-time
+        </p>
+      </div>
+    </div>
+
+    <!-- KPI -->
+            <div class="kpi-grid" id="statsGrid">
             <div class="kpi-card">
                 <div class="kpi-card__icon kpi-card__icon--blue"><i class="fas fa-file-alt"></i></div>
                 <div class="kpi-card__body">
                     <span class="kpi-card__label">Active RFQs</span>
                     <div class="kpi-card__value" id="activeRFQs">0</div>
+                    <!-- <span class="kpi-card__sub">+0.00%</span> -->
                 </div>
             </div>
             <div class="kpi-card">
@@ -65,6 +81,7 @@
                 <div class="kpi-card__body">
                     <span class="kpi-card__label">Quotes Pending</span>
                     <div class="kpi-card__value" id="pendingQuotes">0</div>
+                    <!-- <span class="kpi-card__sub">+0.00%</span> -->
                 </div>
             </div>
             <div class="kpi-card">
@@ -72,6 +89,7 @@
                 <div class="kpi-card__body">
                     <span class="kpi-card__label">Active Orders</span>
                     <div class="kpi-card__value" id="activeOrders">0</div>
+                    <!-- <span class="kpi-card__sub">+0.00%</span> -->
                 </div>
             </div>
             <div class="kpi-card">
@@ -79,37 +97,63 @@
                 <div class="kpi-card__body">
                     <span class="kpi-card__label">Delayed Orders</span>
                     <div class="kpi-card__value" id="delayedOrders">0</div>
+                    <!-- <span class="kpi-card__sub">+0.00%</span> -->
                 </div>
             </div>
         </div>
 
-        <div class="charts-grid">
-            <div class="chart-card">
-                <div class="chart-card__title"><i class="fas fa-chart-pie"></i> Order Status</div>
-                <canvas id="orderStatusChart" height="200"></canvas>
+            <!-- MAIN CHART -->
+            <div class="chart-section">
+                <div class="chart-card">
+                    <div class="chart-card__title">
+                        <i class="fas fa-chart-line"></i> Monthly Trend
+                    </div>
+                <canvas id="monthlyTrendChart"></canvas>
+                </div>
+                
             </div>
-            <div class="chart-card">
-                <div class="chart-card__title"><i class="fas fa-chart-line"></i> Monthly Trend</div>
-                <canvas id="monthlyTrendChart" height="200"></canvas>
-            </div>
-        </div>
+            <div class="orders-section">
+                <div class="orders-card live-orders-large">
 
-        <div class="heatmap-card">
-            <div class="chart-card__title"><i class="fas fa-fire"></i> Production Bottlenecks</div>
-            <div id="bottlenecksList" class="heatmap-grid">
-                <div class="loading">Loading bottlenecks...</div>
-            </div>
-        </div>
+                    <div class="chart-card__title">
+                        <i class="fas fa-truck-fast"></i> Live Orders
+                    </div>
 
-        <div class="live-orders-section">
-            <div class="section-header">
-                <h3 class="section-title"><i class="fas fa-truck-fast"></i> Live Orders</h3>
-            </div>
-            <div class="orders-table-card">
-                <div class="table-container">
-                    <div id="liveOrdersList" class="loading">Loading orders...</div>
+                    <div id="liveOrdersList"></div>
+
                 </div>
             </div>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="dashboard-side">
+
+        <div class="chart-card doughnut-card">
+
+            <div class="chart-card__title">
+                <i class="fas fa-chart-pie"></i> Order Status
+            </div>
+
+            <div class="doughnut-wrapper">
+                <canvas id="orderStatusChart"></canvas>
+            </div>
+
+            <div class="doughnut-total">
+                <span>Total Orders</span>
+                <strong id="totalOrdersCount">0</strong>
+            </div>
+
+        </div>
+        
+            <div class="heatmap-card bottleneck-card">
+
+                <div class="chart-card__title">
+                    <i class="fas fa-fire"></i> Production Bottlenecks
+                </div>
+
+                <div id="bottlenecksList"></div>
+            </div>
+        </div>
         </div>
     </main>
 </div>
@@ -147,7 +191,47 @@ async function loadDashboard() {
         }
         
         const data = await response.json();
-        
+                // Mock data for charts testing
+            // data = {
+            //     charts: {
+            //         order_status_distribution: [
+            //             { status: 'Pending', count: 10 },
+            //             { status: 'Accepted', count: 8 },
+            //             { status: 'Delayed', count: 5 },
+            //             { status: 'Completed', count: 20 },
+            //             { status: 'In Progress', count: 7 }
+            //         ],
+
+            //         monthly_volume_trend: [
+            //             { month: 'Jan', total_value: 10000 },
+            //             { month: 'Feb', total_value: 20000 },
+            //             { month: 'Mar', total_value: 25000 },
+            //             { month: 'Apr', total_value: 50000 },
+            //             { month: 'May', total_value: 40000 },
+            //             { month: 'Jun', total_value: 30000 },
+            //             { month: 'Jul', total_value: 60000 }
+            //         ]
+            //     },
+
+            //     heatmap: [
+            //         {
+            //             name: "Delayed Milestones",
+            //             value: 82,
+            //             severity: "high"
+            //         },
+            //         {
+            //             name: "Raw Material Shortages",
+            //             value: 61,
+            //             severity: "medium"
+            //         },
+            //         {
+            //             name: "QC Hold",
+            //             value: 34,
+            //             severity: "low"
+            //         }
+            //     ]
+            // };
+
         document.getElementById('activeRFQs').textContent = data.kpis?.active_rfqs || 0;
         document.getElementById('pendingQuotes').textContent = data.kpis?.quotes_pending || 0;
         document.getElementById('activeOrders').textContent = data.kpis?.active_orders || 0;
@@ -194,38 +278,142 @@ async function loadDashboard() {
             liveOrdersList.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>No active orders</p></div>';
         }
         
+
         // Initialize charts if data available
         if (data.charts) {
-            if (data.charts.order_status_distribution && data.charts.order_status_distribution.length > 0) {
-                const ctx = document.getElementById('orderStatusChart')?.getContext('2d');
-                if (ctx) {
-                    const labels = data.charts.order_status_distribution.map(s => s.status);
-                    const values = data.charts.order_status_distribution.map(s => parseInt(s.count) || 0);
-                    new Chart(ctx, {
-                        type: 'doughnut',
-                        data: { labels: labels, datasets: [{ data: values, backgroundColor: ['#3b8eff', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'] }] },
-                        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
-                    });
-                }
+
+        /* =========================
+            DOUGHNUT CHART
+        ========================= */
+        if (
+            data.charts.order_status_distribution &&
+            data.charts.order_status_distribution.length > 0
+        ) {
+            const ctx = document.getElementById('orderStatusChart')?.getContext('2d');
+
+            if (ctx) {
+            const labels = data.charts.order_status_distribution.map(s => s.status);
+            const values = data.charts.order_status_distribution.map(s => parseInt(s.count) || 0);
+            const total = values.reduce((a, b) => a + b, 0);
+            document.getElementById('totalOrdersCount').textContent = total;
+
+            if (window.orderChartInstance) {
+                window.orderChartInstance.destroy();
             }
-            
-            if (data.charts.monthly_volume_trend && data.charts.monthly_volume_trend.length > 0) {
-                const ctx = document.getElementById('monthlyTrendChart')?.getContext('2d');
-                if (ctx) {
-                    const months = data.charts.monthly_volume_trend.map(m => m.month);
-                    const values = data.charts.monthly_volume_trend.map(m => parseFloat(m.total_value) || 0);
-                    new Chart(ctx, {
-                        type: 'line',
-                        data: { labels: months, datasets: [{ label: 'Order Value (USD)', data: values, borderColor: '#3b8eff', backgroundColor: 'rgba(59,142,255,0.1)', fill: true, tension: 0.3 }] },
-                        options: { responsive: true, maintainAspectRatio: true }
-                    });
+
+
+
+            const statusColors = {
+                Pending: '#8B90D0',
+                Accepted: '#BABEC6',
+                Delayed: '#FF7B7B',
+                Completed: '#2F3474',
+                'In Progress': '#4A51B5'
+            };
+            window.orderChartInstance = new Chart(ctx, {
+                
+                type: 'doughnut',
+                data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: data.charts.order_status_distribution.map(item => statusColors[item.status] || '#E5E7EB'),
+                    borderWidth: 0,
+                    hoverOffset: 6,
+                    spacing: 2,
+                    borderRadius: 2
+                }]
+                },
+                options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '74%',
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            padding: 18,
+                            color: '#6b7280',
+
+                            font: {
+                            size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                    backgroundColor: '#0F123F',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    padding: 10,
+                    cornerRadius: 6
+                    }
                 }
+                },
+                // plugins: [centerTextPlugin]
+            });
             }
         }
-        
-    } catch (error) {
-        console.error('Error loading dashboard:', error);
+
+        /* =========================
+            MONTHLY TREND CHART
+        ========================= */
+        if (
+            data.charts.monthly_volume_trend &&
+            data.charts.monthly_volume_trend.length > 0
+        ) {
+            const ctx = document.getElementById('monthlyTrendChart')?.getContext('2d');
+
+            if (ctx) {
+            const months = data.charts.monthly_volume_trend.map(m => m.month);
+            const values = data.charts.monthly_volume_trend.map(m => parseFloat(m.total_value) || 0);
+
+            // 🔥 destroy old instance
+            if (window.trendChartInstance) {
+                window.trendChartInstance.destroy();
+            }
+
+            window.trendChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                labels: months,
+                datasets: [{
+                    label: 'Order Value (USD)',
+                    data: values,
+                    borderColor: '#3A408F',
+                    backgroundColor: 'rgba(58,64,143,0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#3A408F'
+                }]
+                },
+                options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                    grid: { display: false }
+                    },
+                    y: {
+                    grid: {
+                        color: '#eef1f6'
+                    }
+                    }
+                }
+                }
+            });
+            }
+        }
     }
+}
+catch (error) { console.error('Error loading dashboard:', error); }
 }
 
 loadDashboard();
