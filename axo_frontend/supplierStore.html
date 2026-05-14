@@ -41,7 +41,38 @@
             <div class="right-side">
                 <div class="nav">
                     <a href="/industrial-os" class="nav-item">Industrial OS</a>
-                    <a href="/theAxis" class="nav-item">Axis</a>
+                    <div class="nav-dropdown">
+                        <button class="nav-item dropdown-trigger" type="button">
+                            Axis
+                            <i class="fas fa-chevron-down dropdown-icon"></i>
+                        </button>
+
+                        <div class="mega-menu">
+
+                            <a href="/supplierStore" class="mega-item">
+                                <div class="mega-icon">
+                                    <i class="fas fa-industry"></i>
+                                </div>
+
+                                <div class="mega-content">
+                                    <span>Suppliers</span>
+                                    <p>Verified component providers</p>
+                                </div>
+                            </a>
+
+                            <a href="/partners" class="mega-item">
+                                <div class="mega-icon">
+                                    <i class="fas fa-gears"></i>
+                                </div>
+
+                                <div class="mega-content">
+                                    <span>Advanced Manufacturing Partners</span>
+                                    <p>Precision production ecosystem</p>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
                     <a href="/about" class="nav-item">About</a>
                     <a href="/blog" class="nav-item">Insights</a>
                     <a href="/careers" class="nav-item">Careers</a>
@@ -61,7 +92,22 @@
     </button>
     <div class="mobile-nav">
         <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
-        <a href="/theAxis" class="mobile-nav-item">Axis</a>
+        <div class="mobile-dropdown">
+            <button class="mobile-dropdown-trigger">
+                <span>Axis</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+
+            <div class="mobile-dropdown-menu">
+                <a href="/supplierStore" class="mobile-sub-item">
+                    Suppliers
+                </a>
+
+                <a href="/partners" class="mobile-sub-item">
+                    Advanced Manufacturing Partners
+                </a>
+            </div>
+        </div>
         <a href="/about" class="mobile-nav-item">About</a>
         <a href="/blog" class="mobile-nav-item">Insights</a>
         <a href="/careers" class="mobile-nav-item">Careers</a>
@@ -285,6 +331,34 @@ function openProductList(id) {
         }
     });
 
+    // dropdown menu nav
+    const mobileDropdownTrigger = document.querySelector('.mobile-dropdown-trigger');
+    const mobileDropdownMenu = document.querySelector('.mobile-dropdown-menu');
+
+    if (mobileDropdownTrigger) {
+        mobileDropdownTrigger.addEventListener('click', () => {
+            mobileDropdownMenu.classList.toggle('open');
+            mobileDropdownTrigger.classList.toggle('active');
+        });
+    }
+
+    const dropdown = document.querySelector('.nav-dropdown');
+    const trigger = document.querySelector('.dropdown-trigger');
+
+    if (trigger && dropdown) {
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            dropdown.classList.toggle('open');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+    }
     // Throttled scroll handler
     let lastScrollTop = 0;
     let ticking = false;

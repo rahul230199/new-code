@@ -89,7 +89,7 @@ body::before {
   position: fixed;
   inset: 0;
 
-  background: url('/assets/partners-bg.png') center/cover no-repeat;
+  background: url('/assets/partners-bg.jpg') center/cover no-repeat;
 
   filter:  brightness(0.50); /* 🔥 dark + blur */
   transform: scale(1.1); /* avoid blur edges */

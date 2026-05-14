@@ -37,7 +37,38 @@
             <div class="right-side">
                 <div class="nav">
                     <a href="/industrial-os" class="nav-item">Industrial OS</a>
-                    <a href="/theAxis" class="nav-item">Axis</a>
+                    <div class="nav-dropdown">
+                        <button class="nav-item dropdown-trigger" type="button">
+                            Axis
+                            <i class="fas fa-chevron-down dropdown-icon"></i>
+                        </button>
+
+                        <div class="mega-menu">
+
+                            <a href="/supplierStore" class="mega-item">
+                                <div class="mega-icon">
+                                    <i class="fas fa-industry"></i>
+                                </div>
+
+                                <div class="mega-content">
+                                    <span>Suppliers</span>
+                                    <p>Verified component providers</p>
+                                </div>
+                            </a>
+
+                            <a href="/partners" class="mega-item">
+                                <div class="mega-icon">
+                                    <i class="fas fa-gears"></i>
+                                </div>
+
+                                <div class="mega-content">
+                                    <span>Advanced Manufacturing Partners</span>
+                                    <p>Precision production ecosystem</p>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
                     <a href="/about" class="nav-item">About</a>
                     <a href="/blog" class="nav-item">Insights</a>
                     <a href="/careers" class="nav-item">Careers</a>
@@ -58,7 +89,20 @@
     </button>
     <div class="mobile-nav">
         <a href="/industrial-os" class="mobile-nav-item">Industrial OS</a>
-        <a href="/theAxis" class="mobile-nav-item">Axis</a>
+        <div class="mobile-dropdown">
+            <button class="mobile-dropdown-trigger">
+                <span>Axis</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="mobile-dropdown-menu">
+                <a href="/supplierStore" class="mobile-sub-item">
+                    Suppliers
+                </a>
+                <a href="/partners" class="mobile-sub-item">
+                    Advanced Manufacturing Partners
+                </a>
+            </div>
+        </div>
         <a href="/about" class="mobile-nav-item">About</a>
         <a href="/blog" class="mobile-nav-item">Insights</a>
         <a href="/careers" class="mobile-nav-item">Careers</a>
@@ -93,65 +137,7 @@
         </div>
     </section>
 
-    <!-- Main content -->
-<!-- <section class="axis-strips">
-
-  <a href="/supplierStore" class="axis-strip">
-    <div class="strip-content">
-      <h2>Suppliers</h2>
-      <p>Explore verified component and equipment providers.</p>
-    </div>
-
-    <span class="cta-button-large">
-      Explore <i class="fas fa-arrow-right"></i>
-    </span>
-  </a>
-
-  <a href="/partners" class="axis-strip">
-    <div class="strip-content">
-      <h2>Advanced Manufacturing Partners</h2>
-      <p>Collaborate with production, R&D, and scale-ready partners.</p>
-    </div>
-
-    <span class="cta-button-large">
-      Explore <i class="fas fa-arrow-right"></i>
-    </span>
-  </a>
-
-</section> -->
-<section class="axis-decision" id="axis-decision">
-
-  <div class="decision-card">
-    <h2>Suppliers</h2>
-    <p>
-      Explore verified component and equipment providers across the industrial ecosystem.
-    </p>
-
-    <a href="/supplierStore.html" class="cta-button-large">
-      <span>Explore Suppliers <i class="fas fa-arrow-right"></i></span>
-    </a>
-  </div>
-
-  <div class="decision-card">
-    <h2>Advanced Manufacturing Partners</h2>
-    <p>
-      Collaborate with production, R&D, and infrastructure partners for precision manufacturing.
-    </p>
-
-    <a href="/partners.html" class="cta-button-large">
-      <span>Explore Partners <i class="fas fa-arrow-right"></i></span>
-    </a>
-  </div>
-
-</section>
-
-</section>
-
-    
-
-
-
-    
+ 
 </main>
 
 
@@ -176,23 +162,7 @@
 </footer>
 
 <!-- SAME JS (copied from index.html) -->
-<script>
-document.getElementById("exploreBtn").addEventListener("click", function () {
-    const section = document.getElementById("architects");
 
-    const yOffset = -80; // adjust based on your navbar height
-    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-    window.scrollTo({
-        top: y,
-        behavior: "smooth"
-    });
-});
-
-
-
-
-</script>
 <script>
 (function() {
     const header = document.getElementById('header');
@@ -231,6 +201,34 @@ document.getElementById("exploreBtn").addEventListener("click", function () {
         }
     });
 
+    const mobileDropdownTrigger = document.querySelector('.mobile-dropdown-trigger');
+    const mobileDropdownMenu = document.querySelector('.mobile-dropdown-menu');
+
+    if (mobileDropdownTrigger) {
+        mobileDropdownTrigger.addEventListener('click', () => {
+            mobileDropdownMenu.classList.toggle('open');
+        });
+    }
+
+    const dropdown = document.querySelector('.nav-dropdown');
+    const trigger = document.querySelector('.dropdown-trigger');
+
+    if (trigger && dropdown) {
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            dropdown.classList.toggle('open');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+    }
+
+  
     let lastScrollTop = 0;
     let ticking = false;
 

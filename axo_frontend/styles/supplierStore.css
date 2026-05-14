@@ -44,7 +44,7 @@
 body {
   background:
     linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)),
-    url('/assets/supplierStore-bg.png') center/cover no-repeat fixed;
+    url('/assets/supplierStore-bg.jpg') center/cover no-repeat fixed;
 
   /* backdrop-filter: blur(2px);  */
 }
@@ -170,12 +170,6 @@ body {
   margin: 0 auto;
 }
 
-/* bg */
-/* @media (max-width: 640px) {
-  body {
-    background-attachment: scroll; 
-  }
-} */
 
 /* =========================
    SUPPLIER GRID
@@ -203,3 +197,4 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
