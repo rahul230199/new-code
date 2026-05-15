@@ -110,4 +110,29 @@ body::after {
   z-index: -1;
 }
 
-/* responsive  */
+/* manufact. Partners page dropdown readability fix */
+.mega-menu {
+  background: rgba(0,0,0,0.38);
+
+backdrop-filter: blur(4px);
+-webkit-backdrop-filter: blur(4px);
+
+ border-radius: 8px;
+
+}
+.mega-item {
+
+    background: transparent;
+
+    border-radius: 4px; 
+}
+
+.mega-item:hover {
+    background: rgba(0,0,0,0.5);
+}
+
+.mega-content span,
+.mega-content p,
+.mega-icon {
+    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+}
