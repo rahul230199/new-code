@@ -1,5 +1,15 @@
+/**
+ * =====================================================
+ * SUPPLIER ROUTES
+ * axo_backend/src/routes/supplierRoutes.js
+ * =====================================================
+ */
+
 const express = require('express');
-const router = express.Router();
+const multer  = require('multer');
+const os      = require('os');
+const router  = express.Router();
+
 const { authenticateToken, checkRole } = require('../middleware/auth');
 const {
     getDashboardStats,
@@ -10,31 +20,60 @@ const {
     getOrderDetails,
     sendOrderMessage,
     updateMilestone,
+    uploadMilestonePhoto,
     getProfile,
-    updateProfile
+    updateProfile,
 } = require('../controllers/supplierController');
 
-// All supplier routes require authentication
+// ─── multer — milestone photos (temp → controller moves to final dir) ───
+const milestoneUpload = multer({
+    dest: os.tmpdir(),                // temp dir; controller moves file
+    limits: { fileSize: 5 * 1024 * 1024 },  // 5 MB max
+    fileFilter: (_req, file, cb) => {
+        const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        if (allowed.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Only JPEG, PNG, WEBP and GIF images are allowed'));
+        }
+    },
+});
+
+// ─── Global auth + role guard ─────────────────────────────────────
 router.use(authenticateToken);
 router.use(checkRole(['supplier', 'both', 'admin']));
 
-// Dashboard
+
+// ─── Dashboard ────────────────────────────────────────────────────
 router.get('/dashboard/stats', getDashboardStats);
 
-// RFQ Inbox
+// ─── RFQ Inbox ────────────────────────────────────────────────────
 router.get('/rfqs/open', getOpenRFQs);
 
-// Quotes
-router.post('/quotes', submitQuote);
-router.get('/quotes', getMyQuotes);
+// ─── Quotes ───────────────────────────────────────────────────────
+router.post('/quotes',  submitQuote);
+router.get('/quotes',   getMyQuotes);
 
-// Orders
-router.get('/orders', getMyOrders);
-router.get('/orders/:id', getOrderDetails);
+// ─── Orders ───────────────────────────────────────────────────────
+router.get('/orders',      getMyOrders);
+router.get('/orders/:id',  getOrderDetails);
+
+// ─── Messages ─────────────────────────────────────────────────────
 router.post('/orders/:id/messages', sendOrderMessage);
-router.put('/orders/:orderId/milestones/:milestoneId', updateMilestone);
 
-// Profile
+// ─── Milestones ───────────────────────────────────────────────────
+router.put(
+    '/orders/:orderId/milestones/:milestoneId',
+    updateMilestone
+);
+
+router.post(
+    '/orders/:orderId/milestones/:milestoneId/photo',
+    milestoneUpload.single('photo'),
+    uploadMilestonePhoto
+);
+
+// ─── Profile ──────────────────────────────────────────────────────
 router.get('/profile', getProfile);
 router.put('/profile', updateProfile);
 

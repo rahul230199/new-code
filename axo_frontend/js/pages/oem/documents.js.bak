@@ -1,0 +1,307 @@
+/* =============================================================
+   AXO NETWORKS — OEM DOCUMENTS (Fixed Navigation)
+   ============================================================= */
+
+import Router from "../../core/router.js";
+import Auth from "../../core/auth.js";
+import Toast from "../../core/toast.js";
+import { sanitizeHTML, formatDate, formatFileSize } from "../../core/utils.js";
+
+if (!Router.guardPage(["oem", "both", "admin"])) throw new Error("REDIRECT");
+
+let documents = [];
+let selectedFile = null;
+
+const el = (id) => document.getElementById(id);
+const setText = (id, text) => { const n = el(id); if (n) n.textContent = text; };
+const setHTML = (id, html) => { const n = el(id); if (n) n.innerHTML = html; };
+const showEl = (id) => { const n = el(id); if (n) n.style.display = "flex"; };
+const hideEl = (id) => { const n = el(id); if (n) n.style.display = "none"; };
+
+const getFileIcon = (filename = "") => {
+    const ext = filename.split(".").pop().toLowerCase();
+    const icons = {
+        pdf: "fa-file-pdf", dwg: "fa-file", step: "fa-cube", stp: "fa-cube",
+        jpg: "fa-file-image", png: "fa-file-image", doc: "fa-file-word", docx: "fa-file-word"
+    };
+    return icons[ext] || "fa-file";
+};
+
+async function loadDocuments() {
+    const grid = el("documentsGrid");
+    if (grid) grid.innerHTML = '<div class="loading">Loading documents...</div>';
+    
+    try {
+        const token = Auth.getToken();
+        const response = await fetch("/api/oem/documents", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        
+        if (response.status === 401) {
+            Auth.logout();
+            return;
+        }
+        
+        const data = await response.json();
+        documents = data.documents || [];
+        renderDocuments();
+        
+    } catch (error) {
+        console.error("Error loading documents:", error);
+        if (grid) grid.innerHTML = '<div class="empty-state">Error loading documents</div>';
+    }
+}
+
+function renderDocuments() {
+    const grid = el("documentsGrid");
+    const countSpan = el("docCount");
+    
+    if (!grid) return;
+    
+    if (countSpan) {
+        countSpan.textContent = `${documents.length} document${documents.length !== 1 ? "s" : ""}`;
+    }
+    
+    if (documents.length === 0) {
+        grid.innerHTML = `<div class="empty-state">
+            <i class="fas fa-folder-open"></i>
+            <p>No documents found</p>
+            <button class="btn btn--primary" id="uploadFromEmptyBtn">Upload your first document</button>
+        </div>`;
+        const uploadBtn = document.getElementById("uploadFromEmptyBtn");
+        if (uploadBtn) uploadBtn.addEventListener("click", openUploadModal);
+        return;
+    }
+    
+    // Group documents by RFQ number
+    const rfqMap = new Map();
+    const otherDocs = [];
+    
+    documents.forEach(doc => {
+        if (doc.rfq_number) {
+            if (!rfqMap.has(doc.rfq_number)) {
+                rfqMap.set(doc.rfq_number, { name: doc.rfq_number, docs: [] });
+            }
+            rfqMap.get(doc.rfq_number).docs.push(doc);
+        } else {
+            otherDocs.push(doc);
+        }
+    });
+    
+    let html = '';
+    
+    // RFQ Folders
+    if (rfqMap.size > 0) {
+        html += `<div style="margin-bottom: 24px;">
+            <h3 style="margin-bottom: 16px; color: #6366f1;"><i class="fas fa-file-alt"></i> RFQ Documents</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">`;
+        
+        for (const [key, group] of rfqMap) {
+            html += `
+                <div onclick="window.location.href='/oem-folder-documents.html?type=rfq&name=${encodeURIComponent(key)}'" 
+                     style="background: white; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-folder-open" style="font-size: 32px; color: #6366f1;"></i>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600;">📋 ${key}</div>
+                            <div style="font-size: 12px; color: #64748b;">${group.docs.length} file${group.docs.length !== 1 ? 's' : ''}</div>
+                        </div>
+                        <i class="fas fa-chevron-right" style="color: #94a3b8;"></i>
+                    </div>
+                </div>
+            `;
+        }
+        html += `</div></div>`;
+    }
+    
+    // Uncategorized
+    if (otherDocs.length > 0) {
+        html += `<div><h3 style="margin-bottom: 16px; color: #64748b;">Uncategorized</h3>`;
+        otherDocs.forEach(doc => {
+            html += `
+                <div onclick="viewDocument(${doc.id})" style="background: white; border-radius: 8px; padding: 12px; margin-bottom: 8px; border: 1px solid #e2e8f0; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <i class="fas ${getFileIcon(doc.file_name)}"></i>
+                        <span style="flex: 1;">${sanitizeHTML(doc.file_name)}</span>
+                        <span style="font-size: 12px; color: #64748b;">${formatDate(doc.created_at)}</span>
+                    </div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+    }
+    
+    grid.innerHTML = html;
+}
+
+window.viewDocument = async (docId) => {
+    try {
+        const token = Auth.getToken();
+        const response = await fetch(`/api/oem/documents/${docId}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const doc = await response.json();
+        
+        setHTML("docDetails", `
+            <div style="text-align:center; margin-bottom:20px;">
+                <i class="fas ${getFileIcon(doc.file_name)} fa-4x" style="color: #6366f1;"></i>
+            </div>
+            <div style="margin-bottom:20px;">
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                    <b>File Name:</b> <span>${sanitizeHTML(doc.file_name)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                    <b>Size:</b> <span>${formatFileSize(doc.file_size)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                    <b>Category:</b> <span>${sanitizeHTML(doc.category || 'General')}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                    <b>Uploaded:</b> <span>${formatDate(doc.created_at)}</span>
+                </div>
+                ${doc.rfq_number ? `<div style="display: flex; justify-content: space-between; padding: 10px 0;"><b>Linked RFQ:</b> <span>${doc.rfq_number}</span></div>` : ''}
+                ${doc.po_number ? `<div style="display: flex; justify-content: space-between; padding: 10px 0;"><b>Linked PO:</b> <span>${doc.po_number}</span></div>` : ''}
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button class="btn-primary" onclick="downloadDocument(${doc.id}, '${doc.file_name}')">Download</button>
+                <button onclick="deleteDocument(${doc.id})" style="background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 8px;">Delete</button>
+            </div>
+        `);
+        showEl("docDetailsModal");
+    } catch (error) {
+        Toast.error("Failed to load document details");
+    }
+};
+
+window.downloadDocument = (docId, fileName) => {
+    const token = Auth.getToken();
+    window.open(`/api/oem/documents/${docId}/download?token=${token}`, '_blank');
+};
+
+window.deleteDocument = async (docId) => {
+    if (!confirm("Delete this document?")) return;
+    try {
+        const token = Auth.getToken();
+        const response = await fetch(`/api/oem/documents/${docId}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (response.ok) {
+            Toast.success("Document deleted");
+            hideEl("docDetailsModal");
+            loadDocuments();
+        }
+    } catch (error) {
+        Toast.error("Failed to delete document");
+    }
+};
+
+function openUploadModal() {
+    selectedFile = null;
+    const previewDiv = el("selectedDocFile");
+    if (previewDiv) previewDiv.style.display = "none";
+    showEl("uploadModal");
+}
+
+function closeUploadModal() { hideEl("uploadModal"); selectedFile = null; }
+
+function updateFilePreview(file) {
+    const previewDiv = el("selectedDocFile");
+    if (!previewDiv) return;
+    if (!file) { previewDiv.style.display = "none"; previewDiv.innerHTML = ""; return; }
+    previewDiv.style.display = "flex";
+    previewDiv.innerHTML = `
+        <i class="fas ${getFileIcon(file.name)}"></i>
+        <span style="flex:1; margin-left:10px;">${file.name}</span>
+        <span>${(file.size / 1024).toFixed(2)} KB</span>
+        <button class="js-clear-file" onclick="this.closest('#selectedDocFile').style.display='none'; document.getElementById('docFileInput').value=''; selectedFile=null;">&times;</button>
+    `;
+    selectedFile = file;
+}
+
+async function handleUploadSubmit(e) {
+    e.preventDefault();
+    if (!selectedFile) { Toast.warning("Please select a file"); return; }
+    
+    const formData = new FormData();
+    formData.append("document", selectedFile);
+    formData.append("category", el("docCategory")?.value || "General");
+    formData.append("description", el("docDescription")?.value || "");
+    
+    const submitBtn = el("uploadSubmitBtn");
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...'; }
+    
+    try {
+        const token = Auth.getToken();
+        const response = await fetch("/api/oem/documents/upload", {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` },
+            body: formData
+        });
+        if (!response.ok) throw new Error("Upload failed");
+        Toast.success("Uploaded!");
+        closeUploadModal();
+        loadDocuments();
+    } catch (error) { Toast.error("Upload failed"); }
+    finally { if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-upload"></i> Upload'; } }
+}
+
+function bindDragDrop() {
+    const area = el("docUploadArea");
+    if (!area) return;
+    area.addEventListener("dragover", (e) => { e.preventDefault(); area.classList.add("drag-over"); });
+    area.addEventListener("dragleave", () => { area.classList.remove("drag-over"); });
+    area.addEventListener("drop", (e) => {
+        e.preventDefault();
+        area.classList.remove("drag-over");
+        const file = e.dataTransfer.files?.[0];
+        if (file) { selectedFile = file; updateFilePreview(file); }
+    });
+}
+
+function bindEvents() {
+    el("uploadDocBtn")?.addEventListener("click", openUploadModal);
+    el("refreshBtn")?.addEventListener("click", loadDocuments);
+    document.querySelectorAll(".js-close-modal, .close-modal").forEach(btn => {
+        btn.addEventListener("click", () => { closeUploadModal(); hideEl("docDetailsModal"); });
+    });
+    
+    const uploadArea = el("docUploadArea");
+    const fileInput = el("docFileInput");
+    const browseBtn = el("docBrowseBtn");
+    
+    if (uploadArea) {
+        uploadArea.addEventListener("click", (e) => {
+            if (e.target === browseBtn || browseBtn?.contains(e.target)) return;
+            fileInput?.click();
+        });
+        uploadArea.addEventListener("dragover", (e) => { e.preventDefault(); uploadArea.classList.add("drag-over"); });
+        uploadArea.addEventListener("dragleave", () => { uploadArea.classList.remove("drag-over"); });
+        uploadArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove("drag-over");
+            if (e.dataTransfer.files.length) {
+                selectedFile = e.dataTransfer.files[0];
+                updateFilePreview(selectedFile);
+                if (fileInput) fileInput.files = e.dataTransfer.files;
+            }
+        });
+    }
+    
+    if (browseBtn) { browseBtn.addEventListener("click", (e) => { e.stopPropagation(); fileInput?.click(); }); }
+    if (fileInput) { fileInput.addEventListener("change", (e) => { if (e.target.files.length) { selectedFile = e.target.files[0]; updateFilePreview(selectedFile); } }); }
+    
+    el("uploadForm")?.addEventListener("submit", handleUploadSubmit);
+    el("logoutBtn")?.addEventListener("click", () => Auth.logout());
+    el("menuToggle")?.addEventListener("click", () => { el("sidebar")?.classList.toggle("open"); });
+    bindDragDrop();
+}
+
+function init() {
+    const user = Auth.getCurrentUser();
+    setText("companyName", user?.company_name || "OEM");
+    bindEvents();
+    loadDocuments();
+}
+
+document.addEventListener("DOMContentLoaded", init);

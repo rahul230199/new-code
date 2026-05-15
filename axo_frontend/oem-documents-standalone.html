@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents | AXO Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+        
+        /* Header */
+        .header { background: white; border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 24px; margin-bottom: 8px; color: #0f172a; }
+        .header p { color: #64748b; }
+        
+        /* Stats */
+        .stats { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; color: white; display: flex; justify-content: space-between; align-items: center; }
+        .stats h3 { font-size: 32px; margin-bottom: 4px; }
+        .upload-btn { background: white; color: #6366f1; border: none; padding: 10px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .upload-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        
+        /* Folder Grid */
+        .section-title { font-size: 18px; margin-bottom: 16px; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+        .folder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 32px; }
+        .folder-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s; }
+        .folder-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-color: #6366f1; }
+        .folder-icon { font-size: 40px; margin-bottom: 12px; }
+        .folder-name { font-weight: 600; font-size: 16px; margin-bottom: 8px; color: #0f172a; }
+        .folder-stats { font-size: 13px; color: #64748b; }
+        
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; border-radius: 20px; max-width: 500px; width: 90%; padding: 24px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .close-modal { background: none; border: none; font-size: 24px; cursor: pointer; color: #94a3b8; }
+        
+        .drag-area { border: 2px dashed #cbd5e1; border-radius: 16px; padding: 40px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: all 0.2s; }
+        .drag-area.drag-over { border-color: #6366f1; background: #eef2ff; }
+        
+        .loading { text-align: center; padding: 60px; color: #64748b; }
+        .empty { text-align: center; padding: 60px; color: #64748b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-folder-open"></i> Document Management</h1>
+            <p>Organize and manage all your RFQ and PO documents</p>
+        </div>
+        
+        <div class="stats">
+            <div>
+                <h3 id="totalCount">0</h3>
+                <p>Total Documents</p>
+            </div>
+            <button class="upload-btn" onclick="openUploadModal()">
+                <i class="fas fa-upload"></i> Upload Document
+            </button>
+        </div>
+        
+        <div id="rfqSection"></div>
+        
+        <div id="otherSection"></div>
+    </div>
+    
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Upload Document</h3>
+                <button class="close-modal" onclick="closeUploadModal()">&times;</button>
+            </div>
+            <form id="uploadForm">
+                <div id="dragArea" class="drag-area">
+                    <i class="fas fa-cloud-upload-alt fa-3x" style="color: #6366f1; margin-bottom: 12px;"></i>
+                    <p>Drag & drop a file here or click to browse</p>
+                    <input type="file" id="fileInput" style="display: none;">
+                    <button type="button" onclick="document.getElementById('fileInput').click()" style="margin-top: 12px; background: #6366f1; color: white; border: none; padding: 8px 16px; border-radius: 8px;">Browse Files</button>
+                </div>
+                <div id="filePreview" style="display: none; background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 20px;"></div>
+                <button type="submit" style="width: 100%; background: #6366f1; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">Upload</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = 'https://axonetworks.com/api';
+        const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
+        
+        if (!token) {
+            window.location.href = '/login.html';
+        }
+        
+        let selectedFile = null;
+        
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 B';
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(1024));
+            return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+        }
+        
+        async function loadDocuments() {
+            try {
+                const response = await fetch(`${API_URL}/oem/documents`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.status === 401) {
+                    localStorage.clear();
+                    window.location.href = '/login.html';
+                    return;
+                }
+                
+                const data = await response.json();
+                const documents = data.documents || [];
+                
+                document.getElementById('totalCount').textContent = documents.length;
+                
+                // Group by RFQ number
+                const rfqGroups = new Map();
+                const otherDocs = [];
+                
+                documents.forEach(doc => {
+                    if (doc.rfq_number) {
+                        if (!rfqGroups.has(doc.rfq_number)) {
+                            rfqGroups.set(doc.rfq_number, []);
+                        }
+                        rfqGroups.get(doc.rfq_number).push(doc);
+                    } else {
+                        otherDocs.push(doc);
+                    }
+                });
+                
+                // Render RFQ folders
+                let rfqHtml = '';
+                if (rfqGroups.size > 0) {
+                    rfqHtml = '<div><h3 class="section-title"><i class="fas fa-file-alt" style="color: #6366f1;"></i> RFQ Documents</h3><div class="folder-grid">';
+                    for (const [rfqNumber, docs] of rfqGroups) {
+                        rfqHtml += `
+                            <div class="folder-card" onclick="openFolder('rfq', '${rfqNumber}')">
+                                <div class="folder-icon"><i class="fas fa-folder-open" style="color: #6366f1;"></i></div>
+                                <div class="folder-name">📋 ${rfqNumber}</div>
+                                <div class="folder-stats">${docs.length} document(s)</div>
+                            </div>
+                        `;
+                    }
+                    rfqHtml += '</div></div>';
+                }
+                document.getElementById('rfqSection').innerHTML = rfqHtml;
+                
+                // Render other documents
+                let otherHtml = '';
+                if (otherDocs.length > 0) {
+                    otherHtml = '<div><h3 class="section-title"><i class="fas fa-file"></i> Uncategorized</h3><div class="folder-grid">';
+                    otherDocs.forEach(doc => {
+                        otherHtml += `
+                            <div class="folder-card" onclick="alert('Document: ${doc.file_name}\\nSize: ${formatFileSize(doc.file_size)}')">
+                                <div class="folder-icon"><i class="fas fa-file"></i></div>
+                                <div class="folder-name">${doc.file_name}</div>
+                                <div class="folder-stats">${formatFileSize(doc.file_size)}</div>
+                            </div>
+                        `;
+                    });
+                    otherHtml += '</div></div>';
+                }
+                document.getElementById('otherSection').innerHTML = otherHtml;
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        function openFolder(type, name) {
+            console.log('Opening folder:', type, name);
+            window.location.href = `/oem-folder-documents.html?type=${type}&name=${encodeURIComponent(name)}`;
+        }
+        
+        function openUploadModal() {
+            selectedFile = null;
+            document.getElementById('filePreview').style.display = 'none';
+            document.getElementById('uploadModal').style.display = 'flex';
+        }
+        
+        function closeUploadModal() {
+            document.getElementById('uploadModal').style.display = 'none';
+        }
+        
+        // Setup drag and drop
+        const dragArea = document.getElementById('dragArea');
+        const fileInput = document.getElementById('fileInput');
+        
+        dragArea.addEventListener('click', () => fileInput.click());
+        dragArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dragArea.classList.add('drag-over');
+        });
+        dragArea.addEventListener('dragleave', () => {
+            dragArea.classList.remove('drag-over');
+        });
+        dragArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragArea.classList.remove('drag-over');
+            if (e.dataTransfer.files.length) {
+                selectedFile = e.dataTransfer.files[0];
+                updatePreview(selectedFile);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                selectedFile = e.target.files[0];
+                updatePreview(selectedFile);
+            }
+        });
+        
+        function updatePreview(file) {
+            const preview = document.getElementById('filePreview');
+            preview.style.display = 'block';
+            preview.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-file fa-2x"></i>
+                    <div style="flex: 1;">
+                        <div><strong>${file.name}</strong></div>
+                        <div style="font-size: 12px; color: #64748b;">${formatFileSize(file.size)}</div>
+                    </div>
+                    <button type="button" onclick="document.getElementById('filePreview').style.display='none'; selectedFile=null;">&times;</button>
+                </div>
+            `;
+        }
+        
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!selectedFile) {
+                alert('Please select a file');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('document', selectedFile);
+            
+            try {
+                const response = await fetch(`${API_URL}/oem/documents/upload`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    alert('Upload successful!');
+                    closeUploadModal();
+                    loadDocuments();
+                } else {
+                    alert('Upload failed');
+                }
+            } catch (error) {
+                alert('Upload error');
+            }
+        });
+        
+        // Close modal when clicking outside
+        window.onclick = (e) => {
+            if (e.target === document.getElementById('uploadModal')) {
+                closeUploadModal();
+            }
+        };
+        
+        // Load documents on page load
+        loadDocuments();
+    </script>
+</body>
+</html>
