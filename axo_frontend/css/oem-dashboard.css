@@ -17,11 +17,11 @@
    ───────────────────────────────────────────────────────────────── */
 :root {
   /* — Primary palette — */
-  --primary:           #3b8eff;
-  --primary-dark:      #1a6fd8;
-  --primary-light:     #5fa8ff;
-  --primary-xlight:    #dbeeff;
-  --primary-glow:      rgba(59,142,255,.25);
+  --primary:           #4349A8;
+  --primary-dark:      #1F245C;
+  --primary-light:     #7C83D6;
+  --primary-xlight:    #EEF0FF;
+  --primary-glow:      rgba(67,73,168,.22);
 
   /* — Semantic — */
   --success:           #10b981;
@@ -3178,6 +3178,8 @@ canvas {
   color: #6b7280;
 }
 
+
+
 /* =====================================================
    MAIN LAYOUT
 ===================================================== */
@@ -3415,4 +3417,171 @@ canvas {
 /* right section ui fix */
 .dashboard-side {
   padding-right: 16px;
+}
+
+/* =====================================================
+   RESPONSIVE — TABLET
+===================================================== */
+@media (max-width: 1024px) {
+
+  /* Main layout stacks */
+  .dashboard-body {
+    grid-template-columns: 1fr;
+  }
+
+  /* KPI becomes 2x2 */
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Reduce global spacing */
+  .dashboard-main,
+  .dashboard-side {
+    gap: 16px;
+  }
+
+  /* Smaller chart heights */
+  .dashboard-main .chart-card {
+    height: 280px !important;
+  }
+
+  .dashboard-side .chart-card {
+    height: auto !important;
+  }
+
+  /* Better page spacing */
+  .dashboard-content {
+    padding: 16px;
+  }
+}
+
+/* =====================================================
+   RESPONSIVE — MOBILE
+===================================================== */
+@media (max-width: 640px) {
+
+  /* Single column KPI */
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Smaller cards */
+  .kpi-card {
+    padding: 16px;
+  }
+
+  /* Reduce top bar spacing */
+  .top-bar {
+    padding: 12px 14px;
+  }
+
+  /* Hide search */
+  .top-bar-center {
+    display: none;
+  }
+
+  /* Smaller dashboard heading */
+  .dashboard-title {
+    font-size: 20px;
+  }
+
+  /* Compact charts */
+  .dashboard-main .chart-card {
+    height: 240px !important;
+  }
+
+  .dashboard-main .chart-card canvas {
+    height: 180px !important;
+  }
+
+  /* Doughnut section spacing */
+  .doughnut-card {
+    padding: 18px !important;
+  }
+
+  /* Legend wrapping */
+  .chart-legend {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* Live orders table scroll */
+  .orders-card {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    min-width: 700px;
+  }
+}
+
+/* Profile OEM */
+
+.profile-card h1,
+.profile-card h2,
+.profile-card h3,
+.profile-card h4,
+.page-header h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+.profile-card,
+.password-card,
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-control,
+.profile-input {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--gray-700);
+}
+
+.form-control:focus,
+.profile-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+.profile-label,
+.form-group label {
+  font-family: var(--font-display);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+.edit-btn,
+.update-btn {
+  background: linear-gradient(
+  135deg,
+  #555CC9 0%,
+  #2A2F6E 100%
+);
+  color: white;
+  border: none;
+  box-shadow: var(--shadow-primary);
+}
+
+.edit-btn:hover,
+.update-btn:hover {
+  background: linear-gradient(
+  135deg,
+  #555CC9 0%,
+  #2A2F6E 100%
+);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: .88rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gray-600);
 }
