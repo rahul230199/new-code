@@ -1559,7 +1559,8 @@ input, textarea, select {
 
 /* ─────────────────────────────────────────────────────────────────
    21. MILESTONE TRACKER
-   ───────────────────────────────────────────────────────────────── */
+───────────────────────────────────────────────────────────────── */
+
 .milestone-step {
   display: flex;
   gap: 16px;
@@ -1567,10 +1568,9 @@ input, textarea, select {
   animation: slideIn .3s var(--ease) both;
 }
 
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* =========================================================
+   MODERN TIMELINE NODES
+========================================================= */
 
 .milestone-step__indicator {
   display: flex;
@@ -1584,21 +1584,93 @@ input, textarea, select {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid var(--gray-300);
-  background: var(--white);
+  border: 2px solid #c7cfdd;
+  background: #ffffff;
+  position: relative;
+  z-index: 2;
   flex-shrink: 0;
-  transition: transform var(--t-fast) var(--ease-spring),
-              background var(--t-base) var(--ease),
-              border-color var(--t-base) var(--ease);
+  transition: all .25s ease;
 }
 
 .milestone-step__connector {
   flex: 1;
   width: 2px;
-  background: var(--gray-200);
-  min-height: 24px;
+  background: #dbe2ea;
+  min-height: 28px;
   margin-top: 4px;
+  border-radius: 999px;
 }
+
+/* ─────────────────────────────
+   COMPLETED
+───────────────────────────── */
+
+.milestone-step--completed .milestone-step__dot {
+  background: linear-gradient(135deg, #4349A8, #1F245C);
+  border-color: #4349A8;
+  box-shadow: 0 0 0 4px rgba(67,73,168,.12);
+}
+
+.milestone-step--completed .milestone-step__connector {
+  background: rgba(67,73,168,.28);
+}
+
+/* ─────────────────────────────
+   ACTIVE (Pulse)
+───────────────────────────── */
+
+.milestone-step--active .milestone-step__dot {
+  background: #555CC9;
+  border-color: #555CC9;
+  animation: timelinePulse 2s infinite;
+}
+
+.milestone-step--active .milestone-step__name {
+  color: #4349A8;
+  font-weight: 700;
+}
+
+@keyframes timelinePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(85,92,201,.35);
+  }
+
+  70% {
+    box-shadow: 0 0 0 12px rgba(85,92,201,0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(85,92,201,0);
+  }
+}
+
+/* ─────────────────────────────
+   PENDING
+───────────────────────────── */
+
+.milestone-step:not(.milestone-step--completed):not(.milestone-step--active):not(.milestone-step--delayed)
+.milestone-step__dot {
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+}
+
+/* ─────────────────────────────
+   DELAYED
+───────────────────────────── */
+
+.milestone-step--delayed .milestone-step__dot {
+  background: #ef4444;
+  border-color: #ef4444;
+  box-shadow: 0 0 0 4px rgba(239,68,68,.12);
+}
+
+.milestone-step--delayed .milestone-step__name {
+  color: #dc2626;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
 
 .milestone-step__body {
   flex: 1;
@@ -1631,36 +1703,26 @@ input, textarea, select {
   margin-top: 4px;
 }
 
-.milestone-step__actions { margin-top: 8px; }
-
-/* Step states */
-.milestone-step--completed .milestone-step__dot {
-  background: var(--success);
-  border-color: var(--success);
-  box-shadow: 0 0 0 4px rgba(16,185,129,.12);
-}
-.milestone-step--completed .milestone-step__connector { background: var(--success); opacity: .5; }
-.milestone-step--completed .milestone-step__name { color: var(--gray-500); }
-
-.milestone-step--active .milestone-step__dot {
-  background: var(--primary);
-  border-color: var(--primary);
-  box-shadow: 0 0 0 5px var(--primary-glow);
-  animation: pulse-dot 1.8s infinite;
-}
-.milestone-step--active .milestone-step__name { color: var(--primary); font-weight: 700; }
-
-@keyframes pulse-dot {
-  0%,100% { box-shadow: 0 0 0 3px var(--primary-glow); }
-  50%      { box-shadow: 0 0 0 8px rgba(59,142,255,.08); }
+.milestone-step__actions {
+  margin-top: 8px;
 }
 
-.milestone-step--delayed .milestone-step__dot {
-  background: var(--danger);
-  border-color: var(--danger);
-  box-shadow: 0 0 0 4px rgba(239,68,68,.12);
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.milestone-step--delayed .milestone-step__name { color: var(--danger); }
+
 
 /* ─────────────────────────────────────────────────────────────────
    22. CHAT / MESSAGE THREAD
@@ -2127,14 +2189,49 @@ textarea.form-control {
 }
 .form-section h4 i { color: var(--primary); }
 
-.form-actions {
+/* .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 8px;
   flex-wrap: wrap;
+} */
+ .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
+.form-actions .btn {
+  min-width: 140px;
+  justify-content: center;
+  flex-shrink: 0;
+}
+/* =========================================================
+   FIX CANCEL BUTTON HOVER BUG
+========================================================= */
+
+.form-actions .btn--outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+
+
+  writing-mode: horizontal-tb !important;
+  white-space: nowrap;
+
+  transition: all .2s ease;
+}
+
+.form-actions .btn--outline:hover {
+  writing-mode: horizontal-tb !important;
+  white-space: nowrap;
+
+  transform: translateY(-2px);
+}
 /* ─────────────────────────────────────────────────────────────────
    26. UPLOAD AREA
    ───────────────────────────────────────────────────────────────── */
