@@ -3,10 +3,21 @@
 ========================= */
 
 .partners-hero {
-  text-align: center;
-  padding: 140px 20px 80px;
-}
 
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 140px 20px 120px;
+
+  position: relative;
+}
 /* HEADING */
 .partners-hero h1 {
   font-size: 48px;
@@ -36,18 +47,7 @@ body {
   flex-direction: column;
 }
 
-/* Push footer to bottom */
-.footer {
-  margin-top: auto;
-}
-
 /* Center hero vertically */
-main {
-  min-height: calc(100vh - 160px); /* header + footer adjust */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .partners-hero h1 {
   font-size: 48px;
@@ -76,47 +76,41 @@ main {
 ========================= */
 
 body {
+
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
 
-  background: #000;
-}
-
-/* Background image layer */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-
-  background: url('/assets/partners-bg.jpg') center/cover no-repeat;
-
-  filter:  brightness(0.50); /* 🔥 dark + blur */
-  transform: scale(1.1); /* avoid blur edges */
-
-  z-index: -2;
-}
-
-/* Overlay for readability + tone */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-
   background:
-    rgba(0, 0, 0, 0.65),
-    radial-gradient(circle at center, rgba(59,130,246,0.06), transparent 70%);
+    linear-gradient(
+      135deg,
+      rgba(5, 10, 24, 0.78) 0%,
+      rgba(7, 12, 28, 0.72) 45%,
+      rgba(2, 6, 18, 0.88) 100%
+    ),
+    url('/assets/partners-bg.jpg')
+    center/cover no-repeat fixed;
+
+}
+
+/* Soft cinematic blur layer */
+body::before {
+
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+
+  pointer-events: none;
 
   z-index: -1;
 }
 
 /* manufact. Partners page dropdown readability fix */
 .mega-menu {
-  background: rgba(0,0,0,0.38);
-
-backdrop-filter: blur(4px);
--webkit-backdrop-filter: blur(4px);
-
  border-radius: 8px;
 
 }

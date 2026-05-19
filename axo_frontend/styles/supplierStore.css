@@ -2,7 +2,7 @@
   text-align: center;
 
   max-width: 900px;
-  margin: 100px auto 50px;
+  margin: 160px auto 60px;
   padding: 0 20px;
 }
 
@@ -18,6 +18,140 @@
   color: rgba(255,255,255,0.65);
   margin-bottom: 24px;
 }
+
+/* =========================================
+   SUPPLIER SEARCH
+========================================= */
+
+/* =========================================
+   FUTURISTIC GLASS SEARCH
+========================================= */
+
+.supplier-search {
+
+  position: relative;
+
+  width: 100%;
+  max-width: 540px;
+  height: 60px;
+
+  margin: 34px auto 0;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 28px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.06),
+      rgba(255,255,255,0.02)
+    );
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  overflow: hidden;
+
+  transition:
+    transform .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+/* Hover */
+.supplier-search:hover {
+
+  border-color: rgba(255,255,255,0.16);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.28);
+
+  transform: translateY(-2px);
+}
+
+/* Focus */
+.supplier-search:focus-within {
+
+  border-color: rgba(108,99,255,0.45);
+
+  box-shadow:
+    0 0 0 4px rgba(108,99,255,0.10),
+    0 14px 40px rgba(0,0,0,0.35);
+}
+
+/* LEFT TEXT AREA */
+.supplier-search input {
+
+  flex: 1;
+
+  height: 100%;
+
+  background: transparent;
+  border: none;
+  outline: none;
+
+  color: #ffffff;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  letter-spacing: -0.02em;
+
+  font-family: 'Inter', sans-serif;
+}
+
+/* Placeholder */
+.supplier-search input::placeholder {
+
+  color: rgba(255,255,255,0.58);
+
+  font-weight: 500;
+}
+
+
+
+/* Search Icon */
+.supplier-search i {
+
+  order: 2;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 16px;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+
+  font-size: 18px;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(255,255,255,0.14),
+      rgba(255,255,255,0.03)
+    );
+
+  transition:
+    transform .25s ease,
+    background .25s ease;
+}
+
+.supplier-search:hover i {
+  transform: scale(1.06);
+}
+
 
 /* Tags */
 .supplier-tags {
@@ -42,11 +176,27 @@
 /* background */
 
 body {
-  background:
-    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)),
-    url('/assets/supplierStore-bg.jpg') center/cover no-repeat fixed;
 
-  /* backdrop-filter: blur(2px);  */
+  background:
+    linear-gradient(
+      135deg,
+      rgba(5, 10, 24, 0.78) 0%,
+      rgba(7, 12, 28, 0.72) 45%,
+      rgba(2, 6, 18, 0.88) 100%
+    ),
+    url('/assets/supplierStore-bg.jpg')
+    center/cover no-repeat fixed;
+
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  backdrop-filter: blur(2px);
+
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* responsive */
@@ -58,7 +208,7 @@ body {
 
   /* Intro */
   .supplier-intro {
-    margin: 80px auto 40px;
+    margin: 120px auto 40px;
     padding: 0 16px;
   }
 
@@ -80,6 +230,33 @@ body {
     padding: 5px 12px;
   }
 
+   .supplier-search {
+
+    height: 58px;
+
+    padding: 0 20px;
+
+    border-radius: 18px;
+  }
+
+  .supplier-search input {
+
+    font-size: 16px;
+  }
+
+  .supplier-search::after {
+
+    right: 72px;
+    height: 28px;
+  }
+
+  .supplier-search i {
+
+    width: 42px;
+    height: 42px;
+
+    font-size: 16px;
+  }
   /* Grid */
   .suppliers-grid {
     grid-template-columns: 1fr;
@@ -201,10 +378,7 @@ body {
 
 /* Supplier page dropdown readability fix */
 .mega-menu {
-  background: rgba(0,0,0,0.38);
 
-backdrop-filter: blur(4px);
--webkit-backdrop-filter: blur(4px);
 
  border-radius: 8px;
 

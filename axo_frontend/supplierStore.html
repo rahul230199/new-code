@@ -124,146 +124,37 @@
 <!--  -->
 <section class="supplier-intro">
 
-  <h1>Industrial Suppliers</h1>
+  <h1>GRAVITY OF TRUST</h1>
 
   <p>
-    Discover trusted manufacturers and component providers across battery systems,
-    powertrain, and advanced industrial technologies.
+    Find Verified Suppliers. Start Production in days.
   </p>
 
-  <div class="supplier-tags">
-    <span>Battery Systems</span>
-    <span>Powertrain</span>
-    <span>Energy Storage</span>
-    <span>and many more</span>
+  <div class="supplier-search">
+
+      <i class="fas fa-search"></i>
+
+      <input 
+          type="text" 
+          id="supplierSearch"
+          placeholder="Search supplier name..."
+      >
+
   </div>
 
 </section>
 
-<!-- Grid Cards -->
+
 <section class="suppliers-section" id="supplierss">
-        <div class="container">
+    <div class="container">
 
-            <div class="suppliers-grid">
-
-                <!-- CARD -->
-                <div class="supplier-card" >
-                    <div class="card-image" onclick="openProductList(1)">
-                        <img src="/assets/gms-cover.png" alt="supplier">
-
-                        <div class="verified-badge verified">
-                            <i class="fas fa-check-circle"></i> AXO VERIFIED
-                        </div>
-
-                        <div class="card-overlay">
-                            <!-- <button>VISIT PAVILION →</button> -->
-                        </div>
-                    </div>
-
-                    <div class="card-content">
-
-                    <h3>Global Marketing Services (GMS)</h3>
-
-                    <p class="capability">
-                        Lithium Battery Pack Manufacturer for EV Applications
-                    </p>
-
-                    <div class="specs">
-                        <p><strong>Products:</strong> 48V–72V Lithium Battery Packs</p>
-                        <p><strong>Capacity:</strong> 50 units / month</p>
-                        <p><strong>Location:</strong> Bangalore</p>
-                        <p><strong>Lead Time:</strong> 3 months</p>
-                        <p><strong>MOQ:</strong> 50 units</p>
-                    </div>
-
-                    <p class="tags">
-                        Battery · EV · Lithium · Custom Packs
-                    </p>
-
-                    <a href="/supplierStore" class="cta-button-large card-cta">
-                    <span>Request Quote <i class="fas fa-arrow-right"></i></span>
-                    </a>
-
-                    </div>
-                </div>
-
-                <!-- Duplicate 2 more cards -->
-                <div class="supplier-card">
-                    <div class="card-image" onclick="openProductList(2)">
-                        <img src="/assets/ev-battery.jpg">
-                        <div class="verified-badge pending">
-                            <i class="fas fa-clock"></i> VERIFICATION PENDING
-                        </div>
-                        <div class="card-overlay">
-                            <!-- <button>VISIT PAVILION → 
-
-                            </button> --> </div>
-                    </div>
-
-                    <div class="card-content">
-                        <h3>VoltEdge Energy Systems</h3>
-                        <p class="capability">
-                        Advanced Lithium-ion Battery Systems for EV Platforms
-                        </p>
-
-                        <div class="specs">
-                        <p><strong>Products:</strong> Modular Battery Packs & BMS</p>
-                        <p><strong>Capacity:</strong> 120 units / month</p>
-                        <p><strong>Location:</strong> Pune</p>
-                        <p><strong>Lead Time:</strong> 6–8 weeks</p>
-                        <p><strong>MOQ:</strong> 30 units</p>
-                        </div>
-
-                        <p class="tags">
-                        Energy Storage · EV · BMS · Modular Systems
-                        </p>
-
-                         <a href="/supplierStore" class="cta-button-large card-cta">
-                        <span>Request Quote <i class="fas fa-arrow-right"></i></span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="supplier-card" >
-                    <div class="card-image" onclick="openProductList(3)">
-                        <img src="/assets/ev-motor.jpg">
-                        <div class="verified-badge pending">
-                            <i class="fas fa-clock"></i> VERIFICATION PENDING
-                        </div>
-                        <div class="card-overlay">
-                            <!-- <button></button>   -->
-                          
-                        </div>
-                    </div>
-
-                    <div class="card-content">
-                        <h3>MotionDrive Technologies</h3>
-                        <p class="capability">
-                        Electric Powertrain Systems for Automotive & Industrial EVs
-                        </p>
-
-                        <div class="specs">
-                        <p><strong>Products:</strong> Motors, Inverters, Drivetrain Systems</p>
-                        <p><strong>Capacity:</strong> 80 units / month</p>
-                        <p><strong>Location:</strong> Chennai</p>
-                        <p><strong>Lead Time:</strong> 10–12 weeks</p>
-                        <p><strong>MOQ:</strong> 20 units</p>
-                        </div>
-
-                        <p class="tags">
-                        Motors · EV · Powertrain · Industrial Mobility
-                        </p>
-
-                        <a href="/supplierStore" class="cta-button-large card-cta">
-                        <span>Request Quote <i class="fas fa-arrow-right"></i></span>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-
+        <div class="suppliers-grid" id="suppliersGrid">
+            <!-- Dynamic supplier cards render here -->
         </div>
-    </section>
+
+    </div>
+</section>
+
 
 <footer class="footer">
     <div class="container">
@@ -283,12 +174,191 @@
         </div>
     </div>
 </footer>
-
 <script>
-    // opening product listing page...
-function openProductList(id) {
-    window.location.href = `/productList?id=${id}`;
+
+/* =========================================================
+   SUPPLIERS DATA
+========================================================= */
+// const suppliers = await fetch('/api/suppliers');
+const suppliers = [
+
+  {
+    id: 1,
+    name: "Global Marketing Services (GMS)",
+    capability: "Lithium Battery Pack Manufacturer for EV Applications",
+
+    image: "/assets/gms-cover.jpg",
+
+    verified: true,
+
+    products: "48V–72V Lithium Battery Packs",
+    capacity: "50 units / month",
+    location: "Bangalore",
+    leadTime: "3 months",
+    moq: "50 units",
+
+    tags: "Battery · EV · Lithium · Custom Packs"
+  },
+
+  {
+    id: 2,
+    name: "VoltEdge Energy Systems",
+    capability: "Advanced Lithium-ion Battery Systems for EV Platforms",
+
+    image: "/assets/ev-battery.jpg",
+
+    verified: false,
+
+    products: "Modular Battery Packs & BMS",
+    capacity: "120 units / month",
+    location: "Pune",
+    leadTime: "6–8 weeks",
+    moq: "30 units",
+
+    tags: "Energy Storage · EV · BMS · Modular Systems"
+  },
+
+  {
+    id: 3,
+    name: "MotionDrive Technologies",
+    capability: "Electric Powertrain Systems for Automotive & Industrial EVs",
+
+    image: "/assets/ev-motor.jpg",
+
+    verified: false,
+
+    products: "Motors, Inverters, Drivetrain Systems",
+    capacity: "80 units / month",
+    location: "Chennai",
+    leadTime: "10–12 weeks",
+    moq: "20 units",
+
+    tags: "Motors · EV · Powertrain · Industrial Mobility"
+  }
+  
+
+];
+
+
+/* =========================================================
+   RENDER SUPPLIERS
+========================================================= */
+
+function renderSuppliers(data) {
+
+    const grid = document.getElementById('suppliersGrid');
+
+    if (!grid) return;
+
+    if (!data.length) {
+
+        grid.innerHTML = `
+            <div class="no-results">
+                <h3>No suppliers found</h3>
+                <p>Try another search keyword.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    grid.innerHTML = data.map(supplier => `
+
+        <div class="supplier-card">
+
+            <div class="card-image">
+
+                <img src="${supplier.image}" alt="${supplier.name}">
+
+                <div class="verified-badge ${supplier.verified ? 'verified' : 'pending'}">
+
+                    <i class="fas ${supplier.verified ? 'fa-check-circle' : 'fa-clock'}"></i>
+
+                    ${supplier.verified ? 'AXO VERIFIED' : 'VERIFICATION PENDING'}
+
+                </div>
+
+            </div>
+
+            <div class="card-content">
+
+                <h3>${supplier.name}</h3>
+
+                <p class="capability">
+                    ${supplier.capability}
+                </p>
+
+                <div class="specs">
+
+                    <p><strong>Products:</strong> ${supplier.products}</p>
+
+                    <p><strong>Capacity:</strong> ${supplier.capacity}</p>
+
+                    <p><strong>Location:</strong> ${supplier.location}</p>
+
+                    <p><strong>Lead Time:</strong> ${supplier.leadTime}</p>
+
+                    <p><strong>MOQ:</strong> ${supplier.moq}</p>
+
+                </div>
+
+                <p class="tags">
+                    ${supplier.tags}
+                </p>
+
+                <a href="/supplierStore" class="cta-button-large card-cta">
+                    <span>
+                        Request Quote
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+
+            </div>
+
+        </div>
+
+    `).join('');
 }
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+const searchInput = document.getElementById('supplierSearch');
+
+if (searchInput) {
+
+    searchInput.addEventListener('input', (e) => {
+
+        const keyword = e.target.value.toLowerCase();
+
+        const filtered = suppliers.filter(supplier => {
+
+            return (
+                supplier.name.toLowerCase().includes(keyword) ||
+                supplier.capability.toLowerCase().includes(keyword) ||
+                supplier.tags.toLowerCase().includes(keyword) ||
+                supplier.location.toLowerCase().includes(keyword)
+            );
+
+        });
+
+        renderSuppliers(filtered);
+
+    });
+
+}
+
+
+/* =========================================================
+   INITIAL RENDER
+========================================================= */
+
+renderSuppliers(suppliers);
+
+
+
 </script>
 <script>
 // Mobile-optimized JavaScript with video autoplay fix
