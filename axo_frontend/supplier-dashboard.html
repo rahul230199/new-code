@@ -114,8 +114,29 @@
       <div class="chart-card">
         <h3><i class="fas fa-chart-pie"></i> Quote Status</h3>
 
-        <canvas id="quoteStatusChart"></canvas>
+        <!-- <canvas id="quoteStatusChart"></canvas> -->
+        <div class="chart-container">
+          <canvas id="quoteStatusChart"></canvas>
+            <div class="quote-stats">
+              <div class="quote-stat">
+                <span class="dot pending"></span>
+                <strong id="pendingCount">0</strong>
+                <small>Pending</small>
+              </div>
 
+              <div class="quote-stat">
+                <span class="dot accepted"></span>
+                <strong id="acceptedCount">0</strong>
+                <small>Accepted</small>
+              </div>
+
+              <div class="quote-stat">
+                <span class="dot rejected"></span>
+                <strong id="rejectedCount">0</strong>
+                <small>Rejected</small>
+              </div>
+            </div>
+        </div>
         <!-- Fallback -->
         <p id="chartFallback" style="display:none; text-align:center; margin-top:10px;">
           No quote data available

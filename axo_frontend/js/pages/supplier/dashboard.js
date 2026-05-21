@@ -55,7 +55,7 @@ const renderRFQs = (rfqs = []) => {
   }
 
   setHTML("recentRfqsList",
-    rfqs.slice(0,5).map(r => `
+    rfqs.slice(0,4).map(r => `
       <div class="rfq-item">
         <strong>${sanitizeHTML(r.title)}</strong>
         <div>${sanitizeHTML(r.oem_name || "")}</div>
@@ -75,7 +75,12 @@ const renderChart = (quotes = []) => {
     rejected: 0,
   };
 
+
   quotes.forEach(q => counts[q.status]++);
+  
+  setText("pendingCount", counts.pending);
+  setText("acceptedCount", counts.accepted);
+  setText("rejectedCount", counts.rejected);
 
   if (State.chart) {
     State.chart.data.datasets[0].data = Object.values(counts);
@@ -83,13 +88,46 @@ const renderChart = (quotes = []) => {
     return;
   }
 
-  State.chart = new Chart(ctx, {
+
+    State.chart = new Chart(ctx, {
     type: "doughnut",
+
     data: {
       labels: Object.keys(counts),
+
       datasets: [{
         data: Object.values(counts),
+
+        backgroundColor: [
+          "#7C83D6", // pending
+          "#363c88", // accepted
+          "#9b9b9d", // rejected
+        ],
+
+        borderColor: "#ffffff",
+        borderWidth: 3,
+        hoverOffset: 6,
       }]
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: "64%",
+      radius: "82%",
+
+      plugins: {
+        legend: {
+          labels: {
+            color: "#64748b",
+            font: {
+              family: "Inter",
+              size: 13,
+              weight: "600"
+            }
+          }
+        }
+      }
     }
   });
 };

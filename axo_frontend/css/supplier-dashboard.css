@@ -1010,9 +1010,63 @@ select.form-control option {
 }
 
 #quoteStatusChart {
-  max-height: 220px;
+  max-height: 270px;
 }
 
+/* quotes doughnut container */
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 420px;
+  height: 100%;
+}
+
+.quote-stats {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.quote-stat strong {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.quote-stat small {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot.pending {
+  background: #7C83D6;
+}
+
+.dot.accepted {
+  background: #4349A8;
+}
+
+.dot.rejected {
+  background: #a1a1aa;
+}
 /* RFQ List inside chart card */
 #recentRfqsList {
   display: flex;
@@ -3185,5 +3239,69 @@ input[type="search"]::-webkit-search-cancel-button {
   .stat-card,
   .data-table td {
     forced-color-adjust: auto;
+  }
+}
+
+
+/* ================================================================
+   MOBILE RESPONSIVE — DASHBOARD CHARTS
+   ================================================================ */
+
+@media (max-width: 768px) {
+
+  /* stack cards vertically */
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  /* reduce card padding */
+  .chart-card {
+    padding: var(--space-5);
+  }
+
+  /* doughnut section */
+  .chart-container {
+    min-height: auto;
+    padding: 10px 0;
+    gap: 14px;
+  }
+
+  /* chart size */
+  #quoteStatusChart {
+    max-height: 220px;
+  }
+
+  /* stats below chart */
+  .quote-stats {
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .quote-stat strong {
+    font-size: 1rem;
+  }
+
+  .quote-stat small {
+    font-size: 0.65rem;
+  }
+
+  /* recent rfq cards */
+  #recentRfqsList {
+    gap: var(--space-2);
+  }
+
+  .rfq-item {
+    padding: 12px;
+  }
+
+  .rfq-item strong {
+    font-size: 0.82rem;
+    line-height: 1.3;
+  }
+
+  .rfq-item div,
+  .rfq-item small {
+    font-size: 0.72rem;
   }
 }
