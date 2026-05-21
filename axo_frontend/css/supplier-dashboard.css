@@ -5,18 +5,19 @@
    ================================================================ */
 
 /* ── FONT IMPORT ────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow+Semi+Condensed:wght@400;500;600&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 /* ================================================================
    1. CSS VARIABLES
    ================================================================ */
 :root {
   /* ── Brand Colours ──────────────────────────────────────── */
-  --primary:         #3b8eff;
-  --primary-dark:    #1a6fd8;
-  --primary-light:   #5fa8ff;
-  --primary-glow:    rgba(59, 142, 255, 0.18);
-  --primary-glow-sm: rgba(59, 142, 255, 0.10);
+  --primary:           #4349A8;
+  --primary-dark:      #1F245C;
+  --primary-light:     #7C83D6;
+  --primary-xlight:    #EEF0FF;
+
+  --primary-glow:      rgba(67,73,168,.22);
+  --primary-glow-sm:   rgba(67,73,168,.12);
 
   /* ── Status Colours ─────────────────────────────────────── */
   --success:         #10e87a;
@@ -34,37 +35,46 @@
   --neutral-bg:      rgba(107, 122, 153, 0.12);
 
   /* ── Surface / Background ───────────────────────────────── */
-  --bg-base:         #060912;
-  --bg-surface:      #0b1020;
-  --bg-elevated:     #111827;
-  --bg-card:         #0e1525;
-  --bg-hover:        rgba(255, 255, 255, 0.04);
-  --bg-active:       rgba(59, 142, 255, 0.08);
+  --bg-main:         #eef2f7;
+  --bg-base:         #eef2f7;
+
+  --bg-card:         #ffffff;
+  --bg-surface:      #ffffff;
+  --bg-elevated:     #ffffff;
+
+  --bg-sidebar:      #060b18;
+  --bg-topbar:       #ffffff;
+
+  --bg-hover:        rgba(79, 70, 229, 0.04);
+  --bg-active:       rgba(79, 70, 229, 0.08);
 
   /* ── Borders ─────────────────────────────────────────────── */
-  --border:          rgba(255, 255, 255, 0.06);
-  --border-strong:   rgba(255, 255, 255, 0.12);
-  --border-primary:  rgba(59, 142, 255, 0.30);
+  --border:          #e5e7eb;
+  --border-strong:   #d1d5db;
+  --border-primary:  rgba(79,70,229,.22);
+  --border-color:    #e5e7eb;
+
 
   /* ── Text ────────────────────────────────────────────────── */
-  --text-primary:    #e4eaf5;
-  --text-secondary:  #8a9bb8;
+  --text-primary: #111827;
+  --text-secondary: #64748b;
+  --text-light: #94a3b8;
   --text-muted:      #4d607d;
   --text-inverse:    #060912;
 
   /* ── Sidebar ────────────────────────────────────────────── */
   --sidebar-width:   260px;
   --sidebar-bg:      #07091c;
-  --sidebar-border:  rgba(59, 142, 255, 0.08);
+  --sidebar-border:  rgba(67,73,168, 0.08);
 
   /* ── Top Bar ─────────────────────────────────────────────── */
   --topbar-height:   64px;
-  --topbar-bg:       rgba(11, 16, 32, 0.92);
+  --topbar-bg: #ffffff;
 
   /* ── Typography ──────────────────────────────────────────── */
-  --font-body:       'Barlow', 'Inter', sans-serif;
-  --font-display:    'Barlow Condensed', 'Barlow', sans-serif;
-  --font-semi:       'Barlow Semi Condensed', 'Barlow', sans-serif;
+  --font-display: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-semi: 'Inter', sans-serif;
 
   /* ── Spacing ─────────────────────────────────────────────── */
   --space-1:         4px;
@@ -85,11 +95,13 @@
   --radius-pill:     999px;
 
   /* ── Shadows ─────────────────────────────────────────────── */
-  --shadow-sm:       0 2px 8px rgba(0,0,0,0.3);
-  --shadow-md:       0 4px 20px rgba(0,0,0,0.4);
-  --shadow-lg:       0 8px 40px rgba(0,0,0,0.5);
-  --shadow-primary:  0 0 20px rgba(59,142,255,0.25);
-  --shadow-card:     0 1px 3px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
+  --shadow-sm:       0 1px 3px rgba(15,23,42,.05);
+  --shadow-md:       0 4px 12px rgba(15,23,42,.06);
+  --shadow-lg:       0 10px 30px rgba(15,23,42,.08);
+
+  --shadow-primary:  0 4px 16px rgba(79,70,229,.18);
+
+  --shadow-card:     0 2px 8px rgba(15,23,42,.05);
 
   /* ── Transitions ─────────────────────────────────────────── */
   --ease-fast:       150ms cubic-bezier(0.4,0,0.2,1);
@@ -828,7 +840,8 @@ select.form-control option {
 }
 
 .welcome-section h1 span {
-  color: var(--primary-light);
+  /* color: var(--primary-light); */
+  color: #4349A8;
 }
 
 .welcome-section p {
