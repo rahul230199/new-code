@@ -88,6 +88,7 @@ body {
       rgba(7, 12, 28, 0.72) 45%,
       rgba(2, 6, 18, 0.88) 100%
     ),
+     /* background: linear-gradient(135deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.75) 100%), */
     url('/assets/partners-bg.jpg')
     center/cover no-repeat fixed;
 

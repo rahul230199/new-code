@@ -287,7 +287,7 @@ body {
 
     transform: translateX(-50%) translateY(10px);
 
-    width: 220px;
+    width: 100px;
 
     display: flex;
     flex-direction: column;
@@ -320,14 +320,15 @@ body {
 
 /* MENU ITEM */
 .mega-item {
-    display: flex;
-    align-items: center;
+    display: block;
 
-    gap: 10px;
-
-    padding: 6px 2px;
-
+    padding: 10px 0;
+    padding-left: 10px;
     text-decoration: none;
+
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
 
     transition:
         opacity 0.2s ease,
@@ -340,40 +341,14 @@ body {
     transform: translateX(2px);
 }
 
-/* ICON BOX */
-.mega-icon {
-    width: 24px;
-    height: 24px;
-
-    min-width: 24px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: rgba(255,255,255,0.92);
-
-    font-size: 13px;
-}
-
-/* TEXT */
 .mega-content span {
     display: block;
-
     color: #fff;
-
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
-
-    margin-bottom: 4px;
+    margin: 0;
 }
 
-.mega-content p {
-    color: rgba(255,255,255,0.78);
-
-    font-size: 11px;
-    line-height: 1.35;
-}
 .mega-content span,
 .mega-content p,
 .mega-icon {
