@@ -1,0 +1,21 @@
+                  List of relations
+ Schema |          Name           | Type  |  Owner   
+--------+-------------------------+-------+----------
+ public | documents               | table | postgres
+ public | messages                | table | postgres
+ public | network_access_requests | table | postgres
+ public | notifications           | table | postgres
+ public | oems                    | table | postgres
+ public | order_messages          | table | postgres
+ public | order_milestones        | table | postgres
+ public | organization_profiles   | table | postgres
+ public | purchase_orders         | table | postgres
+ public | quotes                  | table | postgres
+ public | reliability_scores      | table | postgres
+ public | rfqs                    | table | postgres
+ public | risk_alerts             | table | postgres
+ public | supplier_profiles       | table | postgres
+ public | suppliers               | table | postgres
+ public | users                   | table | postgres
+(16 rows)
+

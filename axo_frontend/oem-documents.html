@@ -7,89 +7,131 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="./css/oem-dashboard.css" />
-  <link rel="stylesheet" href="./css/shared.css" />
+  <link rel="stylesheet" href="/css/oem-dashboard.css" />
+  <link rel="stylesheet" href="/css/shared.css" />
+  <style>
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-content { background: white; border-radius: 16px; width: 500px; max-width: 90%; max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #e2e8f0; }
+    .modal-header h3 { margin: 0; }
+    .modal-header button { background: none; border: none; font-size: 24px; cursor: pointer; }
+    .modal-body { padding: 24px; }
+    .upload-area { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; margin-bottom: 20px; transition: all 0.2s; }
+    .upload-area:hover { border-color: #6366f1; background: #f8fafc; }
+    .upload-area.drag-over { border-color: #6366f1; background: #eef2ff; }
+    .upload-area__icon { font-size: 48px; color: #6366f1; margin-bottom: 12px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: #334155; }
+    .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+    .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; }
+    .btn--primary { background: #6366f1; color: white; }
+    .btn--outline { background: white; color: #6366f1; border: 1px solid #6366f1; }
+    .selected-file-row { display: flex; align-items: center; gap: 12px; padding: 12px; background: #f1f5f9; border-radius: 8px; margin-bottom: 20px; }
+  </style>
 </head>
 <body>
 
 <div class="oem-container">
-
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h2>AXO Networks</h2>
       <p>OEM Portal</p>
     </div>
-    <nav class="sidebar-nav" aria-label="OEM navigation">
-      <a href="/oem-dashboard.html"  class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
-      <a href="/oem-rfq.html"        class="nav-item"><i class="fas fa-file-alt"></i><span>RFQ Management</span></a>
-      <a href="/oem-orders.html"     class="nav-item"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
-      <a href="/oem-suppliers.html"  class="nav-item"><i class="fas fa-truck"></i><span>Suppliers</span></a>
-      <a href="/oem-documents.html"  class="nav-item active"><i class="fas fa-folder-open"></i><span>Documents</span></a>
-      <a href="/oem-profile.html"    class="nav-item"><i class="fas fa-building"></i><span>Profile</span></a>
+    <nav class="sidebar-nav">
+      <a href="/oem-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+      <a href="/oem-rfq.html" class="nav-item"><i class="fas fa-file-alt"></i><span>RFQ Management</span></a>
+      <a href="/oem-orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i><span>Orders</span></a>
+      <a href="/oem-suppliers.html" class="nav-item"><i class="fas fa-truck"></i><span>Suppliers</span></a>
+      <a href="/oem-documents.html" class="nav-item active"><i class="fas fa-folder-open"></i><span>Documents</span></a>
+      <a href="/oem-profile.html" class="nav-item"><i class="fas fa-building"></i><span>Profile</span></a>
     </nav>
     <div class="sidebar-footer">
-      <button class="logout-btn" id="logoutBtn" type="button">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </button>
+      <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
   </aside>
 
   <main class="main-content">
     <div class="top-bar">
-      <button class="menu-toggle" id="menuToggle" type="button">
-        <i class="fas fa-bars"></i>
-      </button>
+      <button class="menu-toggle" id="menuToggle">☰</button>
       <div class="top-bar-right">
-        <div class="notification-bell" id="notificationBell">
-          <i class="far fa-bell"></i>
-          <span class="notification-badge">0</span>
-        </div>
-        <div class="user-info">
-          <span id="companyName">Loading...</span>
-          <div class="avatar"><i class="fas fa-industry"></i></div>
-        </div>
+        <div class="notification-bell"><i class="far fa-bell"></i><span class="notification-badge">0</span></div>
+        <div class="user-info"><span id="companyName">Loading...</span><div class="avatar"><i class="fas fa-industry"></i></div></div>
       </div>
     </div>
 
     <div class="page-header">
-      <div>
-        <h1>Document Library</h1>
-        <p>Manage your RFQ documents and files</p>
-      </div>
+      <div><h1>Document Library</h1><p>Manage your RFQ documents and files</p></div>
       <div class="page-header__actions">
-        <button class="btn btn--outline" id="refreshBtn" type="button">
-          <i class="fas fa-sync-alt"></i> Refresh
-        </button>
-        <button class="btn btn--primary" id="uploadDocBtn" type="button">
-          <i class="fas fa-upload"></i> Upload Document
-        </button>
+        <button class="btn btn--outline" id="refreshBtn"><i class="fas fa-sync-alt"></i> Refresh</button>
+        <button class="btn btn--primary" id="uploadDocBtn"><i class="fas fa-upload"></i> Upload Document</button>
       </div>
     </div>
 
-    <div class="doc-toolbar">
-      <span id="docCount" class="result-count"></span>
-    </div>
-
+    <div class="doc-toolbar"><span id="docCount" class="result-count"></span></div>
     <div id="documentsGrid" class="documents-grid"></div>
   </main>
+</div>
+
+<!-- Upload Modal -->
+<div id="uploadModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3><i class="fas fa-cloud-upload-alt"></i> Upload Document</h3>
+      <button class="js-close-modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="uploadForm">
+        <div class="upload-area" id="docUploadArea">
+          <div class="upload-area__icon"><i class="fas fa-cloud-upload-alt"></i></div>
+          <p>Drag & drop file here or click to upload</p>
+          <small>PDF, JPG, PNG, DOC, TXT (Max 20 MB)</small>
+          <input type="file" id="docFileInput" style="display:none" />
+          <button type="button" class="btn btn--outline btn--sm" id="docBrowseBtn" style="margin-top: 12px;">Browse Files</button>
+        </div>
+        <div id="selectedDocFile" class="selected-file-row" style="display:none"></div>
+        <div class="form-group">
+          <label for="docCategory">Category</label>
+          <select id="docCategory" class="form-control">
+            <option value="RFQ Documents">RFQ Documents</option>
+            <option value="Design Files">Design Files</option>
+            <option value="Technical Specs">Technical Specs</option>
+            <option value="CAD Models">CAD Models</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="docDescription">Description</label>
+          <textarea id="docDescription" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn--outline js-close-modal">Cancel</button>
+          <button type="submit" class="btn btn--primary" id="uploadSubmitBtn">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 <script>
 const token = localStorage.getItem('axo_access_token');
 if (!token) { window.location.href = '/login.html'; }
 
+let selectedFile = null;
+
+function getToken() { return localStorage.getItem('axo_access_token'); }
+
 try {
   const user = JSON.parse(localStorage.getItem('axo_user') || '{}');
   document.getElementById('companyName').textContent = user.company_name || user.email || 'OEM User';
 } catch(e) {}
 
-document.getElementById('logoutBtn')?.addEventListener('click', function() {
+document.getElementById('logoutBtn')?.addEventListener('click', () => {
   localStorage.removeItem('axo_access_token');
   localStorage.removeItem('axo_user');
   window.location.href = '/login.html';
 });
 
-document.getElementById('menuToggle')?.addEventListener('click', function() {
+document.getElementById('menuToggle')?.addEventListener('click', () => {
   document.getElementById('sidebar')?.classList.toggle('open');
 });
 
@@ -107,80 +149,116 @@ function escapeHtml(str) {
   });
 }
 
+function getFileIcon(filename) {
+  const ext = filename.split('.').pop().toLowerCase();
+  const icons = { pdf: 'fa-file-pdf', jpg: 'fa-file-image', png: 'fa-file-image', txt: 'fa-file-alt' };
+  return icons[ext] || 'fa-file';
+}
+
 async function loadDocuments() {
   const grid = document.getElementById('documentsGrid');
   if (grid) grid.innerHTML = '<div class="loading">Loading documents...</div>';
-  
   try {
     const response = await fetch('/api/oem/documents', {
       headers: { 'Authorization': 'Bearer ' + token }
     });
-    
     if (response.status === 401) {
       localStorage.removeItem('axo_access_token');
-      localStorage.removeItem('axo_user');
       window.location.href = '/login.html';
       return;
     }
-    
     const data = await response.json();
     const documents = data.documents || [];
-    
-    const countSpan = document.getElementById('docCount');
-    if (countSpan) {
-      countSpan.textContent = documents.length + ' document' + (documents.length !== 1 ? 's' : '');
-    }
-    
+    document.getElementById('docCount').textContent = documents.length + ' document(s)';
     if (documents.length === 0) {
       grid.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open"></i><p>No documents found</p><button class="btn btn--primary" id="uploadFromEmptyBtn">Upload your first document</button></div>';
-      const uploadBtn = document.getElementById('uploadFromEmptyBtn');
-      if (uploadBtn) uploadBtn.addEventListener('click', function() { alert('Upload feature coming soon'); });
+      document.getElementById('uploadFromEmptyBtn')?.addEventListener('click', () => openUploadModal());
       return;
     }
-    
-    // Group by RFQ number
     const rfqMap = new Map();
-    documents.forEach(function(doc) {
+    documents.forEach(doc => {
       if (doc.rfq_number) {
         if (!rfqMap.has(doc.rfq_number)) rfqMap.set(doc.rfq_number, []);
         rfqMap.get(doc.rfq_number).push(doc);
       }
     });
-    
     let html = '<div class="folder-grid">';
     for (const [rfqName, docs] of rfqMap) {
-      const safeName = rfqName.replace(/'/g, "\\'");
-      html += '<div class="folder-card" onclick="openFolder(\'' + safeName + '\')">';
+      html += '<div class="folder-card" onclick="openFolder(\'' + rfqName.replace(/'/g, "\\'") + '\')">';
       html += '<div class="folder-icon"><i class="fas fa-folder-open"></i></div>';
-      html += '<div class="folder-info">';
-      html += '<div class="folder-name">📋 ' + escapeHtml(rfqName) + '</div>';
-      html += '<div class="folder-stats">' + docs.length + ' document(s)</div>';
-      html += '</div>';
-      html += '<div class="folder-arrow"><i class="fas fa-chevron-right"></i></div>';
-      html += '</div>';
+      html += '<div class="folder-info"><div class="folder-name">📋 ' + escapeHtml(rfqName) + '</div><div class="folder-stats">' + docs.length + ' document(s)</div></div>';
+      html += '<div class="folder-arrow"><i class="fas fa-chevron-right"></i></div></div>';
     }
     html += '</div>';
     grid.innerHTML = html;
-    
   } catch (error) {
-    console.error('Error loading documents:', error);
+    console.error('Error:', error);
     grid.innerHTML = '<div class="empty-state">Error loading documents</div>';
   }
 }
 
+function openUploadModal() {
+  selectedFile = null;
+  document.getElementById('selectedDocFile').style.display = 'none';
+  document.getElementById('uploadModal').style.display = 'flex';
+}
+
+function closeUploadModal() {
+  document.getElementById('uploadModal').style.display = 'none';
+}
+
+function updateFilePreview(file) {
+  const preview = document.getElementById('selectedDocFile');
+  if (!file) { preview.style.display = 'none'; preview.innerHTML = ''; return; }
+  preview.style.display = 'flex';
+  preview.innerHTML = '<i class="fas ' + getFileIcon(file.name) + '"></i><span style="flex:1">' + file.name + '</span><span>' + (file.size / 1024).toFixed(2) + ' KB</span><button onclick="this.parentElement.style.display=\'none\'; document.getElementById(\'docFileInput\').value=\'\'; selectedFile=null;">&times;</button>';
+  selectedFile = file;
+}
+
+async function handleUpload(e) {
+  e.preventDefault();
+  if (!selectedFile) { alert('Please select a file'); return; }
+  const formData = new FormData();
+  formData.append('document', selectedFile);
+  formData.append('category', document.getElementById('docCategory').value);
+  formData.append('description', document.getElementById('docDescription').value);
+  const submitBtn = document.getElementById('uploadSubmitBtn');
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+  try {
+    const response = await fetch('/api/oem/documents/upload', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token },
+      body: formData
+    });
+    if (!response.ok) throw new Error('Upload failed');
+    alert('Upload successful!');
+    closeUploadModal();
+    loadDocuments();
+  } catch (error) { alert('Upload failed: ' + error.message); }
+  finally { submitBtn.disabled = false; submitBtn.innerHTML = 'Upload'; }
+}
+
+document.getElementById('uploadDocBtn')?.addEventListener('click', openUploadModal);
+document.getElementById('refreshBtn')?.addEventListener('click', loadDocuments);
+document.getElementById('uploadForm')?.addEventListener('submit', handleUpload);
+document.querySelectorAll('.js-close-modal').forEach(btn => btn.addEventListener('click', closeUploadModal));
+
+const uploadArea = document.getElementById('docUploadArea');
+const fileInput = document.getElementById('docFileInput');
+const browseBtn = document.getElementById('docBrowseBtn');
+uploadArea?.addEventListener('click', (e) => { if (e.target !== browseBtn) fileInput?.click(); });
+uploadArea?.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+uploadArea?.addEventListener('dragleave', () => { uploadArea.classList.remove('drag-over'); });
+uploadArea?.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadArea.classList.remove('drag-over');
+  if (e.dataTransfer.files.length) { selectedFile = e.dataTransfer.files[0]; updateFilePreview(selectedFile); }
+});
+browseBtn?.addEventListener('click', (e) => { e.stopPropagation(); fileInput?.click(); });
+fileInput?.addEventListener('change', (e) => { if (e.target.files.length) { selectedFile = e.target.files[0]; updateFilePreview(selectedFile); } });
+
 loadDocuments();
 </script>
-
-<div class="notification-overlay" id="notificationOverlay"></div>
-<div class="notification-panel" id="notificationPanel">
-  <div class="notification-header">
-    <h3><i class="fas fa-bell"></i> Notifications</h3>
-    <button id="markAllRead">Mark all as read</button>
-  </div>
-  <div class="notification-list" id="notificationList">
-    <div class="notification-empty"><i class="fas fa-bell-slash"></i><p>No notifications</p></div>
-  </div>
-</div>
-<script src="/js/notification.js"></script>
 </body>
 </html>

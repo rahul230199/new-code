@@ -4,13 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Folder Documents | AXO Networks</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="./css/oem-dashboard.css">
-    <link rel="stylesheet" href="./css/shared.css">
+    <link rel="stylesheet" href="/css/oem-dashboard.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; }
+        
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .sidebar-header { padding: 24px; border-bottom: 1px solid #334155; }
+        .sidebar-header h2 { font-size: 20px; margin-bottom: 4px; }
+        .sidebar-header p { font-size: 12px; opacity: 0.7; }
+        .sidebar-nav { padding: 20px 0; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .nav-item:hover { background: #334155; color: white; }
+        .nav-item.active { background: #6366f1; color: white; }
+        .sidebar-footer { padding: 20px; border-top: 1px solid #334155; }
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .main-content { margin-left: 260px; padding: 20px; }
+        .top-bar {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #6366f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .back-btn { margin-bottom: 20px; }
+        .folder-header {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .folder-header h1 { font-size: 24px; margin-bottom: 8px; color: #0f172a; }
+        .folder-header p { color: #64748b; }
+        .documents-grid { display: flex; flex-direction: column; gap: 12px; }
+        .doc-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .doc-card:hover { border-color: #6366f1; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .doc-info { flex: 1; }
+        .doc-name { font-weight: 600; margin-bottom: 6px; color: #0f172a; word-break: break-word; }
+        .doc-meta { font-size: 13px; color: #64748b; display: flex; gap: 16px; flex-wrap: wrap; }
+        .download-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .download-btn:hover { background: #059669; }
+        .loading, .empty { text-align: center; padding: 60px; color: #64748b; }
+        iframe { display: none; }
+        
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .menu-toggle { display: block !important; }
+        }
+    </style>
 </head>
 <body>
-<div class="oem-container">
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>AXO Networks</h2>
@@ -31,175 +134,166 @@
 
     <main class="main-content">
         <div class="top-bar">
-            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-            <div class="top-bar-right">
-                <div class="user-info">
-                    <span id="companyName">Loading...</span>
-                    <div class="avatar"><i class="fas fa-industry"></i></div>
-                </div>
+            <button class="menu-toggle" id="menuToggle" style="display:none; background:none; border:none; font-size:20px; margin-right:auto; cursor:pointer;" onclick="document.getElementById('sidebar').classList.toggle('open')">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="user-info">
+                <span id="companyName">Loading...</span>
+                <div class="avatar"><i class="fas fa-industry"></i></div>
             </div>
         </div>
 
-        <div style="margin-bottom: 20px;">
-            <button class="btn btn--ghost btn--sm" onclick="goBack()">
+        <div class="back-btn">
+            <button class="btn btn--outline" onclick="goBack()">
                 <i class="fas fa-arrow-left"></i> Back to Documents
             </button>
         </div>
 
-        <div class="page-header" style="margin-bottom: 24px;">
-            <div>
-                <h1 id="folderTitle">Loading...</h1>
-                <p>Documents in this RFQ folder</p>
-            </div>
+        <div class="folder-header">
+            <h1 id="folderTitle">Loading...</h1>
+            <p>Documents in this RFQ folder</p>
         </div>
 
-        <div id="documentsList" class="documents-grid"></div>
+        <div id="documentsList" class="documents-grid">
+            <div class="loading">Loading documents...</div>
+        </div>
     </main>
-</div>
-
-<script>
-const token = localStorage.getItem('axo_access_token');
-if (!token) { window.location.href = '/login.html'; }
-
-try {
-    const user = JSON.parse(localStorage.getItem('axo_user') || '{}');
-    document.getElementById('companyName').textContent = user.company_name || user.email || 'OEM User';
-} catch(e) {}
-
-document.getElementById('logoutBtn')?.addEventListener('click', function() {
-    localStorage.removeItem('axo_access_token');
-    localStorage.removeItem('axo_user');
-    window.location.href = '/login.html';
-});
-
-document.getElementById('menuToggle')?.addEventListener('click', function() {
-    document.getElementById('sidebar')?.classList.toggle('open');
-});
-
-function goBack() { window.location.href = '/oem-documents.html'; }
-
-const urlParams = new URLSearchParams(window.location.search);
-const rfqName = decodeURIComponent(urlParams.get('rfq') || '');
-document.getElementById('folderTitle').innerHTML = '<i class="fas fa-folder-open"></i> ' + rfqName;
-
-function formatFileSize(bytes) {
-    if (!bytes) return '0 B';
-    const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
-}
-
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-    });
-}
-
-function getFileIcon(filename) {
-    const ext = filename.split('.').pop().toLowerCase();
-    const icons = {
-        pdf: 'fa-file-pdf', dwg: 'fa-file', step: 'fa-cube',
-        jpg: 'fa-file-image', png: 'fa-file-image', doc: 'fa-file-word', docx: 'fa-file-word'
-    };
-    return icons[ext] || 'fa-file';
-}
-
-async function downloadDocument(docId, fileName) {
-    try {
-        // Fetch the document with authorization header
-        const response = await fetch('/api/oem/documents/' + docId + '/download', {
-            headers: { 'Authorization': 'Bearer ' + token }
-        });
-        
-        if (response.status === 401) {
-            alert('Session expired. Please login again.');
-            localStorage.removeItem('axo_access_token');
-            localStorage.removeItem('axo_user');
-            window.location.href = '/login.html';
-            return;
-        }
-        
-        if (!response.ok) {
-            throw new Error('Download failed');
-        }
-        
-        // Get the blob from response
-        const blob = await response.blob();
-        
-        // Create download link
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-        
-    } catch (error) {
-        console.error('Download error:', error);
-        alert('Error downloading file: ' + error.message);
-    }
-}
-
-async function loadDocuments() {
-    const container = document.getElementById('documentsList');
-    container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading documents...</div>';
     
-    try {
-        const response = await fetch('/api/oem/documents', {
-            headers: { 'Authorization': 'Bearer ' + token }
-        });
+    <iframe id="downloadFrame" style="display:none"></iframe>
+
+    <script>
+        function getToken() {
+            return localStorage.getItem('axo_access_token') || localStorage.getItem('token');
+        }
         
-        if (response.status === 401) {
+        const token = getToken();
+        if (!token) {
+            window.location.href = '/login.html';
+        }
+
+        try {
+            const user = JSON.parse(localStorage.getItem('axo_user') || localStorage.getItem('user') || '{}');
+            document.getElementById('companyName').textContent = user.company_name || user.email || 'OEM User';
+        } catch(e) {}
+
+        document.getElementById('logoutBtn')?.addEventListener('click', function() {
             localStorage.removeItem('axo_access_token');
+            localStorage.removeItem('token');
             localStorage.removeItem('axo_user');
             window.location.href = '/login.html';
-            return;
-        }
-        
-        const data = await response.json();
-        const allDocs = data.documents || [];
-        const filteredDocs = allDocs.filter(function(doc) { return doc.rfq_number === rfqName; });
-        
-        if (filteredDocs.length === 0) {
-            container.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open"></i><p>No documents found in this folder</p></div>';
-            return;
-        }
-        
-        let html = '';
-        for (var i = 0; i < filteredDocs.length; i++) {
-            var doc = filteredDocs[i];
-            var safeFileName = escapeHtml(doc.file_name).replace(/'/g, "\\'");
-            html += '<div class="doc-card">';
-            html += '<div class="doc-card__icon"><i class="fas ' + getFileIcon(doc.file_name) + ' fa-2x"></i></div>';
-            html += '<div class="doc-card__body">';
-            html += '<div class="doc-card__name">' + escapeHtml(doc.file_name) + '</div>';
-            html += '<div class="doc-card__meta">';
-            html += '<span class="doc-card__category">' + escapeHtml(doc.category || 'General') + '</span>';
-            html += '<span class="doc-card__size">' + formatFileSize(doc.file_size) + '</span>';
-            html += '<span class="doc-card__date">' + new Date(doc.created_at).toLocaleDateString() + '</span>';
-            html += '</div>';
-            html += '</div>';
-            html += '<div class="doc-card__actions">';
-            html += '<button class="btn btn--sm btn--primary" onclick="downloadDocument(' + doc.id + ', \'' + safeFileName + '\')">';
-            html += '<i class="fas fa-download"></i> Download';
-            html += '</button>';
-            html += '</div>';
-            html += '</div>';
-        }
-        container.innerHTML = html;
-    } catch (error) {
-        console.error('Error:', error);
-        container.innerHTML = '<div class="empty-state">Error loading documents</div>';
-    }
-}
+        });
 
-loadDocuments();
-</script>
+        if (window.innerWidth <= 768) {
+            document.getElementById('menuToggle').style.display = 'block';
+        }
+
+        function goBack() {
+            window.location.href = '/oem-documents.html';
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const rfqName = decodeURIComponent(urlParams.get('rfq') || '');
+        document.getElementById('folderTitle').innerHTML = '<i class="fas fa-folder-open"></i> ' + rfqName;
+
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 B';
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(1024));
+            return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        function getFileIcon(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            const icons = {
+                pdf: 'fa-file-pdf', dwg: 'fa-file', step: 'fa-cube',
+                jpg: 'fa-file-image', png: 'fa-file-image', 
+                doc: 'fa-file-word', docx: 'fa-file-word',
+                txt: 'fa-file-alt', xls: 'fa-file-excel', xlsx: 'fa-file-excel'
+            };
+            return icons[ext] || 'fa-file';
+        }
+
+        function downloadDocument(docId, fileName) {
+            const currentToken = getToken();
+            if (!currentToken) {
+                alert('Session expired. Please login again.');
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            // Use iframe for download (works in all browsers)
+            const downloadUrl = `/api/oem/documents/${docId}/download?token=${encodeURIComponent(currentToken)}`;
+            const iframe = document.getElementById('downloadFrame');
+            iframe.src = downloadUrl;
+            
+            // Fallback after 2 seconds
+            setTimeout(() => {
+                iframe.src = 'about:blank';
+            }, 2000);
+        }
+
+        async function loadDocuments() {
+            const container = document.getElementById('documentsList');
+            container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading documents...</div>';
+            
+            try {
+                const currentToken = getToken();
+                const response = await fetch('/api/oem/documents', {
+                    headers: { 'Authorization': `Bearer ${currentToken}` }
+                });
+                
+                if (response.status === 401) {
+                    localStorage.clear();
+                    window.location.href = '/login.html';
+                    return;
+                }
+                
+                const data = await response.json();
+                const allDocs = data.documents || [];
+                const filteredDocs = allDocs.filter(function(doc) { return doc.rfq_number === rfqName; });
+                
+                if (filteredDocs.length === 0) {
+                    container.innerHTML = '<div class="empty"><i class="fas fa-folder-open"></i><p>No documents found in this folder</p></div>';
+                    return;
+                }
+                
+                let html = '';
+                for (var i = 0; i < filteredDocs.length; i++) {
+                    var doc = filteredDocs[i];
+                    html += `
+                        <div class="doc-card">
+                            <div class="doc-info">
+                                <div class="doc-name">${escapeHtml(doc.file_name)}</div>
+                                <div class="doc-meta">
+                                    <span><i class="fas fa-tag"></i> ${escapeHtml(doc.category || 'General')}</span>
+                                    <span><i class="fas fa-database"></i> ${formatFileSize(doc.file_size)}</span>
+                                    <span><i class="fas fa-calendar"></i> ${new Date(doc.created_at).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            <button class="download-btn" onclick="downloadDocument(${doc.id}, '${escapeHtml(doc.file_name)}')">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    `;
+                }
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = '<div class="empty">Error loading documents</div>';
+            }
+        }
+
+        loadDocuments();
+    </script>
 </body>
 </html>
