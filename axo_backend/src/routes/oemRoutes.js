@@ -1,71 +1,159 @@
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const pool = require('../config/database');
+const jwt = require('jsonwebtoken');
 
 const { authenticateToken, checkRole } = require('../middleware/auth');
 const {
     getDashboardStats,
-    createRFQ, getRFQs, getRFQQuotes, getRFQDocuments,
-    acceptQuote, rejectQuote,
-    getOrders, getOrderDetails, sendOrderMessage,
+    createRFQ,
+    getRFQs,
+    getRFQQuotes,
+    getRFQDocuments,
+    acceptQuote,
+    rejectQuote,
+    getOrders,
+    getOrderDetails,
+    sendOrderMessage,
     getSuppliers,
-    getProfile, updateProfile,
+    getProfile,
+    updateProfile,
 } = require('../controllers/oemController');
 
-// Ensure upload directory exists
-const uploadDir = path.join(__dirname, '../../uploads');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
+const JWT_SECRET = process.env.JWT_SECRET || 'axo_secret_key_2024';
+
+function extractUserId(req) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.substring(7);
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET);
+            return decoded.userId;
+        } catch (err) {}
+    }
+    
+    if (req.query.token) {
+        try {
+            const decoded = jwt.verify(req.query.token, JWT_SECRET);
+            return decoded.userId;
+        } catch (err) {}
+    }
+    return null;
 }
 
-// Configure multer for file uploads
+const uploadDir = path.join(__dirname, '../../uploads');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir);
-    },
+    destination: (req, file, cb) => cb(null, uploadDir),
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
 
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 20 * 1024 * 1024 } // 20MB limit
+const upload = multer({ storage, limits: { fileSize: 20 * 1024 * 1024 } });
+
+// ==================== DOWNLOAD ROUTE (BEFORE AUTH) ====================
+router.get('/documents/:id/download', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = extractUserId(req);
+        
+        if (!userId) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        
+        const result = await pool.query(
+            `SELECT * FROM documents WHERE id = $1 AND user_id = $2`,
+            [id, userId]
+        );
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Document not found' });
+        }
+        
+        const doc = result.rows[0];
+        
+        // Try multiple possible paths
+        const possiblePaths = [
+            doc.file_path,
+            path.join('/home/ec2-user/axo/axo_backend/uploads', path.basename(doc.file_path)),
+            path.join('/home/ec2-user/axo/axo_backend/uploads/rfq_files', path.basename(doc.file_path)),
+            path.join('/home/ec2-user/axo/axo_backend/uploads/po_files', path.basename(doc.file_path)),
+        ];
+        
+        let actualPath = null;
+        for (const testPath of possiblePaths) {
+            if (fs.existsSync(testPath)) {
+                actualPath = testPath;
+                break;
+            }
+        }
+        
+        if (!actualPath) {
+            return res.status(404).json({ error: 'File not found on server' });
+        }
+        
+        // Update database with correct path if different
+        if (actualPath !== doc.file_path) {
+            await pool.query(`UPDATE documents SET file_path = $1 WHERE id = $2`, [actualPath, id]);
+        }
+        
+        await pool.query(`UPDATE documents SET download_count = download_count + 1 WHERE id = $1`, [id]);
+        
+        // Set proper headers for browser download
+        const fileName = encodeURIComponent(doc.file_name);
+        res.setHeader('Content-Disposition', `attachment; filename="${fileName}"; filename*=UTF-8''${fileName}`);
+        res.setHeader('Content-Type', doc.file_type || 'application/octet-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        
+        // Send file
+        res.sendFile(actualPath, (err) => {
+            if (err) {
+                console.error('Error sending file:', err);
+                if (!res.headersSent) {
+                    res.status(500).json({ error: 'Error sending file' });
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Download error:', error);
+        res.status(500).json({ error: error.message });
+    }
 });
 
-// All OEM routes require auth + OEM/both/admin role
+// ==================== AUTH MIDDLEWARE ====================
 router.use(authenticateToken);
 router.use(checkRole(['oem', 'both', 'admin']));
 
-// ── Dashboard ──────────────────────────────────────────────────
+// Dashboard
 router.get('/dashboard/stats', getDashboardStats);
 
-// ── RFQ Management ─────────────────────────────────────────────
-router.get('/rfqs',                   getRFQs);
-router.post('/rfqs',                  upload.array('documents', 10), createRFQ);
-router.get('/rfqs/:id/quotes',        getRFQQuotes);
-router.get('/rfqs/:id/documents',     getRFQDocuments);
+// RFQ Management
+router.get('/rfqs', getRFQs);
+router.post('/rfqs', upload.array('documents', 10), createRFQ);
+router.get('/rfqs/:id/quotes', getRFQQuotes);
+router.get('/rfqs/:id/documents', getRFQDocuments);
 router.post('/rfqs/quotes/:id/accept', acceptQuote);
 router.post('/rfqs/quotes/:id/reject', rejectQuote);
 
-// ── Orders ─────────────────────────────────────────────────────
-router.get('/orders',                   getOrders);
-router.get('/orders/:id',               getOrderDetails);
-router.post('/orders/:id/messages',     sendOrderMessage);
+// Orders
+router.get('/orders', getOrders);
+router.get('/orders/:id', getOrderDetails);
+router.post('/orders/:id/messages', sendOrderMessage);
 
-// ── Suppliers ──────────────────────────────────────────────────
+// Suppliers
 router.get('/suppliers', getSuppliers);
 
-// ── Profile ────────────────────────────────────────────────────
-router.get('/profile',  getProfile);
-router.put('/profile',  updateProfile);
+// Profile
+router.get('/profile', getProfile);
+router.put('/profile', updateProfile);
 
-// ==================== DOCUMENT MANAGEMENT ROUTES ====================
-// Get all documents
+// Document Management
 router.get('/documents', async (req, res) => {
     try {
         const userId = req.user.userId;
@@ -84,7 +172,6 @@ router.get('/documents', async (req, res) => {
     }
 });
 
-// Get single document
 router.get('/documents/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -96,10 +183,7 @@ router.get('/documents/:id', async (req, res) => {
             LEFT JOIN purchase_orders po ON d.po_id = po.id
             WHERE d.id = $1 AND d.user_id = $2
         `, [id, userId]);
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Document not found' });
-        }
+        if (result.rows.length === 0) return res.status(404).json({ error: 'Document not found' });
         res.json(result.rows[0]);
     } catch (error) {
         console.error('Get document error:', error);
@@ -107,15 +191,11 @@ router.get('/documents/:id', async (req, res) => {
     }
 });
 
-// Upload document
 router.post('/documents/upload', upload.single('document'), async (req, res) => {
     try {
         const userId = req.user.userId;
         const { category, description, rfqId, poId } = req.body;
-        
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded' });
-        }
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
         
         const result = await pool.query(`
             INSERT INTO documents (user_id, rfq_id, po_id, file_name, file_path, file_size, file_type, category, description, created_at, updated_at)
@@ -125,58 +205,20 @@ router.post('/documents/upload', upload.single('document'), async (req, res) => 
         
         res.json({ success: true, document: result.rows[0] });
     } catch (error) {
-        console.error('Upload document error:', error);
+        console.error('Upload error:', error);
         res.status(500).json({ error: error.message });
     }
 });
 
-// Delete document
 router.delete('/documents/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const userId = req.user.userId;
-        
-        const result = await pool.query(
-            `DELETE FROM documents WHERE id = $1 AND user_id = $2 RETURNING id`,
-            [id, userId]
-        );
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Document not found' });
-        }
-        
+        const result = await pool.query(`DELETE FROM documents WHERE id = $1 AND user_id = $2 RETURNING id`, [id, userId]);
+        if (result.rows.length === 0) return res.status(404).json({ error: 'Document not found' });
         res.json({ success: true, message: 'Document deleted' });
     } catch (error) {
-        console.error('Delete document error:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Download document
-router.get('/documents/:id/download', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const userId = req.user.userId;
-        
-        const result = await pool.query(
-            `SELECT * FROM documents WHERE id = $1 AND user_id = $2`,
-            [id, userId]
-        );
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Document not found' });
-        }
-        
-        // Increment download count
-        await pool.query(
-            `UPDATE documents SET download_count = download_count + 1 WHERE id = $1`,
-            [id]
-        );
-        
-        const doc = result.rows[0];
-        res.download(doc.file_path, doc.file_name);
-    } catch (error) {
-        console.error('Download document error:', error);
+        console.error('Delete error:', error);
         res.status(500).json({ error: error.message });
     }
 });

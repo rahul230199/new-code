@@ -12,6 +12,18 @@
 </head>
 <body class="login-body">
 
+    <!-- Simple Home Navigation - Only Logo -->
+    <header class="home-nav-header">
+        <div class="home-nav-container">
+            <a href="/" class="home-logo">AXO Networks</a>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
     <!-- Decorative background layers -->
     <div class="bg-grid"     aria-hidden="true"></div>
     <div class="bg-glow-tl"  aria-hidden="true"></div>
@@ -208,6 +220,44 @@
 
     </div><!-- /login-wrapper -->
 
+    <script>
+        // Progress bar on scroll
+        const progressBar = document.getElementById('progressBar');
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / height) * 100;
+            if (progressBar) progressBar.style.width = scrolled + '%';
+        });
+
+        // Password toggle functionality
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                const eyeShow = this.querySelector('.icon-eye-show');
+                const eyeHide = this.querySelector('.icon-eye-hide');
+
+                if (type === 'text') {
+                    eyeShow.style.display = 'none';
+                    eyeHide.style.display = 'block';
+                    this.setAttribute('aria-label', 'Hide password');
+                } else {
+                    eyeShow.style.display = 'block';
+                    eyeHide.style.display = 'none';
+                    this.setAttribute('aria-label', 'Show password');
+                }
+            });
+        }
+    </script>
+
+    <!-- Your original login.js - keep this -->
     <script type="module" src="/js/pages/auth/login.js"></script>
 </body>
 </html>
+
