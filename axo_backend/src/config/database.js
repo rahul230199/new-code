@@ -5,7 +5,7 @@ const pool = new Pool({
     port: 5432,
     database: 'axo_networks',
     user: 'postgres',
-    password: 'postgres123',
+    password: '123456',
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,

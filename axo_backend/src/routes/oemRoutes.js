@@ -21,6 +21,20 @@ const {
     getSuppliers,
     getProfile,
     updateProfile,
+    savePODraft,
+    sendPOToSupplier,
+    uploadOrderDocument,
+    getDocumentVersions,
+    replaceDocumentVersion,
+    // NEW IMPORTS - Add these
+    getPOStatus,
+    addOEMSignature,
+    acceptRevisionRequest,
+    rejectRevisionRequest,
+    counterRevisionRequest,
+    getOrderTimeline,
+    exportAuditTrail,
+    resendPONotification,
 } = require('../controllers/oemController');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'axo_secret_key_2024';
@@ -152,6 +166,31 @@ router.get('/suppliers', getSuppliers);
 // Profile
 router.get('/profile', getProfile);
 router.put('/profile', updateProfile);
+// ==================== ADD THESE ROUTES TO oemRoutes.js ====================
+
+// ==================== PO WORKFLOW ROUTES ====================
+
+// PO Status & Polling
+router.get('/purchase-orders/:poId/status', getPOStatus);
+
+// PO Draft (PRD Step 3)
+router.post('/purchase-orders/draft', savePODraft);
+
+// Send PO (PRD Step 4)
+router.post('/purchase-orders/send/:poId', sendPOToSupplier);
+router.post('/purchase-orders/resend/:poId', resendPONotification);
+
+// OEM Signature (PRD Step 6)
+router.post('/purchase-orders/:poId/sign', addOEMSignature);
+
+// Revision Workflow (PRD Page 5)
+router.post('/purchase-orders/:poId/revision/accept', acceptRevisionRequest);
+router.post('/purchase-orders/:poId/revision/reject', rejectRevisionRequest);
+router.post('/purchase-orders/:poId/revision/counter', counterRevisionRequest);
+
+// ==================== ORDER TIMELINE & AUDIT ROUTES (PRD Pages 6-7) ====================
+router.get('/orders/:orderId/timeline', getOrderTimeline);
+router.get('/orders/:orderId/audit-trail/export', exportAuditTrail);
 
 // Document Management
 router.get('/documents', async (req, res) => {
