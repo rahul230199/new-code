@@ -187,6 +187,13 @@ body {
     url('/assets/partners-bg.jpg')
     center/cover no-repeat fixed;
 
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+}
+main {
+    flex: 1;
 }
 body::before {
   content: "";
@@ -440,4 +447,52 @@ body::before {
     .supplier-card {
         min-height: auto;
     }
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+
+  .supplier-search {
+    height: 52px;
+    padding: 0 18px;
+  }
+
+  .supplier-search input {
+    font-size: 16px;
+  }
+
+  .supplier-search i {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+
+  .suppliers-grid {
+    grid-template-columns: 1fr;
+    padding: 0 16px 50px;
+  }
+
+  .supplier-card {
+    min-height: auto;
+  }
+
+  .card-content {
+    padding: 0 18px 18px;
+  }
+
+  .card-content h3 {
+    font-size: 20px;
+  }
+
+  .card-image {
+    height: 130px;
+    padding-top: 45px;
+  }
 }
