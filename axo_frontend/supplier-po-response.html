@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Review Purchase Order - AXO Networks</title>
+    
+    <link rel="icon" type="image/png" href="/icons/favicon-axo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/supplier-dashboard.css">
+    
+    <style>
+        /* PO Response Page Specific Styles */
+        .po-response-container {
+            padding: 24px 28px 28px;
+            animation: fadeSlideUp 0.5s var(--ease-spring) both;
+        }
+        
+        .po-response-header {
+            margin-bottom: 28px;
+        }
+        
+        .po-response-header h1 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-top: 8px;
+        }
+        
+        .po-response-header p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* Action Buttons Group */
+        .action-buttons-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+        
+        .action-buttons-group .btn {
+            min-width: 160px;
+            justify-content: center;
+            padding: 12px 24px;
+        }
+        
+        /* Response Card */
+        .response-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        
+        .response-header {
+            padding: 16px 20px;
+            background: var(--bg-hover);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .response-header i {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .response-header h3 {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .response-body {
+            padding: 20px;
+        }
+        
+        /* Signature Preview */
+        .signature-preview {
+            background: var(--bg-surface);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 16px;
+            border: 1px dashed var(--border-primary);
+            text-align: center;
+        }
+        
+        .signature-preview p {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        
+        .signature-preview .signature-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        /* Deadline Warning */
+        .deadline-warning {
+            background: var(--warning-bg);
+            border-left: 3px solid var(--warning);
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .deadline-warning i {
+            color: var(--warning);
+            font-size: 1.1rem;
+        }
+        
+        .deadline-warning span {
+            color: var(--warning-dark);
+            font-size: 0.85rem;
+        }
+        
+        /* Loading overlay */
+        .po-response-container.loading {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+        }
+        
+        .po-response-container.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 48px;
+            height: 48px;
+            margin: -24px 0 0 -24px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            z-index: 100;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .po-response-container {
+                padding: 16px;
+            }
+            
+            .po-response-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .action-buttons-group {
+                flex-direction: column;
+            }
+            
+            .action-buttons-group .btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .po-response-container {
+                padding: 12px;
+            }
+            
+            .response-body {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="supplier-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>AXO</h2>
+                <p>SUPPLIER PORTAL</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/supplier-dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/supplier-rfq.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Open RFQs</span>
+                </a>
+                <a href="/supplier-quotes.html" class="nav-item">
+                    <i class="fas fa-file-signature"></i>
+                    <span>My Quotes</span>
+                </a>
+                <a href="/supplier-orders.html" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="/supplier-profile.html" class="nav-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+        
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="top-bar-right">
+                    <div class="user-info">
+                        <span id="companyName">Supplier</span>
+                        <div class="avatar" id="userAvatar">
+                            <span id="avatarInitials">S</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- PO Response Content -->
+            <div class="po-response-container" id="poResponseContainer">
+                <div class="po-response-header">
+                    <a href="/supplier-orders.html" class="back-link" id="backBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Orders
+                    </a>
+                    <h1>Purchase Order Review</h1>
+                    <p>Review the order details and provide your response</p>
+                </div>
+
+                <!-- PO Details Card -->
+                <div class="form-section">
+                    <h3><i class="fas fa-file-invoice"></i> Order Summary</h3>
+                    <div class="info-card">
+                        <div class="info-row">
+                            <span class="info-label">PO Number</span>
+                            <span class="info-value" id="poNumber">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Status</span>
+                            <span class="info-value"><span class="badge" id="poStatusBadge">—</span></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Order Date</span>
+                            <span class="info-value" id="orderDate">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Requested Delivery</span>
+                            <span class="info-value" id="deliveryDate">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">OEM Company</span>
+                            <span class="info-value" id="oemName">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">OEM Contact</span>
+                            <span class="info-value" id="oemContact">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part Details -->
+                <div class="form-section">
+                    <h3><i class="fas fa-microchip"></i> Part Details</h3>
+                    <div class="info-card">
+                        <div class="info-row">
+                            <span class="info-label">Part Name</span>
+                            <span class="info-value" id="partName">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Quantity</span>
+                            <span class="info-value" id="quantity">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Unit Price</span>
+                            <span class="info-value" id="unitPrice">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Total Value</span>
+                            <span class="info-value" id="totalValue">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Payment Terms</span>
+                            <span class="info-value" id="paymentTerms">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Instructions -->
+                <div class="form-section" id="specialInstructionsSection" style="display: none;">
+                    <h3><i class="fas fa-pen-alt"></i> Special Instructions</h3>
+                    <div class="info-card">
+                        <div class="info-value" id="specialInstructions">—</div>
+                    </div>
+                </div>
+
+                <!-- Shipping Requirements -->
+                <div class="form-section" id="shippingRequirementsSection" style="display: none;">
+                    <h3><i class="fas fa-truck"></i> Shipping Requirements</h3>
+                    <div class="info-card">
+                        <div class="info-value" id="shippingRequirements">—</div>
+                    </div>
+                </div>
+
+                <!-- Deadline Warning -->
+                <div id="deadlineWarning" style="display: none;">
+                    <div class="deadline-warning">
+                        <i class="fas fa-clock"></i>
+                        <span>Please respond by: <strong id="responseDeadline">—</strong></span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons (Pending Response) -->
+                <div id="actionButtonsSection" style="display: none;">
+                    <div class="status-card">
+                        <div class="status-icon info">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div class="status-title">Review & Respond</div>
+                        <div class="status-message">Please review the Purchase Order and select an action below.</div>
+                        
+                        <div class="action-buttons-group">
+                            <button class="btn btn--danger-outline" id="rejectPoBtn">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                            <button class="btn btn--warning-outline" id="requestRevisionBtn">
+                                <i class="fas fa-edit"></i> Request Revision
+                            </button>
+                            <button class="btn btn--success" id="acceptPoBtn">
+                                <i class="fas fa-check"></i> Accept PO
+                            </button>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn--outline" id="downloadPoBtn">
+                                <i class="fas fa-download"></i> Download PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Already Responded Section -->
+                <div id="alreadyRespondedSection" style="display: none;">
+                    <div class="status-card">
+                        <div class="status-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="status-title">Response Recorded</div>
+                        <div class="status-message" id="responseMessage">—</div>
+                        <div class="action-buttons-group">
+                            <button class="btn btn--primary" id="viewOrderBtn">
+                                <i class="fas fa-eye"></i> View Order Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Existing Signature Section (if already accepted) -->
+                <div id="existingSignatureSection" style="display: none;">
+                    <div class="response-card">
+                        <div class="response-header">
+                            <i class="fas fa-signature"></i>
+                            <h3>Your Signature</h3>
+                        </div>
+                        <div class="response-body">
+                            <div class="signature-preview">
+                                <p id="existingSignatureName">—</p>
+                                <div class="signature-meta">
+                                    <span id="existingSignatureDesignation">—</span> | 
+                                    <span id="existingSignatureDate">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rejection Reason Display -->
+                <div id="rejectionReasonDisplaySection" style="display: none;">
+                    <div class="response-card">
+                        <div class="response-header">
+                            <i class="fas fa-comment-dots"></i>
+                            <h3>Rejection Reason</h3>
+                        </div>
+                        <div class="response-body">
+                            <div class="info-value" id="rejectionReasonDisplay">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expired Section -->
+                <div id="expiredSection" style="display: none;">
+                    <div class="status-card">
+                        <div class="status-icon danger">
+                            <i class="fas fa-hourglass-end"></i>
+                        </div>
+                        <div class="status-title">PO Expired</div>
+                        <div class="status-message">This Purchase Order has expired. Please contact the OEM for further assistance.</div>
+                        <div class="action-buttons-group">
+                            <button class="btn btn--outline" id="backToOrdersBtn">
+                                <i class="fas fa-arrow-left"></i> Back to Orders
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Accept Modal (PRD Step 5: Supplier Signature) -->
+    <div class="modal" id="acceptModal" style="display: none;">
+        <div class="modal-content modal-medium">
+            <div class="modal-header">
+                <h3><i class="fas fa-check-circle"></i> Accept Purchase Order</h3>
+                <button class="close-modal" id="closeAcceptModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted" style="margin-bottom: 16px;">By accepting this Purchase Order, you agree to the terms and commit to delivering as specified.</p>
+                
+                <div class="form-group">
+                    <label>Your Digital Signature *</label>
+                    <input type="text" class="form-control" id="supplierSignatureName" placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Designation *</label>
+                    <input type="text" class="form-control" id="supplierSignatureDesignation" placeholder="e.g., Sales Manager">
+                </div>
+                
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" class="form-control" id="supplierSignatureDate">
+                </div>
+                
+                <div class="form-group">
+                    <label>Additional Notes (Optional)</label>
+                    <textarea class="form-control" id="supplierNotes" rows="3" placeholder="Any additional information for the OEM..."></textarea>
+                </div>
+                
+                <div class="signature-preview">
+                    <p>_________________</p>
+                    <div class="signature-meta">Electronic signature (will be applied digitally)</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="cancelAcceptBtn">Cancel</button>
+                <button class="btn btn--success" id="acceptSubmitBtn">Accept PO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reject Modal -->
+    <div class="modal" id="rejectModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-times-circle"></i> Reject Purchase Order</h3>
+                <button class="close-modal" id="closeRejectModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Reason for Rejection *</label>
+                    <textarea class="form-control" id="rejectReason" rows="4" placeholder="Please provide a detailed reason for rejecting this PO..."></textarea>
+                </div>
+                <p class="text-muted" style="font-size: 0.75rem; margin-top: 8px;">The OEM will be notified of your decision.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="cancelRejectBtn">Cancel</button>
+                <button class="btn btn--danger" id="rejectSubmitBtn">Reject PO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Revision Request Modal -->
+    <div class="modal" id="revisionModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Request Revision</h3>
+                <button class="close-modal" id="closeRevisionModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Reason for Revision *</label>
+                    <input type="text" class="form-control" id="revisionReason" placeholder="e.g., Delivery date, Price, Quantity">
+                </div>
+                <div class="form-group">
+                    <label>Detailed Explanation</label>
+                    <textarea class="form-control" id="revisionDetails" rows="4" placeholder="Provide specific details about what needs to be changed..."></textarea>
+                </div>
+                <p class="text-muted" style="font-size: 0.75rem; margin-top: 8px;">The OEM will review your request and respond accordingly.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="cancelRevisionBtn">Cancel</button>
+                <button class="btn btn--warning" id="revisionSubmitBtn">Request Revision</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module" src="./js/pages/supplier/po-response.js"></script>
+</body>
+</html>

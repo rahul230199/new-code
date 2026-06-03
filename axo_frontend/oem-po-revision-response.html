@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Revision Request - AXO Networks</title>
+    
+    <link rel="icon" type="image/png" href="/icons/favicon-axo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/oem-dashboard.css">
+    
+    <style>
+        /* Revision Response Page Specific Styles */
+        .revision-response-container {
+            padding: 24px 28px 28px;
+            animation: fadeSlideUp 0.5s var(--ease-spring) both;
+        }
+        
+        .revision-header {
+            margin-bottom: 28px;
+        }
+        
+        .revision-header h1 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--gray-900);
+            line-height: 1.2;
+            margin-top: 8px;
+        }
+        
+        .revision-header p {
+            font-size: 0.88rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+        
+        /* Tabs */
+        .revision-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+        
+        .tab-btn {
+            padding: 10px 24px;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            cursor: pointer;
+            transition: all var(--t-fast) var(--ease);
+        }
+        
+        .tab-btn:hover {
+            color: var(--gray-700);
+            background: var(--gray-100);
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            background: var(--primary-xlight);
+        }
+        
+        /* Change Item */
+        .change-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all var(--t-base) var(--ease);
+        }
+        
+        .change-item:hover {
+            border-color: var(--border-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .change-item__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .change-item__field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+        
+        .change-item__field i {
+            color: var(--primary);
+        }
+        
+        .change-item__accept {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+        
+        .change-item__accept input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--success);
+        }
+        
+        .change-item__compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 12px;
+        }
+        
+        .compare-old,
+        .compare-new {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .compare-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray-400);
+        }
+        
+        .compare-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+        
+        .compare-value.highlight {
+            color: var(--warning);
+            background: var(--warning-bg);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            display: inline-block;
+        }
+        
+        .change-item__reason {
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            border-left: 3px solid var(--info);
+        }
+        
+        /* Action Buttons */
+        .action-buttons-group {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        
+        /* Compare Table */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .compare-table tr {
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .compare-table th,
+        .compare-table td {
+            padding: 14px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .compare-table th {
+            width: 30%;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            background: var(--gray-50);
+        }
+        
+        .compare-table td {
+            font-size: 0.9rem;
+        }
+        
+        .compare-table .original-value {
+            color: var(--gray-500);
+        }
+        
+        .compare-table .requested-value {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        /* Loading overlay */
+        .revision-response-container.loading {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+        }
+        
+        .revision-response-container.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 48px;
+            height: 48px;
+            margin: -24px 0 0 -24px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            z-index: 100;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .revision-response-container {
+                padding: 16px;
+            }
+            
+            .revision-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .change-item__compare {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .action-buttons-group {
+                flex-direction: column;
+            }
+            
+            .action-buttons-group .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                text-align: center;
+                padding: 8px 12px;
+                font-size: 0.75rem;
+            }
+            
+            .compare-table th,
+            .compare-table td {
+                display: block;
+                width: 100%;
+            }
+            
+            .compare-table tr {
+                display: block;
+                margin-bottom: 16px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="oem-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>AXO</h2>
+                <p>OEM PORTAL</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/oem-dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/oem-rfq.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>RFQ Management</span>
+                </a>
+                <a href="/oem-orders.html" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="/oem-suppliers.html" class="nav-item">
+                    <i class="fas fa-building"></i>
+                    <span>Suppliers</span>
+                </a>
+                <a href="/oem-documents.html" class="nav-item">
+                    <i class="fas fa-folder"></i>
+                    <span>Documents</span>
+                </a>
+                <a href="/oem-profile.html" class="nav-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+        
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="top-bar-right">
+                    <div class="notification-bell" id="notificationBell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                    </div>
+                    <div class="user-info">
+                        <span id="companyName">OEM</span>
+                        <div class="avatar" id="userAvatar">
+                            <span id="avatarInitials">O</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Revision Response Content -->
+            <div class="revision-response-container" id="revisionResponseContainer">
+                <div class="revision-header">
+                    <a href="javascript:history.back()" class="back-link" id="backBtn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                    <h1>Revision Request Review</h1>
+                    <p>The supplier has requested changes to this Purchase Order</p>
+                </div>
+
+                <!-- Revision Request Card -->
+                <div class="form-section">
+                    <h3><i class="fas fa-exchange-alt"></i> Revision Request Details</h3>
+                    <div class="info-card">
+                        <div class="info-row">
+                            <span class="info-label">Requested By</span>
+                            <span class="info-value" id="revisionRequestedBy">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Requested On</span>
+                            <span class="info-value" id="revisionRequestedDate">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Reason</span>
+                            <span class="info-value" id="revisionReason">—</span>
+                        </div>
+                        <div class="info-row" id="revisionDetailsSection" style="display: none;">
+                            <span class="info-label">Details</span>
+                            <span class="info-value" id="revisionDetails">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="revision-tabs">
+                    <button class="tab-btn active" data-tab="revision">Changes Requested</button>
+                    <button class="tab-btn" data-tab="original">Original PO</button>
+                    <button class="tab-btn" data-tab="compare">Side by Side</button>
+                </div>
+
+                <!-- Tab: Revision Changes -->
+                <div id="revisionTabContent">
+                    <div class="form-section" id="changesSection" style="display: none;">
+                        <h3><i class="fas fa-list-ul"></i> Requested Changes</h3>
+                        <div id="changesList"></div>
+                        
+                        <div class="accept-all-row" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
+                            <label class="change-item__accept">
+                                <input type="checkbox" id="acceptAllChanges">
+                                <span>Accept all changes</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Response Notes (Optional)</label>
+                        <textarea class="form-control" id="responseNotes" rows="3" placeholder="Add any comments or instructions for the supplier..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Tab: Original PO -->
+                <div id="originalTabContent" style="display: none;">
+                    <div class="form-section">
+                        <h3><i class="fas fa-file-invoice"></i> Original PO Terms</h3>
+                        <div class="info-card">
+                            <div class="info-row">
+                                <span class="info-label">Delivery Date</span>
+                                <span class="info-value" id="originalDeliveryDate">—</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Payment Terms</span>
+                                <span class="info-value" id="originalPaymentTerms">—</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Quantity</span>
+                                <span class="info-value" id="originalQuantity">—</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Unit Price</span>
+                                <span class="info-value" id="originalUnitPrice">—</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Total Value</span>
+                                <span class="info-value" id="originalTotalValue">—</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Special Instructions</span>
+                                <span class="info-value" id="originalSpecialInstructions">—</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Shipping Requirements</span>
+                                <span class="info-value" id="originalShippingRequirements">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Compare View -->
+                <div id="compareTabContent" style="display: none;">
+                    <div class="form-section">
+                        <h3><i class="fas fa-balance-scale"></i> Comparison</h3>
+                        <table class="compare-table">
+                            <tr>
+                                <th>Field</th>
+                                <th>Original</th>
+                                <th>Requested</th>
+                            </tr>
+                            <tr>
+                                <td>Delivery Date</td>
+                                <td class="original-value" id="originalDeliveryDateC">—</td>
+                                <td class="requested-value" id="requestedDeliveryDateC">—</td>
+                            </tr>
+                            <tr>
+                                <td>Payment Terms</td>
+                                <td class="original-value" id="originalPaymentTermsC">—</td>
+                                <td class="requested-value" id="requestedPaymentTermsC">—</td>
+                            </tr>
+                            <tr>
+                                <td>Quantity</td>
+                                <td class="original-value" id="originalQuantityC">—</td>
+                                <td class="requested-value" id="requestedQuantityC">—</td>
+                            </tr>
+                            <tr>
+                                <td>Unit Price</td>
+                                <td class="original-value" id="originalUnitPriceC">—</td>
+                                <td class="requested-value" id="requestedUnitPriceC">—</td>
+                            </tr>
+                            <tr>
+                                <td>Total Value</td>
+                                <td class="original-value" id="originalTotalValueC">—</td>
+                                <td class="requested-value" id="requestedTotalValueC">—</td>
+                            </tr>
+                            <tr>
+                                <td>Special Instructions</td>
+                                <td class="original-value" id="originalSpecialInstructionsC">—</td>
+                                <td class="requested-value" id="requestedSpecialInstructionsC">—</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons-group">
+                    <button class="btn btn--danger-outline" id="rejectRevisionBtn">
+                        <i class="fas fa-times"></i> Reject All
+                    </button>
+                    <button class="btn btn--warning-outline" id="counterProposalBtn">
+                        <i class="fas fa-exchange-alt"></i> Counter Proposal
+                    </button>
+                    <button class="btn btn--success" id="acceptSelectedBtn">
+                        <i class="fas fa-check"></i> Accept Selected
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Counter Proposal Modal -->
+    <div class="modal" id="counterModal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3><i class="fas fa-exchange-alt"></i> Counter Proposal</h3>
+                <button class="close-modal" id="closeCounterModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted" style="margin-bottom: 16px;">Suggest alternative terms to the supplier's revision request.</p>
+                
+                <div id="counterFields"></div>
+                
+                <div class="form-group">
+                    <label>Notes to Supplier</label>
+                    <textarea class="form-control" id="counterNotes" rows="3" placeholder="Explain your counter proposal..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="cancelCounterBtn">Cancel</button>
+                <button class="btn btn--primary" id="submitCounterBtn">Send Counter Proposal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-overlay" id="notificationOverlay"></div>
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+            <button class="mark-all-read" id="markAllReadBtn">Mark all as read</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <div class="notification-empty">
+                <div class="notification-empty__icon">
+                    <i class="fas fa-bell-slash"></i>
+                </div>
+                <p>No notifications</p>
+                <span>New notifications will appear here</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module" src="./js/pages/oem/po-revision-response.js"></script>
+</body>
+</html>

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Order Timeline & Audit Trail - AXO Networks</title>
+    
+    <link rel="icon" type="image/png" href="/icons/favicon-axo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/oem-dashboard.css">
+    
+    <style>
+        /* Order Timeline Page Specific Styles */
+        .timeline-container {
+            padding: 24px 28px 28px;
+            animation: fadeSlideUp 0.5s var(--ease-spring) both;
+        }
+        
+        .timeline-header {
+            margin-bottom: 28px;
+        }
+        
+        .timeline-header h1 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--gray-900);
+            line-height: 1.2;
+            margin-top: 8px;
+        }
+        
+        .timeline-header p {
+            font-size: 0.88rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+        
+        /* Order Info Bar */
+        .order-info-bar {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .order-info {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .order-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .order-info-item i {
+            color: var(--primary);
+            width: 20px;
+        }
+        
+        /* Filter Bar */
+        .filter-bar {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .filter-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-pill);
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all var(--t-fast) var(--ease);
+        }
+        
+        .filter-tab i {
+            font-size: 0.8rem;
+        }
+        
+        .filter-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-xlight);
+        }
+        
+        .filter-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .filter-count {
+            background: rgba(0,0,0,0.1);
+            border-radius: var(--radius-pill);
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .filter-tab.active .filter-count {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-end;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .filter-group label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 4px;
+        }
+        
+        .search-wrapper {
+            position: relative;
+        }
+        
+        .search-wrapper input {
+            width: 100%;
+            padding: 10px 36px 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+        }
+        
+        .search-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+        }
+        
+        .date-input {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            width: 100%;
+        }
+        
+        /* Timeline Card */
+        .timeline-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all var(--t-base) var(--ease);
+        }
+        
+        .timeline-card:hover {
+            border-color: var(--border-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .timeline-card__header {
+            display: flex;
+            gap: 16px;
+            padding: 18px 20px;
+            cursor: pointer;
+        }
+        
+        .timeline-card__icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        
+        .timeline-card__icon--success {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+        
+        .timeline-card__icon--danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+        
+        .timeline-card__icon--warning {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+        
+        .timeline-card__icon--primary {
+            background: var(--primary-xlight);
+            color: var(--primary);
+        }
+        
+        .timeline-card__icon--info {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+        
+        .timeline-card__icon--neutral {
+            background: var(--gray-100);
+            color: var(--gray-500);
+        }
+        
+        .timeline-card__content {
+            flex: 1;
+        }
+        
+        .timeline-card__title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        
+        .activity-type {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .activity-actor {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+        }
+        
+        .timeline-card__meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+        }
+        
+        .timeline-card__meta i {
+            margin-right: 4px;
+            width: 14px;
+        }
+        
+        .timeline-card__expand-btn {
+            background: transparent;
+            border: none;
+            color: var(--gray-500);
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            transition: all var(--t-fast) var(--ease);
+        }
+        
+        .timeline-card__expand-btn:hover {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+        
+        .timeline-card__expand-btn i {
+            transition: transform var(--t-base) var(--ease-spring);
+        }
+        
+        .timeline-card__expand-btn.expanded i {
+            transform: rotate(180deg);
+        }
+        
+        .timeline-card__details {
+            display: none;
+            padding: 16px 20px 20px 80px;
+            border-top: 1px solid var(--border);
+            background: var(--gray-50);
+        }
+        
+        .timeline-card__details.expanded {
+            display: block;
+            animation: slideDown 0.3s var(--ease-spring);
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .detail-section {
+            margin-bottom: 16px;
+            padding: 12px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-section--small {
+            padding: 8px 12px;
+        }
+        
+        .detail-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+        }
+        
+        .detail-value {
+            font-size: 0.85rem;
+            color: var(--gray-700);
+            line-height: 1.5;
+        }
+        
+        .old-value {
+            color: var(--danger);
+            text-decoration: line-through;
+        }
+        
+        .new-value {
+            color: var(--success);
+            font-weight: 500;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .pagination-btn {
+            min-width: 36px;
+            height: 36px;
+            padding: 0 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: all var(--t-fast) var(--ease);
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-xlight);
+        }
+        
+        .pagination-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-dots {
+            padding: 0 8px;
+            color: var(--gray-400);
+        }
+        
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 12px 0;
+        }
+        
+        .stats-text {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        /* Loading */
+        .timeline-container.loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline-container {
+                padding: 16px;
+            }
+            
+            .timeline-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .filter-tabs {
+                max-height: 200px;
+                overflow-y: auto;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .timeline-card__header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .timeline-card__details {
+                padding: 16px;
+            }
+            
+            .order-info {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="oem-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>AXO</h2>
+                <p>OEM PORTAL</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/oem-dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/oem-rfq.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>RFQ Management</span>
+                </a>
+                <a href="/oem-orders.html" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="/oem-suppliers.html" class="nav-item">
+                    <i class="fas fa-building"></i>
+                    <span>Suppliers</span>
+                </a>
+                <a href="/oem-documents.html" class="nav-item">
+                    <i class="fas fa-folder"></i>
+                    <span>Documents</span>
+                </a>
+                <a href="/oem-profile.html" class="nav-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+        
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="top-bar-right">
+                    <div class="notification-bell" id="notificationBell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                    </div>
+                    <div class="user-info">
+                        <span id="companyName">OEM</span>
+                        <div class="avatar" id="userAvatar">
+                            <span id="avatarInitials">O</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Timeline Content -->
+            <div class="timeline-container" id="timelineContainer">
+                <div class="timeline-header">
+                    <a href="javascript:history.back()" class="back-link" id="backBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Order
+                    </a>
+                    <h1>Order Timeline & Audit Trail</h1>
+                    <p>Complete, immutable record of all order activities</p>
+                </div>
+
+                <!-- Order Info Bar -->
+                <div class="order-info-bar">
+                    <div class="order-info">
+                        <div class="order-info-item">
+                            <i class="fas fa-file-invoice"></i>
+                            <span>Order: <strong id="orderNumber">—</strong></span>
+                        </div>
+                        <div class="order-info-item">
+                            <i class="fas fa-tag"></i>
+                            <span>Status: <strong id="orderStatus">—</strong></span>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn--outline btn--sm" id="exportCsvBtn">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                        <button class="btn btn--outline btn--sm" id="exportPdfBtn">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="btn btn--outline btn--sm" id="refreshBtn">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="filter-tabs" id="filterTabs"></div>
+                    
+                    <div class="filter-controls">
+                        <div class="filter-group" style="flex: 2;">
+                            <label>Search</label>
+                            <div class="search-wrapper">
+                                <input type="text" id="searchInput" placeholder="Search activities, users, notes...">
+                                <button class="search-clear" id="clearSearchBtn">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>Date From</label>
+                            <input type="date" id="dateStart" class="date-input">
+                        </div>
+                        <div class="filter-group">
+                            <label>Date To</label>
+                            <input type="date" id="dateEnd" class="date-input">
+                        </div>
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn--primary btn--sm" id="applyDateBtn">Apply</button>
+                                <button class="btn btn--outline btn--sm" id="clearDateBtn">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="stats-row">
+                    <div class="stats-text">
+                        Showing <span id="filteredCount">0</span> of <span id="totalActivities">0</span> activities
+                    </div>
+                </div>
+
+                <!-- Timeline List -->
+                <div id="timelineList"></div>
+
+                <!-- Pagination -->
+                <div id="pagination"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-overlay" id="notificationOverlay"></div>
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+            <button class="mark-all-read" id="markAllReadBtn">Mark all as read</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <div class="notification-empty">
+                <div class="notification-empty__icon">
+                    <i class="fas fa-bell-slash"></i>
+                </div>
+                <p>No notifications</p>
+                <span>New notifications will appear here</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module" src="./js/pages/oem/order-timeline.js"></script>
+</body>
+</html>

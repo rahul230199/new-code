@@ -158,6 +158,9 @@ const submitQuote = async (req, res) => {
 // =====================================================
 // MY QUOTES
 // =====================================================
+/**
+ * Get my quotes (Supplier)
+ */
 const getMyQuotes = async (req, res) => {
     try {
         const userId = req.user.userId;
@@ -170,7 +173,7 @@ const getMyQuotes = async (req, res) => {
                 r.id AS rfq_id, r.rfq_number, r.title, r.part_name, r.quantity,
                 u.company_name AS oem_name
             FROM quotes q
-            JOIN rfqs  r ON q.rfq_id = r.id
+            JOIN rfqs r ON q.rfq_id = r.id
             JOIN users u ON r.oem_id = u.id
             WHERE q.supplier_id = $1
             ORDER BY q.submitted_at DESC
@@ -492,8 +495,352 @@ async function _recalcProgress(orderId) {
     );
     return progress;
 }
+// ==================== ADD THESE FUNCTIONS TO supplierController.js ====================
+
+// ==================== PO RESPONSE WORKFLOW (PRD Pages 4-5) ====================
+
+/**
+ * Supplier accepts PO with digital signature (PRD Step 5)
+ * POST /api/supplier/purchase-orders/:poId/accept
+ */
+const acceptPurchaseOrder = async (req, res) => {
+    const client = await pool.connect();
+    
+    try {
+        const { poId } = req.params;
+        const userId = req.user.userId;
+        const { signature, notes } = req.body;
+
+        if (!signature || !signature.name || !signature.designation) {
+            return res.status(400).json({ error: 'Signature name and designation are required' });
+        }
+
+        await client.query('BEGIN');
+
+        // Verify PO belongs to this supplier and is in correct state
+        const poCheck = await client.query(`
+            SELECT id, status, oem_id, po_number
+            FROM purchase_orders
+            WHERE id = $1 AND supplier_id = $2
+        `, [poId, userId]);
+
+        if (!poCheck.rows.length) {
+            await client.query('ROLLBACK');
+            return res.status(404).json({ error: 'PO not found' });
+        }
+
+        const po = poCheck.rows[0];
+
+        if (po.status !== 'sent' && po.status !== 'supplier_reviewing') {
+            await client.query('ROLLBACK');
+            return res.status(400).json({ error: 'PO is not in a state that can be accepted' });
+        }
+
+        // Add supplier signature
+        const signatureData = {
+            name: signature.name,
+            designation: signature.designation,
+            date: signature.date || new Date().toISOString(),
+            ip_address: req.ip,
+            user_agent: req.headers['user-agent']
+        };
+
+        await client.query(`
+            UPDATE purchase_orders 
+            SET supplier_signature = $1,
+                status = $2,
+                workflow_status = $3,
+                accepted_at = NOW(),
+                supplier_notes = $4,
+                updated_at = NOW()
+            WHERE id = $5
+        `, [JSON.stringify(signatureData), 'accepted', 'accepted', notes || null, poId]);
+
+        // Log activity
+        await logPOActivity({
+            client,
+            poId,
+            userId,
+            actorType: ACTOR_TYPES.SUPPLIER,
+            actionType: ACTION_TYPES.PO_ACCEPTED,
+            newValue: { signature: signatureData, status: 'accepted' },
+            notes: notes || `PO accepted by ${signature.name} (${signature.designation})`
+        });
+
+        // Notify OEM
+        await sendNotification(
+            po.oem_id,
+            'Purchase Order Accepted',
+            `${signature.name} has accepted PO ${po.po_number}. Please add your signature to finalize.`,
+            'po_accepted',
+            poId,
+            true
+        );
+
+        await client.query('COMMIT');
+
+        const updatedPO = await client.query(
+            'SELECT * FROM purchase_orders WHERE id = $1',
+            [poId]
+        );
+
+        res.json({ 
+            success: true, 
+            message: 'PO accepted successfully. Awaiting OEM signature.',
+            purchaseOrder: updatedPO.rows[0]
+        });
+
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error('Accept PO error:', error);
+        res.status(500).json({ error: error.message });
+    } finally {
+        client.release();
+    }
+};
+
+/**
+ * Supplier rejects PO (PRD Step 5)
+ * POST /api/supplier/purchase-orders/:poId/reject
+ */
+const rejectPurchaseOrder = async (req, res) => {
+    const client = await pool.connect();
+    
+    try {
+        const { poId } = req.params;
+        const userId = req.user.userId;
+        const { reason } = req.body;
+
+        if (!reason || !reason.trim()) {
+            return res.status(400).json({ error: 'Rejection reason is required' });
+        }
+
+        await client.query('BEGIN');
+
+        // Verify PO belongs to this supplier
+        const poCheck = await client.query(`
+            SELECT id, status, oem_id, po_number
+            FROM purchase_orders
+            WHERE id = $1 AND supplier_id = $2
+        `, [poId, userId]);
+
+        if (!poCheck.rows.length) {
+            await client.query('ROLLBACK');
+            return res.status(404).json({ error: 'PO not found' });
+        }
+
+        const po = poCheck.rows[0];
+
+        if (po.status !== 'sent' && po.status !== 'supplier_reviewing') {
+            await client.query('ROLLBACK');
+            return res.status(400).json({ error: 'PO is not in a state that can be rejected' });
+        }
+
+        await client.query(`
+            UPDATE purchase_orders 
+            SET status = $1,
+                workflow_status = $2,
+                rejected_at = NOW(),
+                rejection_reason = $3,
+                updated_at = NOW()
+            WHERE id = $4
+        `, ['rejected', 'rejected', reason.trim(), poId]);
+
+        // Log activity
+        await logPOActivity({
+            client,
+            poId,
+            userId,
+            actorType: ACTOR_TYPES.SUPPLIER,
+            actionType: ACTION_TYPES.PO_REJECTED,
+            newValue: { status: 'rejected', reason: reason },
+            notes: `PO rejected: ${reason}`
+        });
+
+        // Notify OEM
+        await sendNotification(
+            po.oem_id,
+            'Purchase Order Rejected',
+            `PO ${po.po_number} has been rejected. Reason: ${reason}`,
+            'po_rejected',
+            poId,
+            true
+        );
+
+        await client.query('COMMIT');
+
+        res.json({ 
+            success: true, 
+            message: 'PO rejected successfully'
+        });
+
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error('Reject PO error:', error);
+        res.status(500).json({ error: error.message });
+    } finally {
+        client.release();
+    }
+};
+
+/**
+ * Supplier requests revision on PO (PRD Step 5)
+ * POST /api/supplier/purchase-orders/:poId/revision
+ */
+const requestRevisionOnPO = async (req, res) => {
+    const client = await pool.connect();
+    
+    try {
+        const { poId } = req.params;
+        const userId = req.user.userId;
+        const { reason, details, changes } = req.body;
+
+        if (!reason || !reason.trim()) {
+            return res.status(400).json({ error: 'Revision reason is required' });
+        }
+
+        await client.query('BEGIN');
+
+        // Verify PO belongs to this supplier
+        const poCheck = await client.query(`
+            SELECT po.*, u.company_name as supplier_name
+            FROM purchase_orders po
+            WHERE po.id = $1 AND po.supplier_id = $2
+        `, [poId, userId]);
+
+        if (!poCheck.rows.length) {
+            await client.query('ROLLBACK');
+            return res.status(404).json({ error: 'PO not found' });
+        }
+
+        const po = poCheck.rows[0];
+
+        if (po.status !== 'sent' && po.status !== 'supplier_reviewing') {
+            await client.query('ROLLBACK');
+            return res.status(400).json({ error: 'PO is not in a state that can be revised' });
+        }
+
+        // Build changes array from current PO values
+        const requestedChanges = changes || [];
+        
+        // If changes not provided, create from common fields
+        if (requestedChanges.length === 0) {
+            if (details) {
+                requestedChanges.push({
+                    field: 'special_instructions',
+                    old_value: po.special_instructions,
+                    new_value: null,
+                    reason: details
+                });
+            }
+        }
+
+        // Create revision request record
+        await client.query(`
+            INSERT INTO po_revision_requests (
+                po_id, requested_by, requested_by_id, changes, reason, details, status
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `, [
+            poId, 'Supplier', userId, JSON.stringify(requestedChanges),
+            reason.trim(), details || null, 'pending'
+        ]);
+
+        // Update PO status to revision_requested
+        await client.query(`
+            UPDATE purchase_orders 
+            SET status = $1,
+                workflow_status = $2,
+                revision_requested_at = NOW(),
+                updated_at = NOW()
+            WHERE id = $3
+        `, ['revision_requested', 'revision_requested', poId]);
+
+        // Log activity
+        await logPOActivity({
+            client,
+            poId,
+            userId,
+            actorType: ACTOR_TYPES.SUPPLIER,
+            actionType: ACTION_TYPES.PO_REVISION_REQUESTED,
+            newValue: { status: 'revision_requested', reason: reason },
+            notes: details || `Revision requested: ${reason}`
+        });
+
+        // Notify OEM
+        await sendNotification(
+            po.oem_id,
+            'Revision Requested on PO',
+            `${po.supplier_name} has requested revisions on PO ${po.po_number}. Reason: ${reason}`,
+            'revision_requested',
+            poId,
+            true
+        );
+
+        await client.query('COMMIT');
+
+        res.json({ 
+            success: true, 
+            message: 'Revision request sent to OEM'
+        });
+
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error('Request revision error:', error);
+        res.status(500).json({ error: error.message });
+    } finally {
+        client.release();
+    }
+};
+
+/**
+ * Get PO details for supplier response page
+ * GET /api/supplier/purchase-orders/:poId
+ */
+const getPurchaseOrderDetails = async (req, res) => {
+    try {
+        const { poId } = req.params;
+        const userId = req.user.userId;
+
+        const result = await pool.query(`
+            SELECT 
+                po.*,
+                u.company_name as oem_company_name,
+                u.email as oem_contact_email,
+                u.phone as oem_contact_phone,
+                u.billing_address as oem_billing_address,
+                u.shipping_address as oem_shipping_address
+            FROM purchase_orders po
+            JOIN users u ON po.oem_id = u.id
+            WHERE po.id = $1 AND po.supplier_id = $2
+        `, [poId, userId]);
+
+        if (!result.rows.length) {
+            return res.status(404).json({ error: 'PO not found' });
+        }
+
+        // Get any pending revision request
+        const revisionRequest = await pool.query(`
+            SELECT * FROM po_revision_requests 
+            WHERE po_id = $1 AND status = 'pending'
+            ORDER BY created_at DESC LIMIT 1
+        `, [poId]);
+
+        res.json({
+            success: true,
+            purchaseOrder: result.rows[0],
+            pendingRevision: revisionRequest.rows[0] || null
+        });
+
+    } catch (error) {
+        console.error('Get PO details error:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// ==================== UPDATE EXPORTS ====================
 
 module.exports = {
+    // Existing exports...
     getDashboardStats,
     getOpenRFQs,
     submitQuote,
@@ -505,4 +852,10 @@ module.exports = {
     uploadMilestonePhoto,
     getProfile,
     updateProfile,
+    
+    // NEW EXPORTS - Add these
+    acceptPurchaseOrder,
+    rejectPurchaseOrder,
+    requestRevisionOnPO,
+    getPurchaseOrderDetails
 };

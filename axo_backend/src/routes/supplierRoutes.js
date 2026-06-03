@@ -23,6 +23,10 @@ const {
     uploadMilestonePhoto,
     getProfile,
     updateProfile,
+    acceptPurchaseOrder,
+    rejectPurchaseOrder,
+    requestRevisionOnPO,
+    getPurchaseOrderDetails
 } = require('../controllers/supplierController');
 
 // ─── multer — milestone photos (temp → controller moves to final dir) ───
@@ -76,5 +80,21 @@ router.post(
 // ─── Profile ──────────────────────────────────────────────────────
 router.get('/profile', getProfile);
 router.put('/profile', updateProfile);
+
+// ==================== ADD THESE ROUTES TO supplierRoutes.js ====================
+
+// ==================== PO RESPONSE ROUTES (PRD Pages 4-5) ====================
+
+// Get PO details
+router.get('/purchase-orders/:poId', getPurchaseOrderDetails);
+
+// Accept PO with signature (PRD Step 5)
+router.post('/purchase-orders/:poId/accept', acceptPurchaseOrder);
+
+// Reject PO (PRD Step 5)
+router.post('/purchase-orders/:poId/reject', rejectPurchaseOrder);
+
+// Request revision (PRD Step 5)
+router.post('/purchase-orders/:poId/revision', requestRevisionOnPO);
 
 module.exports = router;
