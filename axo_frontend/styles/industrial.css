@@ -512,109 +512,89 @@ body {
     }
 }
 
-.capability-row {
+.capabilities-section {
+    padding: 100px 0;
+}
+
+.capabilities-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
-    align-items: center;
-    margin-bottom: 50px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
 }
 
-@media (min-width: 968px) {
-    .capability-row {
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        margin-bottom: 80px;
-    }
-    .capability-row.reverse {
-        direction: rtl;
-    }
-    .capability-row.reverse .capability-info {
-        direction: ltr;
-    }
+.capability-card {
+    background: rgba(255,255,255,0.04);
+
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 20px;
+
+    padding: 32px;
+
+    transition: all 0.3s ease;
 }
 
-.capability-image {
-    text-align: center;
+.capability-card:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(255,255,255,0.18);
+
+    background: rgba(255,255,255,0.06);
 }
 
-.capability-img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-@media (min-width: 768px) {
-    .capability-img {
-        max-width: 400px;
-    }
-}
-
-.capability-info {
-    text-align: center;
-}
-
-@media (min-width: 968px) {
-    .capability-info {
-        text-align: left;
-    }
-}
-
-.capability-info h3 {
-    font-size: 24px;
+.capability-card h3 {
+    font-size: 1.4rem;
     font-weight: 700;
+
     margin-bottom: 12px;
+
     color: #ffffff;
 }
 
-@media (min-width: 768px) {
-    .capability-info h3 {
-        font-size: 32px;
-        margin-bottom: 16px;
-    }
-}
+.capability-card p {
+    color: rgba(255,255,255,0.75);
 
-.capability-info p {
-    font-size: 14px;
-    color: #cccccc;
+    line-height: 1.7;
+
     margin-bottom: 20px;
-    line-height: 1.6;
 }
-
-@media (min-width: 768px) {
-    .capability-info p {
-        font-size: 16px;
-        margin-bottom: 24px;
-    }
-}
-
-.capability-info ul {
+.capability-card ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.capability-info li {
-    padding: 6px 0;
-    font-size: 14px;
-    color: #dddddd;
+.capability-card li {
     display: flex;
     align-items: center;
     gap: 10px;
-    justify-content: center;
+
+    color: rgba(255,255,255,0.85);
 }
 
-@media (min-width: 968px) {
-    .capability-info li {
-        justify-content: flex-start;
+.capability-card li i {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+
+    flex-shrink: 0;
+}
+@media (max-width: 768px) {
+
+    .capabilities-grid {
+        grid-template-columns: 1fr;
     }
-}
 
-.capability-info li i {
-    font-size: 12px;
-    color: #ffffff;
-}
+    .capability-card {
+        padding: 24px;
+    }
 
+}
 /* Roles Section */
 .roles-section {
     padding: 60px 0;
