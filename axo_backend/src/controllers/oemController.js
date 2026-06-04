@@ -685,25 +685,21 @@ const sendPOToSupplier = async (req, res) => {
     }
 };
 
+
 /**
- * Accept quote and create PO (Enhanced with PRD workflow)
- */
-/**
- * Accept quote and create PO (Enhanced with PRD workflow)
+ * Accept quote - ONLY marks quote as accepted, does NOT create PO
+ * PO will be created separately when user clicks "Create PO"
  */
 const acceptQuote = async (req, res) => {
-    const client = await pool.connect();
-    
     try {
         const quoteId = req.params.id;
         const userId = req.user.userId;
 
-        await client.query('BEGIN');
-
-        // Fetch quote with RFQ details
-        const quoteResult = await client.query(`
+        // Fetch quote with RFQ details (removed u.address)
+        const quoteResult = await pool.query(`
             SELECT q.*, r.oem_id, r.title, r.part_name, r.quantity,
-                   u.email as supplier_email, u.company_name as supplier_name
+                   u.email as supplier_email, u.company_name as supplier_name,
+                   u.city as supplier_city, u.country as supplier_country
             FROM quotes q
             JOIN rfqs r ON q.rfq_id = r.id
             JOIN users u ON q.supplier_id = u.id
@@ -711,125 +707,57 @@ const acceptQuote = async (req, res) => {
         `, [quoteId, userId]);
 
         if (!quoteResult.rows.length) {
-            await client.query('ROLLBACK');
             return res.status(404).json({ error: 'Quote not found' });
         }
 
         const quote = quoteResult.rows[0];
 
-        // Update quote status
-        await client.query(`
+        // Check if quote is still pending
+        if (quote.status !== 'pending') {
+            return res.status(400).json({ error: 'Quote is no longer pending' });
+        }
+
+        // Update quote status to accepted
+        await pool.query(`
             UPDATE quotes 
             SET status = $1, accepted_at = NOW() 
             WHERE id = $2
         `, ['accepted', quoteId]);
 
-        // Update RFQ status
-        await client.query(`
+        // Update RFQ status to awarded
+        await pool.query(`
             UPDATE rfqs 
             SET status = $1, awarded_at = NOW() 
             WHERE id = $2
         `, ['awarded', quote.rfq_id]);
 
-        // Generate PO number and create purchase order
-        const poNumber = generateUniqueNumber('PO');
-        
-        // Get OEM company details for PO
-        const oemResult = await client.query(`
-            SELECT company_name, email, phone, city, country 
-            FROM users WHERE id = $1
-        `, [userId]);
-        
-        const poResult = await client.query(`
-            INSERT INTO purchase_orders (
-                po_number, rfq_id, quote_id, oem_id, supplier_id,
-                part_name, quantity, unit_price, total_value, currency,
-                payment_terms, delivery_date, status, workflow_status,
-                oem_company_name, oem_contact_email, oem_contact_phone,
-                supplier_company_name, supplier_contact_email,
-                created_at, workflow_updated_at
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, NOW(), NOW())
-            RETURNING *
-        `, [
-            poNumber, quote.rfq_id, quoteId, quote.oem_id, quote.supplier_id,
-            quote.part_name, quote.quantity, quote.price, 
-            quote.quantity * quote.price, quote.currency || 'USD',
-            quote.payment_terms || 'Net 30',
-            null, // delivery_date to be set by OEM
-            PO_STATUS.DRAFT, 
-            'draft',
-            oemResult.rows[0]?.company_name,
-            oemResult.rows[0]?.email,
-            oemResult.rows[0]?.phone,
-            quote.supplier_name,
-            quote.supplier_email
-        ]);
-
-        const purchaseOrder = poResult.rows[0];
-
-        // Create organized document folders (PRD Page 5)
-        // Use a try-catch for folder creation - don't let it fail the transaction
-        try {
-            createPODocumentFolders(poNumber);
-        } catch (folderError) {
-            console.warn('Folder creation warning:', folderError.message);
-        }
-
-        // Create default milestones (aligned with PRD status workflow)
-        await createDefaultMilestones({
-            client,
-            poId: purchaseOrder.id,
-            includeQualityMilestones: true
-        });
-
-        // Log PO activity
-        await logPOActivity({
-            client,
-            poId: purchaseOrder.id,
-            userId,
-            actorType: 'OEM',
-            actionType: 'PO_CREATED',
-            newValue: {
-                workflow_status: 'draft',
-                po_number: poNumber
-            },
-            notes: 'Purchase Order draft created from accepted quote'
-        });
-
-        // Create notification for supplier
-        await client.query(`
-            INSERT INTO notifications (user_id, title, message, type, reference_id, created_at)
-            VALUES ($1, 'Quote Accepted - PO Created', $2, 'quote_accepted', $3, NOW())
-        `, [quote.supplier_id, `Your quote has been accepted. A Purchase Order (${poNumber}) has been created.`, purchaseOrder.id]);
-
-        // COMMIT the transaction FIRST so PO exists
-        await client.query('COMMIT');
-
-        // NOW copy files AFTER commit (using a separate connection)
-        try {
-            await copyFilesToPOFolder(quote.rfq_id, poNumber, purchaseOrder.id, userId);
-        } catch (copyError) {
-            console.error('File copy error (non-critical):', copyError.message);
-            // Don't fail the whole operation for file copy errors
-        }
-
+        // Return quote data for PO creation form
         return res.json({
             success: true,
-            message: 'Quote accepted and PO draft created',
-            purchaseOrder,
-            nextSteps: 'Review and edit PO details, then send to supplier for acceptance'
+            message: 'Quote accepted. Please review and create Purchase Order.',
+            quote: {
+                id: quote.id,
+                rfq_id: quote.rfq_id,
+                supplier_id: quote.supplier_id,
+                supplier_name: quote.supplier_name,
+                supplier_email: quote.supplier_email,
+                supplier_city: quote.supplier_city,
+                supplier_country: quote.supplier_country,
+                part_name: quote.part_name,
+                quantity: quote.quantity,
+                price: quote.price,
+                currency: quote.currency || 'USD',
+                payment_terms: quote.payment_terms || 'Net 30',
+                lead_time_days: quote.lead_time_days,
+                notes: quote.notes
+            }
         });
 
     } catch (error) {
-        await client.query('ROLLBACK');
         console.error('Accept quote error:', error);
         return res.status(500).json({ error: error.message });
-        
-    } finally {
-        client.release();
     }
 };
-
 /**
  * Reject a quote
  */
@@ -845,6 +773,133 @@ const rejectQuote = async (req, res) => {
     }
 };
 
+/**
+ * Create Purchase Order from accepted quote
+ * POST /api/oem/purchase-orders/create
+ */
+const createPurchaseOrder = async (req, res) => {
+    const client = await pool.connect();
+    
+    try {
+        const userId = req.user.userId;
+        const {
+            quoteId,
+            rfqId,
+            supplierId,
+            deliveryDate,
+            paymentTerms,
+            currency,
+            specialInstructions,
+            shippingRequirements,
+            quantity,
+            unitPrice,
+            internalNotes
+        } = req.body;
+
+        if (!quoteId || !rfqId || !supplierId) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        await client.query('BEGIN');
+
+        // Verify quote belongs to this OEM
+        const quoteCheck = await client.query(`
+            SELECT q.*, r.oem_id, u.company_name as supplier_name, u.email as supplier_email
+            FROM quotes q
+            JOIN rfqs r ON q.rfq_id = r.id
+            JOIN users u ON q.supplier_id = u.id
+            WHERE q.id = $1 AND r.oem_id = $2 AND q.status = 'accepted'
+        `, [quoteId, userId]);
+
+        if (!quoteCheck.rows.length) {
+            await client.query('ROLLBACK');
+            return res.status(404).json({ error: 'Quote not found or not accepted' });
+        }
+
+        const quote = quoteCheck.rows[0];
+        
+        // Generate PO number
+        const poNumber = `PO-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        
+        // Get OEM details
+        const oemResult = await client.query(`
+            SELECT company_name, email, phone FROM users WHERE id = $1
+        `, [userId]);
+
+        // Create Purchase Order
+        const poResult = await client.query(`
+            INSERT INTO purchase_orders (
+                po_number, rfq_id, quote_id, oem_id, supplier_id,
+                part_name, quantity, unit_price, total_value, currency,
+                payment_terms, delivery_date, status, workflow_status,
+                special_instructions, shipping_requirements, internal_notes,
+                oem_company_name, oem_contact_email, oem_contact_phone,
+                supplier_company_name, supplier_contact_email,
+                created_at, workflow_updated_at
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, NOW(), NOW())
+            RETURNING *
+        `, [
+            poNumber, rfqId, quoteId, userId, supplierId,
+            quote.part_name, quantity, unitPrice, quantity * unitPrice, currency || 'USD',
+            paymentTerms || 'Net 30', deliveryDate || null,
+            'draft', 'draft',
+            specialInstructions || null, shippingRequirements || null, internalNotes || null,
+            oemResult.rows[0]?.company_name,
+            oemResult.rows[0]?.email,
+            oemResult.rows[0]?.phone,
+            quote.supplier_name,
+            quote.supplier_email
+        ]);
+
+        const purchaseOrder = poResult.rows[0];
+
+        // Create document folders
+        try {
+            createPODocumentFolders(poNumber);
+        } catch (folderError) {
+            console.warn('Folder creation warning:', folderError.message);
+        }
+
+        // Create default milestones
+        await createDefaultMilestones({
+            client,
+            poId: purchaseOrder.id,
+            includeQualityMilestones: true
+        });
+
+        // Log activity
+        await logPOActivity({
+            client,
+            poId: purchaseOrder.id,
+            userId,
+            actorType: 'OEM',
+            actionType: 'PO_CREATED',
+            newValue: {
+                workflow_status: 'draft',
+                po_number: poNumber
+            },
+            notes: 'Purchase Order created from accepted quote'
+        });
+
+        await client.query('COMMIT');
+
+        return res.json({
+            success: true,
+            message: 'Purchase Order created successfully',
+            purchaseOrder: {
+                id: purchaseOrder.id,
+                po_number: purchaseOrder.po_number
+            }
+        });
+
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error('Create PO error:', error);
+        return res.status(500).json({ error: error.message });
+    } finally {
+        client.release();
+    }
+};
 // ==================== ORDER CONTROLLERS ====================
 
 /**
@@ -1961,4 +2016,5 @@ module.exports = {
     
     // Resend PO Notification
     resendPONotification,
+    createPurchaseOrder,
 };

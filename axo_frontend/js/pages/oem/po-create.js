@@ -5,15 +5,16 @@
    PRD Alignment: Pages 2-3 (Quote Acceptance → PO Draft → Review & Edit)
    
    Workflow:
-   Step 1: Load quote data from accepted quote
+   Step 1: Load existing PO (poId) OR Load quote data (quoteId)
    Step 2: Auto-populate PO form (Buyer Info, Supplier Info, Order Info, Line Items)
    Step 3: OEM reviews and edits (delivery date, payment terms, special instructions)
    Step 4: Save as draft OR Send to supplier
    
    Backend endpoints:
-     GET  /api/oem/quotes/:quoteId      → Get quote details
-     POST /api/oem/purchase-orders/draft → Save PO as draft
-     POST /api/oem/purchase-orders/send  → Send PO to supplier
+     GET  /api/oem/purchase-orders/:poId   → Get existing PO details
+     GET  /api/oem/quotes/:quoteId         → Get quote details
+     POST /api/oem/purchase-orders/draft   → Save PO as draft
+     POST /api/oem/purchase-orders/send    → Send PO to supplier
    ============================================================= */
 
 import Router from "../../core/router.js";
@@ -39,9 +40,10 @@ if (!Router.guardPage(["oem", "both", "admin"])) throw new Error("REDIRECT");
 // =================================================================
 const State = {
   quoteId: null,           // Quote ID from URL
+  poId: null,              // Existing PO ID from URL (if editing draft)
   quoteData: null,         // Full quote data from API
+  poData: null,            // Full PO data from API (when editing)
   poNumber: null,          // Generated PO number (if draft exists)
-  poId: null,              // Existing PO ID (if editing draft)
   isDraft: false,          // Whether we're editing an existing draft
   isSubmitting: false,     // Prevent double submission
   formData: {
@@ -85,7 +87,11 @@ const setLoading = (isLoading, elementId = null) => {
       if (!btn.getAttribute("data-original-text")) {
         btn.setAttribute("data-original-text", originalText);
       }
-      btn.textContent = isLoading ? `<i class="fas fa-spinner fa-spin"></i> ${originalText}...` : originalText;
+      if (isLoading) {
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${originalText}...`;
+      } else {
+        btn.innerHTML = originalText;
+      }
     }
   }
   
@@ -120,12 +126,15 @@ const updateLiveCalculations = () => {
   State.formData.unitPrice = unitPrice;
   State.formData.totalValue = totalValue;
   
+  const lineTotalEl = el("lineTotal");
+  if (lineTotalEl) lineTotalEl.textContent = formatLiveCurrency(totalValue);
+  
   const subtotalEl = el("subtotalValue");
   if (subtotalEl) subtotalEl.textContent = formatLiveCurrency(totalValue);
   
   // Update grand total (subtotal + tax + shipping)
-  const tax = 0; // Can be customized later
-  const shipping = 0; // Can be customized later
+  const tax = 0;
+  const shipping = 0;
   const grandTotal = totalValue + tax + shipping;
   const grandTotalEl = el("grandTotalValue");
   if (grandTotalEl) grandTotalEl.textContent = formatLiveCurrency(grandTotal);
@@ -143,8 +152,10 @@ const populateFormFromQuote = (quote) => {
   
   // Part Information
   setText("partNameDisplay", quote.part_name || "—");
+  setText("partNameDisplay2", quote.part_name || "—");
   setText("partNumberDisplay", quote.part_number || "—");
   setText("descriptionDisplay", quote.description || "—");
+  setText("ppapDisplay", quote.ppap_level || "—");
   
   // Buyer Information (from logged-in user)
   const user = Auth.getCurrentUser();
@@ -165,49 +176,133 @@ const populateFormFromQuote = (quote) => {
   setText("dispatchAddress", quote.dispatch_address || quote.supplier_address || "—");
   
   // Order Summary
-  setText("poNumberDisplay", State.poNumber || "To be generated");
   setText("orderDateDisplay", formatDate(new Date()));
-  setText("expectedDeliveryDate", State.formData.deliveryDate || "To be confirmed");
   
   // Update live calculations
   updateLiveCalculations();
 };
 
 // =================================================================
-// LOAD QUOTE DATA
+// POPULATE FORM FROM EXISTING PO DATA
+// =================================================================
+const populateFormFromPO = (po) => {
+  // Order Information
+  setVal("deliveryDate", po.delivery_date?.split("T")[0] || "");
+  setVal("paymentTerms", po.payment_terms || "Net 30");
+  setVal("currency", po.currency || "USD");
+  setVal("specialInstructions", po.special_instructions || "");
+  setVal("shippingRequirements", po.shipping_requirements || "");
+  setVal("internalNotes", po.internal_notes || "");
+  setVal("quantity", po.quantity || 0);
+  setVal("unitPrice", po.unit_price || 0);
+  
+  // Part Information
+  setText("partNameDisplay", po.part_name || "—");
+  setText("partNameDisplay2", po.part_name || "—");
+  setText("partNumberDisplay", po.part_number || "—");
+  setText("descriptionDisplay", po.description || "—");
+  setText("ppapDisplay", po.ppap_level || "—");
+  
+  // Buyer Information
+  const user = Auth.getCurrentUser();
+  setText("buyerCompany", po.oem_company_name || user?.company_name || "—");
+  setText("buyerEmail", po.oem_contact_email || user?.email || "—");
+  setText("buyerPhone", po.oem_contact_phone || user?.phone || "—");
+  setText("buyerBillingAddress", user?.billing_address || "Not provided");
+  setText("buyerShippingAddress", user?.shipping_address || "Same as billing");
+  
+  // Supplier Information
+  setText("supplierCompany", po.supplier_company_name || "—");
+  setText("supplierEmail", po.supplier_contact_email || "—");
+  setText("supplierAddress", po.supplier_address || "—");
+  setText("supplierGst", po.supplier_gst || "—");
+  
+  // Ship From Information
+  setText("manufacturingFacility", po.manufacturing_facility || po.supplier_company_name || "—");
+  setText("dispatchAddress", po.dispatch_address || "—");
+  
+  // Order Summary
+  setText("poNumberDisplay", po.po_number);
+  setText("orderDateDisplay", formatDate(po.created_at));
+  
+  // Update live calculations
+  updateLiveCalculations();
+};
+
+// =================================================================
+// LOAD QUOTE DATA (for new PO from quote)
 // =================================================================
 const loadQuoteData = async () => {
   if (!State.quoteId) {
-    Toast.error("No quote ID provided");
-    window.location.href = CONFIG.ROUTES.OEM_RFQ;
     return false;
   }
   
   setLoading(true, null);
   
   try {
-    // Fetch quote details with RFQ information
     const response = await API.get(`/oem/quotes/${State.quoteId}`);
     State.quoteData = response.quote;
     
     if (!State.quoteData) {
       Toast.error("Quote not found");
-      window.location.href = CONFIG.ROUTES.OEM_RFQ;
       return false;
     }
-    
-    // Populate form
-    populateFormFromQuote(State.quoteData);
     
     // Generate temporary PO number
     State.poNumber = `PO-${Date.now()}`;
     setText("poNumberDisplay", State.poNumber);
+    
+    // Populate form
+    populateFormFromQuote(State.quoteData);
     
     return true;
     
   } catch (err) {
     console.error("Load quote error:", err);
     Toast.error(err.message || "Failed to load quote data");
+    return false;
+  } finally {
+    setLoading(false, null);
+  }
+};
+
+// =================================================================
+// LOAD EXISTING PO DATA (for editing draft)
+// =================================================================
+const loadExistingPO = async () => {
+  if (!State.poId) {
+    return false;
+  }
+  
+  setLoading(true, null);
+  
+  try {
+    const response = await API.get(`/oem/purchase-orders/${State.poId}`);
+    State.poData = response.purchaseOrder;
+    
+    if (!State.poData) {
+      Toast.error("Purchase Order not found");
+      return false;
+    }
+    
+    // Set state
+    State.poNumber = State.poData.po_number;
+    State.quoteId = State.poData.quote_id;
+    State.isDraft = true;
+    
+    // Populate form
+    populateFormFromPO(State.poData);
+    
+    // Show send button and update draft button text
+    showEl("sendPoBtn");
+    const draftBtn = el("saveDraftBtn");
+    if (draftBtn) draftBtn.textContent = "Update Draft";
+    
+    return true;
+    
+  } catch (err) {
+    console.error("Load existing PO error:", err);
+    Toast.error(err.message || "Failed to load PO");
     return false;
   } finally {
     setLoading(false, null);
@@ -257,7 +352,8 @@ const saveAsDraft = async () => {
       
       // Show send button and update UI
       showEl("sendPoBtn");
-      el("saveDraftBtn").textContent = "Update Draft";
+      const draftBtn = el("saveDraftBtn");
+      if (draftBtn) draftBtn.textContent = "Update Draft";
     } else {
       Toast.error(response.error || "Failed to save draft");
     }
@@ -286,8 +382,8 @@ const sendPOToSupplier = async () => {
   }
   
   const payload = {
+    poId: State.poId,
     quoteId: State.quoteId,
-    poId: State.poId || null,
     poNumber: State.poNumber,
     
     // Order Information
@@ -394,18 +490,16 @@ const bindEvents = () => {
 // RENDER COMMERCIAL SUMMARY (PRD Page 3)
 // =================================================================
 const renderCommercialSummary = () => {
-  const container = el("commercialSummary");
-  if (!container) return;
-  
-  // This will be updated dynamically via updateLiveCalculations
-  // The HTML structure is in the .html file
+  // Already handled by updateLiveCalculations
+  updateLiveCalculations();
 };
 
 // =================================================================
-// CHECK FOR EXISTING DRAFT
+// CHECK FOR EXISTING DRAFT (when creating from quote)
 // =================================================================
 const checkExistingDraft = async () => {
-  // Optional: Check if a draft already exists for this quote
+  if (!State.quoteId) return;
+  
   try {
     const response = await API.get(`/oem/purchase-orders/draft?quoteId=${State.quoteId}`);
     if (response.purchaseOrder) {
@@ -423,9 +517,11 @@ const checkExistingDraft = async () => {
       setVal("quantity", response.purchaseOrder.quantity);
       setVal("unitPrice", response.purchaseOrder.unit_price);
       
+      setText("poNumberDisplay", State.poNumber);
       updateLiveCalculations();
       showEl("sendPoBtn");
-      el("saveDraftBtn").textContent = "Update Draft";
+      const draftBtn = el("saveDraftBtn");
+      if (draftBtn) draftBtn.textContent = "Update Draft";
     }
   } catch (err) {
     // No existing draft, continue normally
@@ -437,16 +533,9 @@ const checkExistingDraft = async () => {
 // INITIALIZE
 // =================================================================
 const init = async () => {
-  // Get quote ID from URL
+  // Get parameters from URL - support both poId and quoteId
+  State.poId = getQueryParam("poId");
   State.quoteId = getQueryParam("quoteId");
-  
-  if (!State.quoteId) {
-    Toast.error("No quote selected. Please accept a quote first.");
-    setTimeout(() => {
-      window.location.href = CONFIG.ROUTES.OEM_RFQ;
-    }, 2000);
-    return;
-  }
   
   // Set company name in header
   const user = Auth.getCurrentUser();
@@ -455,12 +544,38 @@ const init = async () => {
   // Bind events
   bindEvents();
   
-  // Load quote data
-  const success = await loadQuoteData();
-  if (!success) return;
+  let loadSuccess = false;
   
-  // Check for existing draft
-  await checkExistingDraft();
+  // Priority 1: If poId exists, load existing PO
+  if (State.poId) {
+    loadSuccess = await loadExistingPO();
+    if (!loadSuccess) {
+      setTimeout(() => {
+        window.location.href = CONFIG.ROUTES.OEM_RFQ;
+      }, 2000);
+      return;
+    }
+  } 
+  // Priority 2: If quoteId exists, create new PO from quote
+  else if (State.quoteId) {
+    loadSuccess = await loadQuoteData();
+    if (!loadSuccess) {
+      setTimeout(() => {
+        window.location.href = CONFIG.ROUTES.OEM_RFQ;
+      }, 2000);
+      return;
+    }
+    // Check if a draft already exists for this quote
+    await checkExistingDraft();
+  } 
+  // No parameters provided
+  else {
+    Toast.error("No quote or PO selected. Please accept a quote first.");
+    setTimeout(() => {
+      window.location.href = CONFIG.ROUTES.OEM_RFQ;
+    }, 2000);
+    return;
+  }
   
   // Render commercial summary
   renderCommercialSummary();
