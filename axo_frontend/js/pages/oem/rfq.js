@@ -6,7 +6,7 @@
    - List all RFQs created by this OEM
    - Create new RFQ via modal (with optional document attachment)
    - View quotes received per RFQ
-   - Accept / reject quotes → PO auto-created by backend
+   - Accept / reject quotes → Opens PO Creation Modal
    - View documents attached to each RFQ
    ============================================================= */
 
@@ -32,7 +32,8 @@ if (!Router.guardPage(["oem", "both", "admin"])) throw new Error("REDIRECT");
 const State = {
   rfqs:         [],
   activeRfqId:  null,
-  rfqFile:      null,   // File object for RFQ document attachment
+  rfqFile:      null,
+  currentQuote: null,  // Store current quote for PO creation
 };
 
 // =================================================================
@@ -41,6 +42,8 @@ const State = {
 const el      = (id)            => document.getElementById(id);
 const setText = (id, text)      => { const n = el(id); if (n) n.textContent = text; };
 const setHTML = (id, html)      => { const n = el(id); if (n) n.innerHTML   = html; };
+const setVal  = (id, val)       => { const n = el(id); if (n) n.value = val ?? ""; };
+const getVal  = (id)            => el(id)?.value ?? "";
 const showEl  = (id, mode = "flex") => { const n = el(id); if (n) n.style.display = mode; };
 const hideEl  = (id)            => { const n = el(id); if (n) n.style.display = "none"; };
 
@@ -158,7 +161,7 @@ const renderQuoteCard = (q) => {
           <button class="btn btn--success btn--sm js-accept-quote" data-quote-id="${q.id}">Accept</button>
           <button class="btn btn--danger  btn--sm js-reject-quote" data-quote-id="${q.id}">Reject</button>
         ` : isAccepted ? `
-          <span class="status-message status-message--success">✓ Accepted — Purchase Order created</span>
+          <span class="status-message status-message--success">✓ Accepted — Ready to create PO</span>
         ` : `
           <span class="status-message status-message--danger">✗ Rejected</span>
         `}
@@ -192,6 +195,7 @@ const RfqAPI = {
   getDocuments: (rfqId)    => API.get(`/oem/rfqs/${rfqId}/documents`),
   acceptQuote:  (quoteId)  => API.post(`/oem/rfqs/quotes/${quoteId}/accept`),
   rejectQuote:  (quoteId)  => API.post(`/oem/rfqs/quotes/${quoteId}/reject`),
+  createPO:     (payload)  => API.post("/oem/purchase-orders/create", payload),
 };
 
 // =================================================================
@@ -204,7 +208,7 @@ const loadRFQs = async () => {
     State.rfqs = rfqs || [];
     renderRFQList(State.rfqs);
   } catch (err) {
-    Toast.error(err.message || err.error || "Something went wrong" || "Failed to load RFQs.");
+    Toast.error(err.message || "Failed to load RFQs.");
     setHTML("rfqList", _listEmpty("Failed to load RFQs. Please refresh."));
   }
 };
@@ -230,7 +234,7 @@ const openQuotesModal = async (rfqId, rfqTitle) => {
     }
     setHTML("quotesList", quotes.map(renderQuoteCard).join(""));
   } catch (err) {
-    Toast.error(err.message || err.error || "Something went wrong" || "Failed to load quotes.");
+    Toast.error(err.message || "Failed to load quotes.");
     setHTML("quotesList", `<p class="text-error">Failed to load quotes.</p>`);
   }
 };
@@ -255,7 +259,7 @@ const openDocsModal = async (rfqId, rfqTitle) => {
     }
     setHTML("docsModalBody", documents.map(renderDocCard).join(""));
   } catch (err) {
-    Toast.error(err.message || err.error || "Something went wrong" || "Failed to load documents.");
+    Toast.error(err.message || "Failed to load documents.");
     setHTML("docsModalBody", `<p class="text-error">Failed to load documents.</p>`);
   }
 };
@@ -263,43 +267,146 @@ const openDocsModal = async (rfqId, rfqTitle) => {
 const closeModal = (id) => hideEl(id);
 
 // =================================================================
+// PO CREATION MODAL FUNCTIONS
+// =================================================================
+const updatePOModalTotals = () => {
+  const quantity = parseFloat(getVal("poQuantity")) || 0;
+  const unitPrice = parseFloat(getVal("poUnitPrice")) || 0;
+  const totalValue = quantity * unitPrice;
+  const currency = getVal("poCurrency") || "USD";
+  
+  setText("poSubtotal", formatCurrency(totalValue, currency));
+  setText("poGrandTotal", formatCurrency(totalValue, currency));
+};
+
+const openPOCreationModal = (quoteData) => {
+  State.currentQuote = quoteData;
+  
+  setText("poModalTitle", `Create Purchase Order - ${quoteData.supplier_name}`);
+  
+  // Populate form with quote data
+  setVal("poDeliveryDate", "");
+  setVal("poPaymentTerms", quoteData.payment_terms || "Net 30");
+  setVal("poCurrency", quoteData.currency || "USD");
+  setVal("poQuantity", quoteData.quantity);
+  setVal("poUnitPrice", quoteData.price);
+  setVal("poSpecialInstructions", "");
+  setVal("poShippingRequirements", "");
+  setVal("poInternalNotes", "");
+  
+  // Display info
+  setText("poPartName", quoteData.part_name || "—");
+  setText("poSupplierName", quoteData.supplier_name || "—");
+  setText("poSupplierEmail", quoteData.supplier_email || "—");
+  
+  updatePOModalTotals();
+  
+  showEl("poCreationModal");
+  setTimeout(() => el("poDeliveryDate")?.focus(), 100);
+};
+
+const closePOCreationModal = () => {
+  hideEl("poCreationModal");
+  State.currentQuote = null;
+};
+
+const handleCreatePO = async () => {
+  if (!State.currentQuote) {
+    Toast.error("No quote data found");
+    return;
+  }
+  
+  const createBtn = el("createPoBtn");
+  createBtn.disabled = true;
+  createBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating PO...';
+  
+  try {
+    const payload = {
+      quoteId: State.currentQuote.id,
+      rfqId: State.currentQuote.rfq_id,
+      supplierId: State.currentQuote.supplier_id,
+      deliveryDate: getVal("poDeliveryDate") || null,
+      paymentTerms: getVal("poPaymentTerms"),
+      currency: getVal("poCurrency"),
+      specialInstructions: getVal("poSpecialInstructions") || null,
+      shippingRequirements: getVal("poShippingRequirements") || null,
+      quantity: parseFloat(getVal("poQuantity")) || 0,
+      unitPrice: parseFloat(getVal("poUnitPrice")) || 0,
+      internalNotes: getVal("poInternalNotes") || null,
+    };
+    
+    const response = await RfqAPI.createPO(payload);
+    
+    if (response.success) {
+      Toast.success("Purchase Order created successfully!");
+      closePOCreationModal();
+      closeModal("quotesModal");
+      
+      setTimeout(() => {
+        window.location.href = `${CONFIG.ROUTES.OEM_ORDER_DETAILS}?id=${response.purchaseOrder.id}`;
+      }, 1500);
+    } else {
+      Toast.error(response.error || "Failed to create PO");
+    }
+    
+  } catch (err) {
+    console.error("Create PO error:", err);
+    Toast.error(err.message || "Failed to create PO");
+  } finally {
+    createBtn.disabled = false;
+    createBtn.innerHTML = '<i class="fas fa-check"></i> Create Purchase Order';
+  }
+};
+
+// =================================================================
 // ACCEPT / REJECT QUOTE
 // =================================================================
 const handleAcceptQuote = async (quoteId, btn) => {
-  btn.disabled    = true;
-  btn.textContent = "Accepting…";
+  btn.disabled = true;
+  btn.textContent = "Loading...";
+  
   try {
-    await RfqAPI.acceptQuote(quoteId);
-    Toast.success("Quote accepted. Purchase Order has been created.");
-    closeModal("quotesModal");
-    State.rfqs.unshift(rfq);
-renderRFQList(State.rfqs);
+    const response = await RfqAPI.acceptQuote(quoteId);
+    
+    if (response.success && response.quote) {
+      Toast.success("Quote accepted! Please review PO details.");
+      closeModal("quotesModal");
+      openPOCreationModal(response.quote);
+    } else {
+      Toast.error(response.error || "Failed to accept quote");
+    }
+    
   } catch (err) {
-    Toast.error(err.message || err.error || "Something went wrong" || "Failed to accept quote.");
-    btn.disabled    = false;
+    console.error("Accept quote error:", err);
+    Toast.error(err.message || "Failed to accept quote");
+  } finally {
+    btn.disabled = false;
     btn.textContent = "Accept";
   }
 };
 
 const handleRejectQuote = async (quoteId, btn) => {
-  btn.disabled    = true;
-  btn.textContent = "Rejecting…";
+  btn.disabled = true;
+  btn.textContent = "Rejecting...";
+  
   try {
     await RfqAPI.rejectQuote(quoteId);
     Toast.success("Quote rejected.");
+    
     if (State.activeRfqId) {
       const rfq = State.rfqs.find((r) => r.id == State.activeRfqId);
-      await openQuotesModal(State.activeRfqId, rfq?.title || "");
+      if (rfq) await openQuotesModal(State.activeRfqId, rfq.title);
     }
   } catch (err) {
-    Toast.error(err.message || err.error || "Something went wrong" || "Failed to reject quote.");
-    btn.disabled    = false;
+    Toast.error(err.message || "Failed to reject quote.");
+  } finally {
+    btn.disabled = false;
     btn.textContent = "Reject";
   }
 };
 
 // =================================================================
-// CREATE RFQ MODAL (with optional document upload)
+// CREATE RFQ MODAL
 // =================================================================
 const openCreateModal = () => {
   el("createRfqForm")?.reset();
@@ -313,14 +420,12 @@ const closeCreateModal = () => {
   State.rfqFile = null;
 };
 
-// File preview in create form
 const _updateFilePreview = (file) => {
   const preview = el("rfqFilePreview");
   if (!preview) return;
-
   if (!file) {
     preview.style.display = "none";
-    preview.innerHTML     = "";
+    preview.innerHTML = "";
     return;
   }
   preview.style.display = "flex";
@@ -332,62 +437,48 @@ const _updateFilePreview = (file) => {
 };
 
 const _validateCreateForm = (data) => {
-  if (!data.title.trim())            return "RFQ title is required.";
+  if (!data.title.trim()) return "RFQ title is required.";
   if (!data.quantity || data.quantity <= 0) return "A valid quantity is required.";
   return null;
 };
 
 const handleCreateSubmit = async (e) => {
   e.preventDefault();
-
   const payload = {
-    title:       el("rfqTitle")?.value.trim()         || "",
-    partNumber:  el("partNumber")?.value.trim()       || "",
-    partName:    el("partName")?.value.trim()         || "",
-    quantity:    parseInt(el("quantity")?.value)      || 0,
-    unit:        el("unit")?.value.trim()             || "units",
+    title: el("rfqTitle")?.value.trim() || "",
+    partNumber: el("partNumber")?.value.trim() || "",
+    partName: el("partName")?.value.trim() || "",
+    quantity: parseInt(el("quantity")?.value) || 0,
+    unit: el("unit")?.value.trim() || "units",
     targetPrice: parseFloat(el("targetPrice")?.value) || null,
-    currency:    el("currency")?.value.trim()         || "USD",
-    description: el("description")?.value.trim()      || "",
+    currency: el("currency")?.value.trim() || "USD",
+    description: el("description")?.value.trim() || "",
   };
-
   const validationErr = _validateCreateForm(payload);
   if (validationErr) { Toast.warning(validationErr); return; }
-
   const submitBtn = el("createRfqSubmitBtn");
   if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Publishing…"; }
   Toast.info("Creating RFQ...");
-
   try {
-    // Step 1: Create the RFQ
     const { rfq } = await RfqAPI.create(payload);
-
-    // Step 2: If a document was attached, upload it linked to this RFQ
     if (State.rfqFile && rfq?.id) {
       try {
         const formData = new FormData();
-        formData.append("document",    State.rfqFile);
-        formData.append("rfqId",       rfq.id);
-        formData.append("category",    "RFQ Documents");
+        formData.append("document", State.rfqFile);
+        formData.append("rfqId", rfq.id);
+        formData.append("category", "RFQ Documents");
         formData.append("description", `Document for ${payload.title}`);
         await API.upload("/documents/upload", formData);
       } catch (uploadErr) {
-        // RFQ was created; just warn about the doc
         console.error("Document upload failed:", uploadErr);
-        Toast.warning(
-  uploadErr.message || 
-  uploadErr.error || 
-  "RFQ created but document upload failed"
-);
+        Toast.warning("RFQ created but document upload failed");
       }
     }
-
     Toast.success("RFQ published successfully.");
     closeCreateModal();
-    State.rfqs.unshift(rfq);
-renderRFQList(State.rfqs);
+    loadRFQs();
   } catch (err) {
-    Toast.error(err.message || err.error || "Something went wrong" || "Failed to create RFQ.");
+    Toast.error(err.message || "Failed to create RFQ.");
   } finally {
     if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Publish RFQ"; }
   }
@@ -397,30 +488,21 @@ renderRFQList(State.rfqs);
 // EVENT BINDING
 // =================================================================
 const bindEvents = () => {
-
-  // ── RFQ list ──────────────────────────────────────────────────
   el("rfqList")?.addEventListener("click", (e) => {
-    const viewBtn    = e.target.closest(".js-view-quotes");
-    const docsBtn    = e.target.closest(".js-view-rfq-docs");
-    const createBtn  = e.target.closest(".js-open-create");
-
-    if (viewBtn)   openQuotesModal(viewBtn.dataset.rfqId, viewBtn.dataset.rfqTitle);
-    if (docsBtn)   openDocsModal(docsBtn.dataset.rfqId,  docsBtn.dataset.rfqTitle);
+    const viewBtn = e.target.closest(".js-view-quotes");
+    const docsBtn = e.target.closest(".js-view-rfq-docs");
+    const createBtn = e.target.closest(".js-open-create");
+    if (viewBtn) openQuotesModal(viewBtn.dataset.rfqId, viewBtn.dataset.rfqTitle);
+    if (docsBtn) openDocsModal(docsBtn.dataset.rfqId, docsBtn.dataset.rfqTitle);
     if (createBtn) openCreateModal();
   });
-
-  // ── Quotes modal ──────────────────────────────────────────────
   el("quotesList")?.addEventListener("click", (e) => {
     const acceptBtn = e.target.closest(".js-accept-quote");
     const rejectBtn = e.target.closest(".js-reject-quote");
     if (acceptBtn) handleAcceptQuote(acceptBtn.dataset.quoteId, acceptBtn);
     if (rejectBtn) handleRejectQuote(rejectBtn.dataset.quoteId, rejectBtn);
   });
-
-  // ── Create RFQ button ─────────────────────────────────────────
   el("createRfqBtn")?.addEventListener("click", openCreateModal);
-
-  // ── File input for RFQ document ───────────────────────────────
   el("rfqFileInput")?.addEventListener("change", (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -432,14 +514,10 @@ const bindEvents = () => {
     State.rfqFile = file;
     _updateFilePreview(file);
   });
-
-  // ── Browse button ─────────────────────────────────────────────
   el("rfqBrowseBtn")?.addEventListener("click", (e) => {
     e.stopPropagation();
     el("rfqFileInput")?.click();
   });
-
-  // ── Clear file ────────────────────────────────────────────────
   el("rfqFilePreview")?.addEventListener("click", (e) => {
     if (e.target.closest(".js-clear-rfq-file")) {
       State.rfqFile = null;
@@ -448,11 +526,7 @@ const bindEvents = () => {
       _updateFilePreview(null);
     }
   });
-
-  // ── Create form submit ────────────────────────────────────────
   el("createRfqForm")?.addEventListener("submit", handleCreateSubmit);
-
-  // ── Close modals ──────────────────────────────────────────────
   document.querySelectorAll(".js-close-modal").forEach((btn) => {
     btn.addEventListener("click", () => {
       closeModal("quotesModal");
@@ -460,7 +534,6 @@ const bindEvents = () => {
       closeCreateModal();
     });
   });
-
   ["quotesModal", "docsModal", "createRfqModal"].forEach((id) => {
     el(id)?.addEventListener("click", (e) => {
       if (e.target === el(id)) {
@@ -469,16 +542,26 @@ const bindEvents = () => {
       }
     });
   });
-
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     closeModal("quotesModal");
     closeModal("docsModal");
     closeCreateModal();
+    closePOCreationModal();
   });
-
-  // ── Sidebar / auth ────────────────────────────────────────────
-  el("logoutBtn")?.addEventListener("click",  () => Auth.logout());
+  
+  // PO Creation Modal events
+  el("poQuantity")?.addEventListener("input", updatePOModalTotals);
+  el("poUnitPrice")?.addEventListener("input", updatePOModalTotals);
+  el("poCurrency")?.addEventListener("change", updatePOModalTotals);
+  el("createPoBtn")?.addEventListener("click", handleCreatePO);
+  el("cancelPoBtn")?.addEventListener("click", closePOCreationModal);
+  el("closePoModal")?.addEventListener("click", closePOCreationModal);
+  el("poCreationModal")?.addEventListener("click", (e) => {
+    if (e.target === el("poCreationModal")) closePOCreationModal();
+  });
+  
+  el("logoutBtn")?.addEventListener("click", () => Auth.logout());
   el("menuToggle")?.addEventListener("click", () => el("sidebar")?.classList.toggle("open"));
 };
 

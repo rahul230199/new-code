@@ -21,6 +21,21 @@ const {
     getSuppliers,
     getProfile,
     updateProfile,
+    savePODraft,
+    sendPOToSupplier,
+    uploadOrderDocument,
+    getDocumentVersions,
+    replaceDocumentVersion,
+    // NEW IMPORTS - Add these
+    getPOStatus,
+    addOEMSignature,
+    acceptRevisionRequest,
+    rejectRevisionRequest,
+    counterRevisionRequest,
+    getOrderTimeline,
+    exportAuditTrail,
+    resendPONotification,
+    createPurchaseOrder,
 } = require('../controllers/oemController');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'axo_secret_key_2024';
@@ -140,6 +155,8 @@ router.get('/rfqs/:id/quotes', getRFQQuotes);
 router.get('/rfqs/:id/documents', getRFQDocuments);
 router.post('/rfqs/quotes/:id/accept', acceptQuote);
 router.post('/rfqs/quotes/:id/reject', rejectQuote);
+// Create PO from accepted quote
+router.post('/purchase-orders/create', createPurchaseOrder);
 
 // Orders
 router.get('/orders', getOrders);
@@ -152,6 +169,48 @@ router.get('/suppliers', getSuppliers);
 // Profile
 router.get('/profile', getProfile);
 router.put('/profile', updateProfile);
+// ==================== ADD THESE ROUTES TO oemRoutes.js ====================
+
+// ==================== PO WORKFLOW ROUTES ====================
+
+// PO Status & Polling
+router.get('/purchase-orders/:poId/status', getPOStatus);
+
+// PO Draft (PRD Step 3)
+router.post('/purchase-orders/draft', savePODraft);
+
+// Send PO (PRD Step 4)
+router.post('/purchase-orders/send/:poId', sendPOToSupplier);
+router.post('/purchase-orders/resend/:poId', resendPONotification);
+
+// OEM Signature (PRD Step 6)
+router.post('/purchase-orders/:poId/sign', addOEMSignature);
+
+// Revision Workflow (PRD Page 5)
+router.post('/purchase-orders/:poId/revision/accept', acceptRevisionRequest);
+router.post('/purchase-orders/:poId/revision/reject', rejectRevisionRequest);
+router.post('/purchase-orders/:poId/revision/counter', counterRevisionRequest);
+
+// ==================== ORDER TIMELINE & AUDIT ROUTES (PRD Pages 6-7) ====================
+router.get('/orders/:orderId/timeline', getOrderTimeline);
+router.get('/orders/:orderId/audit-trail/export', exportAuditTrail);
+
+// ==================== NOTIFICATION ROUTES (Temporary) ====================
+router.get('/notifications/unread/count', async (req, res) => {
+    res.json({ unread_count: 0 });
+});
+
+router.get('/notifications', async (req, res) => {
+    res.json({ notifications: [] });
+});
+
+router.put('/notifications/:id/read', async (req, res) => {
+    res.json({ success: true });
+});
+
+router.put('/notifications/read-all', async (req, res) => {
+    res.json({ success: true });
+});
 
 // Document Management
 router.get('/documents', async (req, res) => {

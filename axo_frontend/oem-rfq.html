@@ -240,7 +240,106 @@
     <div class="modal-body" id="docsModalBody" aria-live="polite"></div>
   </div>
 </div>
-
+<!-- PO Creation Modal -->
+<div class="modal" id="poCreationModal" style="display: none;">
+    <div class="modal-content modal-large">
+        <div class="modal-header">
+            <h3><i class="fas fa-file-invoice"></i> <span id="poModalTitle">Create Purchase Order</span></h3>
+            <button class="close-modal" id="closePoModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <!-- Part Info Summary -->
+            <div class="info-card" style="margin-bottom: 20px;">
+                <div class="info-row">
+                    <span class="info-label">Part:</span>
+                    <span class="info-value" id="poPartName">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Supplier:</span>
+                    <span class="info-value" id="poSupplierName">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Supplier Email:</span>
+                    <span class="info-value" id="poSupplierEmail">—</span>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Delivery Date</label>
+                    <input type="date" class="form-control" id="poDeliveryDate">
+                </div>
+                <div class="form-group">
+                    <label>Payment Terms</label>
+                    <select class="form-control" id="poPaymentTerms">
+                        <option value="Net 15">Net 15</option>
+                        <option value="Net 30">Net 30</option>
+                        <option value="Net 45">Net 45</option>
+                        <option value="Net 60">Net 60</option>
+                        <option value="Advance">100% Advance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Currency</label>
+                    <select class="form-control" id="poCurrency">
+                        <option value="USD">USD ($)</option>
+                        <option value="INR">INR (₹)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="GBP">GBP (£)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" class="form-control" id="poQuantity" step="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Unit Price</label>
+                    <input type="number" class="form-control" id="poUnitPrice" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Total Value</label>
+                    <div class="form-control-static" id="poTotalValue">$0.00</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Special Instructions</label>
+                <textarea class="form-control" id="poSpecialInstructions" rows="2" placeholder="Any special instructions..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Shipping Requirements</label>
+                <textarea class="form-control" id="poShippingRequirements" rows="2" placeholder="Shipping instructions..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Internal Notes (OEM only)</label>
+                <textarea class="form-control" id="poInternalNotes" rows="2" placeholder="Notes for internal reference..."></textarea>
+            </div>
+            
+            <!-- Commercial Summary -->
+            <div class="commercial-summary" style="background: var(--gray-50); padding: 16px; border-radius: var(--radius); margin-top: 16px;">
+                <div class="summary-row" style="display: flex; justify-content: space-between;">
+                    <span><strong>Subtotal:</strong></span>
+                    <span id="poSubtotal">$0.00</span>
+                </div>
+                <div class="summary-row" style="display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);">
+                    <span><strong>Grand Total:</strong></span>
+                    <span id="poGrandTotal" style="font-size: 1.2rem; font-weight: 700; color: var(--primary);">$0.00</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn--outline" id="cancelPoBtn">Cancel</button>
+            <button class="btn btn--primary" id="createPoBtn">
+                <i class="fas fa-check"></i> Create Purchase Order
+            </button>
+        </div>
+    </div>
+</div>
 <script type="module" src="./js/pages/oem/rfq.js"></script>
     <!-- Notification Panel -->
     <div class="notification-overlay" id="notificationOverlay"></div>

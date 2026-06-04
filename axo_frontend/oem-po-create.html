@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Create Purchase Order - AXO Networks</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/icons/favicon-axo.png">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Core Styles -->
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/oem-dashboard.css">
+    
+    <style>
+        /* ============================================================
+           PO CREATE PAGE SPECIFIC STYLES
+           Premium SpaceX-grade design matching existing theme
+        ============================================================ */
+        
+        .po-create-container {
+            padding: 24px 28px 28px;
+            animation: fadeSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        
+        .po-create-header {
+            margin-bottom: 28px;
+        }
+        
+        .po-create-header h1 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--gray-900);
+            line-height: 1.2;
+            margin-top: 8px;
+        }
+        
+        .po-create-header p {
+            font-size: 0.88rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+            letter-spacing: 0.02em;
+        }
+        
+        .po-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-section {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 22px;
+            transition: all var(--t-base) var(--ease);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--t-slow) var(--ease);
+        }
+        
+        .form-section:hover {
+            border-color: var(--border-primary);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .form-section:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .form-section h3 {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gray-600);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .form-section h3 i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        /* Info Card */
+        .info-card {
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 0.85rem;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-row .info-label {
+            font-weight: 600;
+            color: var(--gray-500);
+            font-family: var(--font-display);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+        }
+        
+        .info-row .info-value {
+            color: var(--gray-800);
+            font-weight: 500;
+        }
+        
+        /* Line Items Table */
+        .line-items-table {
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .line-item-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--gray-100);
+            border-bottom: 1px solid var(--border);
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+        }
+        
+        .line-item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 12px;
+            padding: 12px 16px;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .line-item-row:last-child {
+            border-bottom: none;
+        }
+        
+        .line-item-row span:first-child {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .line-total {
+            font-weight: 700;
+            color: var(--primary);
+            text-align: right;
+            font-family: var(--font-display);
+        }
+        
+        .form-control-sm {
+            padding: 8px 10px;
+            font-size: 0.85rem;
+        }
+        
+        /* Commercial Summary */
+        .commercial-summary {
+            background: linear-gradient(135deg, var(--primary-xlight) 0%, var(--surface) 100%);
+            border: 1px solid var(--border-primary);
+        }
+        
+        .summary-table {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+        
+        .summary-row.total {
+            padding-top: 12px;
+            margin-top: 8px;
+            border-top: 2px solid var(--border-primary);
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+        
+        .summary-row.total span:first-child {
+            font-size: 1rem;
+        }
+        
+        .summary-row.total span:last-child {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            margin-top: 8px;
+        }
+        
+        .form-actions .btn {
+            min-width: 140px;
+            justify-content: center;
+        }
+        
+        /* Back Button */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-500);
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all var(--t-fast) var(--ease);
+        }
+        
+        .back-link:hover {
+            color: var(--primary);
+            transform: translateX(-3px);
+        }
+        
+        /* Loading state */
+        .po-form-container.loading {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+        }
+        
+        .po-form-container.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .po-create-container {
+                padding: 16px;
+            }
+            
+            .po-create-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .form-section {
+                padding: 16px;
+            }
+            
+            .line-item-header,
+            .line-item-row {
+                grid-template-columns: 1.5fr 0.8fr 0.8fr 0.8fr;
+                gap: 8px;
+                font-size: 0.7rem;
+            }
+            
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+            
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .line-item-header,
+            .line-item-row {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            
+            .line-item-header {
+                display: none;
+            }
+            
+            .line-item-row {
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                margin-bottom: 8px;
+                padding: 12px;
+            }
+            
+            .line-item-row span:first-child {
+                font-weight: 700;
+            }
+            
+            .line-total {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body class="oem-dashboard-body">
+    <div class="oem-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>AXO</h2>
+                <p>OEM PORTAL</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/oem-dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/oem-rfq.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>RFQ Management</span>
+                </a>
+                <a href="/oem-orders.html" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="/oem-suppliers.html" class="nav-item">
+                    <i class="fas fa-building"></i>
+                    <span>Suppliers</span>
+                </a>
+                <a href="/oem-documents.html" class="nav-item">
+                    <i class="fas fa-folder"></i>
+                    <span>Documents</span>
+                </a>
+                <a href="/oem-profile.html" class="nav-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Sidebar Overlay (mobile) -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="top-bar-right">
+                    <div class="notification-bell" id="notificationBell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                    </div>
+                    <div class="user-info">
+                        <span id="companyName">OEM</span>
+                        <div class="avatar" id="userAvatar">
+                            <span id="avatarInitials">O</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- PO Create Content -->
+            <div class="po-create-container" id="poFormContainer">
+                <div class="po-create-header">
+                    <a href="/oem-orders.html" class="back-link" id="backBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Orders
+                    </a>
+                    <h1>Create Purchase Order</h1>
+                    <p>Review and confirm order details before sending to supplier</p>
+                </div>
+
+                <form id="poForm" class="po-form">
+                    <!-- Two-column layout -->
+                    <div class="form-grid">
+                        <!-- Left Column: Order Details -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-file-invoice"></i> Order Information</h3>
+                            
+                            <div class="info-card">
+                                <div class="info-row">
+                                    <span class="info-label">PO Number</span>
+                                    <span class="info-value" id="poNumberDisplay">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Order Date</span>
+                                    <span class="info-value" id="orderDateDisplay">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Expected Delivery Date *</span>
+                                    <input type="date" class="form-control" id="deliveryDate" style="width: auto; min-width: 140px;" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row" style="margin-top: 16px;">
+                                <div class="form-group">
+                                    <label>Currency</label>
+                                    <select class="form-control" id="currency">
+                                        <option value="USD">USD - US Dollar ($)</option>
+                                        <option value="INR">INR - Indian Rupee (₹)</option>
+                                        <option value="EUR">EUR - Euro (€)</option>
+                                        <option value="GBP">GBP - British Pound (£)</option>
+                                        <option value="CAD">CAD - Canadian Dollar (C$)</option>
+                                        <option value="AUD">AUD - Australian Dollar (A$)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Payment Terms</label>
+                                    <select class="form-control" id="paymentTerms">
+                                        <option value="Net 15">Net 15</option>
+                                        <option value="Net 30">Net 30</option>
+                                        <option value="Net 45">Net 45</option>
+                                        <option value="Net 60">Net 60</option>
+                                        <option value="Advance">100% Advance</option>
+                                        <option value="LC">Letter of Credit</option>
+                                        <option value="COD">Cash on Delivery</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Special Instructions</label>
+                                <textarea class="form-control" id="specialInstructions" rows="3" placeholder="Any special instructions for the supplier (e.g., packaging requirements, labeling, etc.)..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Shipping Requirements</label>
+                                <textarea class="form-control" id="shippingRequirements" rows="2" placeholder="Shipping instructions, Incoterms, preferred carrier, etc..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Part Details -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-microchip"></i> Part Information</h3>
+                            
+                            <div class="info-card">
+                                <div class="info-row">
+                                    <span class="info-label">Part Name</span>
+                                    <span class="info-value" id="partNameDisplay">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Part Number</span>
+                                    <span class="info-value" id="partNumberDisplay">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Description</span>
+                                    <span class="info-value" id="descriptionDisplay">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">PPAP Level</span>
+                                    <span class="info-value" id="ppapDisplay">—</span>
+                                </div>
+                            </div>
+                            
+                            <h3 style="margin-top: 20px;"><i class="fas fa-table-list"></i> Line Items</h3>
+                            
+                            <div class="line-items-table">
+                                <div class="line-item-header">
+                                    <span>Component</span>
+                                    <span>Quantity</span>
+                                    <span>Unit Price</span>
+                                    <span>Total</span>
+                                </div>
+                                <div class="line-item-row">
+                                    <span id="partNameDisplay2">—</span>
+                                    <input type="number" class="form-control form-control-sm" id="quantity" step="1" min="1" value="1">
+                                    <input type="number" class="form-control form-control-sm" id="unitPrice" step="0.01" min="0" value="0">
+                                    <span class="line-total" id="lineTotal">0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buyer & Supplier Information -->
+                    <div class="form-grid">
+                        <div class="form-section">
+                            <h3><i class="fas fa-user-tie"></i> Buyer Information</h3>
+                            <div class="info-card">
+                                <div class="info-row">
+                                    <span class="info-label">Company</span>
+                                    <span class="info-value" id="buyerCompany">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Contact Email</span>
+                                    <span class="info-value" id="buyerEmail">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Phone</span>
+                                    <span class="info-value" id="buyerPhone">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Billing Address</span>
+                                    <span class="info-value" id="buyerBillingAddress">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Shipping Address</span>
+                                    <span class="info-value" id="buyerShippingAddress">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3><i class="fas fa-building"></i> Supplier Information</h3>
+                            <div class="info-card">
+                                <div class="info-row">
+                                    <span class="info-label">Company</span>
+                                    <span class="info-value" id="supplierCompany">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Contact Email</span>
+                                    <span class="info-value" id="supplierEmail">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Address</span>
+                                    <span class="info-value" id="supplierAddress">—</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">GST / Tax ID</span>
+                                    <span class="info-value" id="supplierGst">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ship From Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-truck"></i> Ship From Information</h3>
+                        <div class="info-card">
+                            <div class="info-row">
+                                <span class="info-label">Manufacturing Facility</span>
+                                <span class="info-value" id="manufacturingFacility">—</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Dispatch Address</span>
+                                <span class="info-value" id="dispatchAddress">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Commercial Summary -->
+                    <div class="form-section commercial-summary">
+                        <h3><i class="fas fa-chart-line"></i> Commercial Summary</h3>
+                        <div class="summary-table">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span id="subtotalValue">$0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Tax (0%):</span>
+                                <span id="taxValue">$0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping:</span>
+                                <span id="shippingValue">$0.00</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Grand Total:</span>
+                                <span id="grandTotalValue">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Internal Notes -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-lock"></i> Internal Notes (OEM only)</h3>
+                        <textarea class="form-control" id="internalNotes" rows="3" placeholder="Notes for internal reference (not visible to supplier)..."></textarea>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--outline" id="cancelBtn">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="button" class="btn btn--secondary" id="saveDraftBtn">
+                            <i class="fas fa-save"></i> Save Draft
+                        </button>
+                        <button type="button" class="btn btn--primary" id="sendPoBtn" style="display: none;">
+                            <i class="fas fa-paper-plane"></i> Send PO to Supplier
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Panel (hidden initially) -->
+    <div class="notification-overlay" id="notificationOverlay"></div>
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+            <button class="mark-all-read" id="markAllReadBtn">Mark all as read</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <div class="notification-empty">
+                <div class="notification-empty__icon">
+                    <i class="fas fa-bell-slash"></i>
+                </div>
+                <p>No notifications</p>
+                <span>New notifications will appear here</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="./js/pages/oem/po-create.js"></script>
+</body>
+</html>

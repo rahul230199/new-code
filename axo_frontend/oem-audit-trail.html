@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Audit Trail - AXO Networks</title>
+    
+    <link rel="icon" type="image/png" href="/icons/favicon-axo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/oem-dashboard.css">
+    
+    <style>
+        /* Audit Trail Page Specific Styles */
+        .audit-container {
+            padding: 24px 28px 28px;
+            animation: fadeSlideUp 0.5s var(--ease-spring) both;
+        }
+        
+        .audit-header {
+            margin-bottom: 28px;
+        }
+        
+        .audit-header h1 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--gray-900);
+            line-height: 1.2;
+            margin-top: 8px;
+        }
+        
+        .audit-header p {
+            font-size: 0.88rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+        
+        /* Order Info Bar */
+        .order-info-bar {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .order-info {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .order-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .order-info-item i {
+            color: var(--primary);
+            width: 20px;
+        }
+        
+        /* Stats Cards */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 16px 20px;
+            text-align: center;
+            transition: all var(--t-base) var(--ease);
+        }
+        
+        .stat-card:hover {
+            border-color: var(--border-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-top: 8px;
+        }
+        
+        /* Filter Bar */
+        .filter-bar {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: flex-end;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .filter-group label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 6px;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            font-size: 0.85rem;
+        }
+        
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--gray-50);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-pill);
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all var(--t-fast) var(--ease);
+        }
+        
+        .filter-chip i {
+            font-size: 0.7rem;
+        }
+        
+        .filter-chip:hover {
+            border-color: var(--primary);
+            background: var(--primary-xlight);
+            color: var(--primary);
+        }
+        
+        .filter-chip.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .filter-count {
+            background: rgba(0,0,0,0.1);
+            border-radius: var(--radius-pill);
+            padding: 2px 6px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        
+        .filter-chip.active .filter-count {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .search-wrapper {
+            position: relative;
+        }
+        
+        .search-wrapper input {
+            width: 100%;
+            padding: 10px 36px 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+        }
+        
+        .search-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+        }
+        
+        /* Audit Table */
+        .audit-table-container {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        
+        .audit-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        
+        .audit-table th {
+            padding: 14px 16px;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--border);
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            text-align: left;
+        }
+        
+        .audit-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        
+        .audit-row {
+            transition: background var(--t-fast) var(--ease);
+        }
+        
+        .audit-row:hover {
+            background: var(--gray-50);
+        }
+        
+        .audit-index {
+            width: 50px;
+            color: var(--gray-400);
+            font-family: var(--font-display);
+        }
+        
+        .audit-timestamp {
+            white-space: nowrap;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+        }
+        
+        .actor-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .actor-badge--primary {
+            background: var(--primary-xlight);
+            color: var(--primary);
+        }
+        
+        .actor-badge--info {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+        
+        .actor-badge--neutral {
+            background: var(--gray-100);
+            color: var(--gray-500);
+        }
+        
+        .action-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
+            margin-right: 8px;
+        }
+        
+        .action-icon--success {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+        
+        .action-icon--danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+        
+        .action-icon--warning {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+        
+        .action-icon--primary {
+            background: var(--primary-xlight);
+            color: var(--primary);
+        }
+        
+        .action-icon--info {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+        
+        .action-icon--neutral {
+            background: var(--gray-100);
+            color: var(--gray-500);
+        }
+        
+        .action-label {
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .audit-message-text {
+            margin-bottom: 6px;
+            color: var(--gray-600);
+        }
+        
+        .audit-expand-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-size: 0.7rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            transition: all var(--t-fast) var(--ease);
+        }
+        
+        .audit-expand-btn:hover {
+            background: var(--primary-xlight);
+        }
+        
+        .audit-expand-btn i {
+            transition: transform var(--t-base) var(--ease-spring);
+        }
+        
+        .audit-expand-btn.expanded i {
+            transform: rotate(180deg);
+        }
+        
+        .user-name {
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .user-ip {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--gray-400);
+            font-family: monospace;
+            margin-top: 2px;
+        }
+        
+        /* Audit Details Row */
+        .audit-details-row {
+            display: none;
+            background: var(--gray-50);
+        }
+        
+        .audit-details-row.expanded {
+            display: table-row;
+        }
+        
+        .audit-details {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .detail-section {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .detail-section--small {
+            padding: 10px 14px;
+        }
+        
+        .detail-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+        }
+        
+        .detail-value {
+            font-size: 0.85rem;
+            color: var(--gray-700);
+            line-height: 1.5;
+        }
+        
+        .detail-value--mono {
+            font-family: monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+        }
+        
+        .old-value {
+            color: var(--danger);
+            text-decoration: line-through;
+        }
+        
+        .new-value {
+            color: var(--success);
+            font-weight: 500;
+        }
+        
+        .diff-key {
+            font-weight: 600;
+            color: var(--gray-600);
+            margin-right: 8px;
+        }
+        
+        .diff-value {
+            color: var(--gray-800);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .pagination-btn {
+            min-width: 36px;
+            height: 36px;
+            padding: 0 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: all var(--t-fast) var(--ease);
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-xlight);
+        }
+        
+        .pagination-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-dots {
+            padding: 0 8px;
+            color: var(--gray-400);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--gray-300);
+            margin-bottom: 16px;
+        }
+        
+        .empty-state p {
+            font-size: 1rem;
+            color: var(--gray-600);
+            margin-bottom: 8px;
+        }
+        
+        .empty-state span {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+        
+        /* Loading */
+        .audit-container.loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .audit-container {
+                padding: 16px;
+            }
+            
+            .audit-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .filter-row {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .audit-table {
+                min-width: 800px;
+            }
+            
+            .order-info {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .pagination {
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-chips {
+                max-height: 200px;
+                overflow-y: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="oem-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>AXO</h2>
+                <p>OEM PORTAL</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/oem-dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/oem-rfq.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>RFQ Management</span>
+                </a>
+                <a href="/oem-orders.html" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="/oem-suppliers.html" class="nav-item">
+                    <i class="fas fa-building"></i>
+                    <span>Suppliers</span>
+                </a>
+                <a href="/oem-documents.html" class="nav-item">
+                    <i class="fas fa-folder"></i>
+                    <span>Documents</span>
+                </a>
+                <a href="/oem-profile.html" class="nav-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+        
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="top-bar-right">
+                    <div class="notification-bell" id="notificationBell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                    </div>
+                    <div class="user-info">
+                        <span id="companyName">OEM</span>
+                        <div class="avatar" id="userAvatar">
+                            <span id="avatarInitials">O</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Audit Trail Content -->
+            <div class="audit-container" id="auditTrailContainer">
+                <div class="audit-header">
+                    <a href="javascript:history.back()" class="back-link" id="backBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Order
+                    </a>
+                    <h1>Audit Trail</h1>
+                    <p>Complete, immutable record of all order activities (PRD Page 7)</p>
+                </div>
+
+                <!-- Order Info Bar -->
+                <div class="order-info-bar">
+                    <div class="order-info">
+                        <div class="order-info-item">
+                            <i class="fas fa-file-invoice"></i>
+                            <span>Order: <strong id="orderNumber">—</strong></span>
+                        </div>
+                        <div class="order-info-item">
+                            <i class="fas fa-tag"></i>
+                            <span>Status: <strong id="orderStatus">—</strong></span>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn--outline btn--sm" id="refreshBtn">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalActivities">0</div>
+                        <div class="stat-label">Total Activities</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="oemCount">0</div>
+                        <div class="stat-label">OEM Actions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="supplierCount">0</div>
+                        <div class="stat-label">Supplier Actions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="systemCount">0</div>
+                        <div class="stat-label">System Actions</div>
+                    </div>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label>Actions Per Page</label>
+                            <select class="filter-select" id="itemsPerPage">
+                                <option value="10">10 per page</option>
+                                <option value="20" selected>20 per page</option>
+                                <option value="50">50 per page</option>
+                                <option value="100">100 per page</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Actor</label>
+                            <select class="filter-select" id="actorFilter">
+                                <option value="all">All Actors</option>
+                                <option value="OEM">OEM</option>
+                                <option value="Supplier">Supplier</option>
+                                <option value="System">System</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Date From</label>
+                            <input type="date" class="filter-select" id="dateStart">
+                        </div>
+                        <div class="filter-group">
+                            <label>Date To</label>
+                            <input type="date" class="filter-select" id="dateEnd">
+                        </div>
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn--primary btn--sm" id="applyDateBtn">Apply</button>
+                                <button class="btn btn--outline btn--sm" id="clearDateBtn">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-chips" id="actionTypeFilters"></div>
+                    
+                    <div class="filter-row" style="margin-bottom: 0;">
+                        <div class="filter-group" style="flex: 2;">
+                            <label>Search</label>
+                            <div class="search-wrapper">
+                                <input type="text" id="searchInput" placeholder="Search activities, users, notes...">
+                                <button class="search-clear" id="clearSearchBtn">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn--outline btn--sm" id="resetFiltersBtn">
+                                    <i class="fas fa-undo-alt"></i> Reset
+                                </button>
+                                <button class="btn btn--success btn--sm" id="exportCsvBtn">
+                                    <i class="fas fa-file-csv"></i> CSV
+                                </button>
+                                <button class="btn btn--success btn--sm" id="exportJsonBtn">
+                                    <i class="fas fa-file-code"></i> JSON
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Stats -->
+                <div class="docs-stats" style="margin-bottom: 16px;">
+                    <div class="stats-text">
+                        Showing <span id="filteredCount">0</span> of <span id="totalActivitiesCount">0</span> activities
+                    </div>
+                </div>
+
+                <!-- Audit Table -->
+                <div class="audit-table-container">
+                    <table class="audit-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Timestamp</th>
+                                <th>Actor</th>
+                                <th>Action</th>
+                                <th>Details</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody id="auditTableBody">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <p>Loading audit trail...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div id="pagination"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-overlay" id="notificationOverlay"></div>
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+            <button class="mark-all-read" id="markAllReadBtn">Mark all as read</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <div class="notification-empty">
+                <div class="notification-empty__icon">
+                    <i class="fas fa-bell-slash"></i>
+                </div>
+                <p>No notifications</p>
+                <span>New notifications will appear here</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module" src="./js/pages/oem/audit-trail.js"></script>
+</body>
+</html>
